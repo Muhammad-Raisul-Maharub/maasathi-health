@@ -48,9 +48,9 @@ const Dashboard = () => {
           id: assessment.id,
           risk_score: assessment.riskScore,
           risk_level: assessment.riskLevel,
-          symptoms: assessment.symptoms,
+          symptoms: assessment.symptoms as any,
           created_at: new Date(assessment.timestamp).toISOString()
-        });
+        } as any);
 
         if (!error) {
           await db.assessments.update(assessment.id, { isSynced: true });
