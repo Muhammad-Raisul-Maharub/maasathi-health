@@ -1,16 +1,18 @@
 import { Button } from '@/components/ui/button';
 import { StatusBar } from '@/components/StatusBar';
-import { Heart, ShieldCheck } from 'lucide-react';
+import { ShieldCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import logo from '@/assets/maasathi-logo.png';
+import logoIcon from '@/assets/maasathi-logo-icon.png';
+import landingHero from '@/assets/maasathi-landing.png';
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <div className="max-w-md mx-auto w-full p-6 flex flex-col min-h-screen">
+      <div className="max-w-md mx-auto w-full p-6 flex flex-col min-h-screen" aria-label="MaaSathi AI home">
+
         <header className="flex justify-between items-center mb-8">
           <div className="flex items-center gap-3">
-            <img src={logo} alt="MaaSathi AI logo" className="h-12 w-auto rounded-full shadow-sm" />
+            <img src={logoIcon} alt="MaaSathi AI logo" className="h-10 w-10 rounded-full shadow-sm" />
             <div>
               <h1 className="text-2xl font-bold text-foreground">MaaSathi AI</h1>
               <p className="text-sm text-muted-foreground">Early Care. Early Awareness.</p>
@@ -20,42 +22,53 @@ const Index = () => {
         </header>
 
         {/* Hero Section */}
-        <div className="flex-1 flex flex-col justify-center space-y-8">
-          <div className="text-center space-y-4">
-            <div className="flex justify-center mb-6">
-              <div className="p-4 bg-primary/10 rounded-full">
-                <ShieldCheck className="w-16 h-16 text-primary" />
-              </div>
+        <main className="flex-1 flex flex-col justify-center space-y-8">
+          <div className="space-y-6">
+            <div className="rounded-3xl overflow-hidden shadow-md border border-border">
+              <img
+                src={landingHero}
+                alt="MaaSathi AI landing illustration showing mother and child with Offline-First and Explainable AI"
+                className="w-full h-auto object-cover"
+              />
             </div>
-            <h2 className="text-3xl font-bold text-foreground">
-              Offline, Explainable AI for Early Maternal Risk Detection
-            </h2>
-            <p className="text-lg text-muted-foreground">
-              Get instant health risk assessment without internet connection
-            </p>
+            <div className="text-center space-y-3">
+              <h2 className="text-2xl font-bold text-foreground">
+                Offline-First, Explainable AI for Early Maternal Risk Detection
+              </h2>
+              <p className="text-base text-muted-foreground">
+                Get instant, private risk awareness support that works even without internet.
+              </p>
+            </div>
           </div>
 
           {/* Action Buttons */}
-          <div className="space-y-4">
+          <section className="mt-4 space-y-4" aria-label="Primary actions">
             <Link to="/assess" className="block">
-              <Button size="lg" className="w-full text-lg py-6 shadow-lg hover:shadow-xl transition-all">
+              <Button
+                size="lg"
+                className="w-full text-lg py-6 shadow-lg hover:shadow-xl transition-all duration-200 active:scale-95"
+              >
                 Start Health Checkup
               </Button>
             </Link>
             <Link to="/dashboard" className="block">
-              <Button variant="outline" size="lg" className="w-full text-lg py-6">
+              <Button
+                variant="outline"
+                size="lg"
+                className="w-full text-lg py-6 transition-all duration-200 active:scale-95"
+              >
                 Health Worker Dashboard
               </Button>
             </Link>
-          </div>
 
-          {/* Info Badge */}
-          <div className="bg-card p-4 rounded-lg border border-border">
-            <p className="text-sm text-muted-foreground text-center">
-              Safe, private, and works offline. Your data stays on your device.
-            </p>
-          </div>
-        </div>
+            {/* Info Badge */}
+            <div className="bg-card p-4 rounded-lg border border-border mt-2">
+              <p className="text-sm text-muted-foreground text-center">
+                Offline-First • Explainable AI • Your data stays safely on this device.
+              </p>
+            </div>
+          </section>
+        </main>
       </div>
     </div>
   );
