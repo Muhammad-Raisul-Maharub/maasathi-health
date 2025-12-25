@@ -11,6 +11,7 @@ import NotFound from "./pages/NotFound";
 import { LanguageProvider } from "./context/LanguageContext";
 import Settings from "./pages/Settings";
 import { ThemeProvider } from "./context/ThemeContext";
+import Help from "./pages/Help";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +29,7 @@ const App = () => (
               <Route path="/result" element={<Result />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/settings" element={<Settings />} />
+              <Route path="/help" element={<Help />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
