@@ -96,7 +96,7 @@ const Result = () => {
   }, [location.state, navigate]);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pb-20">
       <div className="max-w-md mx-auto w-full px-4 py-5 sm:p-6 space-y-5 sm:space-y-6">
         <div className="flex items-center justify-between mb-1 sm:mb-2 gap-2">
           <div className="flex items-center gap-2">

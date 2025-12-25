@@ -3,21 +3,26 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/LanguageContext";
 import ThemeToggle from "@/components/ThemeToggle";
 import { ArrowLeft } from "lucide-react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Help = () => {
   const { t, language } = useLanguage();
+  const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pb-20">
       <div className="max-w-md sm:max-w-2xl mx-auto w-full px-4 py-5 sm:p-6 space-y-5 sm:space-y-6">
         <header className="flex items-center justify-between mb-1 sm:mb-2 gap-3">
           <div className="flex items-center gap-2">
-            <Link to="/">
-              <Button variant="ghost" size="icon" aria-label="Back to home" className="-ml-1">
-                <ArrowLeft className="w-5 h-5" />
-              </Button>
-            </Link>
+            <Button
+              variant="ghost"
+              size="icon"
+              aria-label="Back to previous page"
+              className="-ml-1"
+              onClick={() => navigate(-1)}
+            >
+              <ArrowLeft className="w-5 h-5" />
+            </Button>
             <div>
               <h1 className="text-xl sm:text-2xl font-bold text-foreground">
                 MaaSathi Help / সহায়তা

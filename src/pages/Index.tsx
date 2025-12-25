@@ -11,7 +11,7 @@ const Index = () => {
   const { t } = useLanguage();
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col pb-20">
       <div className="max-w-5xl mx-auto w-full px-4 py-5 sm:px-6 sm:py-8 flex flex-col min-h-screen" aria-label="MaaSathi AI home">
         <header className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-6 sm:mb-8">
           <div className="flex items-center gap-3 animate-fade-in">

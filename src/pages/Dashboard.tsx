@@ -184,16 +184,14 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pb-20">
       <div className="w-full max-w-md sm:max-w-3xl lg:max-w-5xl mx-auto px-4 py-5 sm:p-6 space-y-5 sm:space-y-6">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
           <div className="flex items-center gap-2 sm:gap-3">
-            <Link to="/">
-              <Button variant="ghost" size="icon" className="-ml-1">
-                <ArrowLeft className="w-5 h-5" />
-              </Button>
-            </Link>
+            <Button variant="ghost" size="icon" className="-ml-1" onClick={() => navigate(-1)}>
+              <ArrowLeft className="w-5 h-5" />
+            </Button>
             <h1 className="text-xl sm:text-2xl font-bold text-foreground">
               {t('dashboard.title')}
             </h1>
@@ -317,12 +315,12 @@ const Dashboard = () => {
           </h2>
 
           {!assessments || assessments.length === 0 ? (
-            <div className="text-center py-12">
-              <p className="text-muted-foreground">{t('dashboard.empty')}</p>
-              <Link to="/assess">
-                <Button className="mt-4">{t('dashboard.startFirst')}</Button>
-              </Link>
-            </div>
+              <div className="text-center py-10 sm:py-12">
+                <p className="text-muted-foreground">{t('dashboard.empty')}</p>
+                <Link to="/assess" className="block mt-4">
+                  <Button className="w-full sm:w-auto">{t('dashboard.startFirst')}</Button>
+                </Link>
+              </div>
           ) : (
             <div className="space-y-3">
               {assessments
