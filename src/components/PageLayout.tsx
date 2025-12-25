@@ -23,10 +23,10 @@ const widthClassMap: Record<PageLayoutWidth, string> = {
 
 const PageLayout = ({ children, maxWidth = "md", className }: PageLayoutProps) => {
   return (
-    <div className="min-h-screen bg-background pb-20">
+    <div className="bg-background pb-16">
       <main
         className={cn(
-          "mx-auto w-full px-4 py-4 sm:py-5 flex flex-col gap-4 sm:gap-5",
+          "mx-auto w-full px-4 py-3 flex flex-col gap-3",
           widthClassMap[maxWidth],
           className,
         )}

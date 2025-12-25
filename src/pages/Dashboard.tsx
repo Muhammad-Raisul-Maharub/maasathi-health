@@ -185,75 +185,78 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background pb-20">
-      <div className="w-full max-w-md sm:max-w-3xl lg:max-w-5xl mx-auto px-4 py-4 sm:p-5 space-y-3 sm:space-y-4 animate-fade-in">
+    <div className="bg-background pb-16">
+      <div className="w-full max-w-md sm:max-w-3xl lg:max-w-5xl mx-auto px-4 py-3 space-y-2.5 animate-fade-in">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
-          <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+          <div className="flex items-center gap-2">
             <Button variant="ghost" size="icon" className="-ml-1 hover-scale" onClick={() => navigate(-1)}>
               <ArrowLeft className="w-5 h-5" />
             </Button>
-            <h1 className="text-xl sm:text-2xl font-bold text-foreground">
+            <h1 className="text-lg sm:text-xl font-bold text-foreground">
               {t('dashboard.title')}
             </h1>
           </div>
-          <div className="flex flex-wrap items-center gap-2 sm:gap-3 justify-end">
+          <div className="flex flex-wrap items-center gap-2 justify-end">
             <ThemeToggle />
             <Button
               variant="outline"
+              size="sm"
               className="gap-2 print:hidden hover-scale"
               onClick={() => window.print()}
             >
               <Printer className="w-4 h-4" />
-              <span className="hidden sm:inline">Print</span>
+              <span className="hidden sm:inline text-sm">Print</span>
             </Button>
             <Button
               variant="outline"
+              size="sm"
               className="gap-2 print:hidden hover-scale"
               onClick={handleExportCsv}
               disabled={!assessments || assessments.length === 0}
             >
               <Download className="w-4 h-4" />
-              <span className="hidden sm:inline">Export CSV</span>
+              <span className="hidden sm:inline text-sm">Export CSV</span>
             </Button>
             <Button
+              size="sm"
               onClick={handleSync}
               disabled={isSyncing || !isOnline || unsyncedCount === 0}
               className="gap-2 print:hidden hover-scale"
             >
               <RefreshCw className={`w-4 h-4 ${isSyncing ? 'animate-spin' : ''}`} />
-              <span className="hidden sm:inline">{t('dashboard.sync')}</span>
-              {unsyncedCount > 0 && <span className="text-xs sm:text-sm">({unsyncedCount})</span>}
+              <span className="hidden sm:inline text-sm">{t('dashboard.sync')}</span>
+              {unsyncedCount > 0 && <span className="text-xs">({unsyncedCount})</span>}
             </Button>
           </div>
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-          <Card className="p-4 animate-fade-in">
-            <div className="flex items-center gap-3">
-              <Activity className="w-8 h-8 text-primary" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+          <Card className="p-3 animate-fade-in">
+            <div className="flex items-center gap-2.5">
+              <Activity className="w-7 h-7 text-primary" />
               <div>
-                <p className="text-sm text-muted-foreground">{t('dashboard.total')}</p>
-                <p className="text-2xl font-bold text-foreground">{assessments?.length || 0}</p>
+                <p className="text-xs text-muted-foreground">{t('dashboard.total')}</p>
+                <p className="text-xl font-bold text-foreground">{assessments?.length || 0}</p>
               </div>
             </div>
           </Card>
-          <Card className="p-4 animate-fade-in">
-            <div className="flex items-center gap-3">
-              <RefreshCw className="w-8 h-8 text-primary" />
+          <Card className="p-3 animate-fade-in">
+            <div className="flex items-center gap-2.5">
+              <RefreshCw className="w-7 h-7 text-primary" />
               <div>
-                <p className="text-sm text-muted-foreground">{t('dashboard.unsynced')}</p>
-                <p className="text-2xl font-bold text-foreground">{unsyncedCount}</p>
+                <p className="text-xs text-muted-foreground">{t('dashboard.unsynced')}</p>
+                <p className="text-xl font-bold text-foreground">{unsyncedCount}</p>
               </div>
             </div>
           </Card>
-          <Card className="p-4 animate-fade-in">
-            <div className="flex items-center gap-3">
-              <Calendar className="w-8 h-8 text-primary" />
+          <Card className="p-3 animate-fade-in">
+            <div className="flex items-center gap-2.5">
+              <Calendar className="w-7 h-7 text-primary" />
               <div>
-                <p className="text-sm text-muted-foreground">{t('dashboard.status')}</p>
-                <p className="text-lg font-semibold text-foreground">
+                <p className="text-xs text-muted-foreground">{t('dashboard.status')}</p>
+                <p className="text-base font-semibold text-foreground">
                   {isOnline ? t('dashboard.online') : t('dashboard.offline')}
                 </p>
               </div>
@@ -262,14 +265,14 @@ const Dashboard = () => {
         </div>
 
         {/* Analytics */}
-        <section className="space-y-4">
-          <h2 className="text-xl font-semibold text-foreground">
+        <section className="space-y-2.5">
+          <h2 className="text-base sm:text-lg font-semibold text-foreground">
             {t('dashboard.analytics')}
           </h2>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            <Card className="p-4 col-span-1 lg:col-span-1">
-              <h3 className="text-sm font-medium mb-2 text-foreground">{t('dashboard.riskDistribution')}</h3>
-              <ChartContainer config={riskChartConfig} className="h-56">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-2.5">
+            <Card className="p-3 col-span-1 lg:col-span-1">
+              <h3 className="text-xs sm:text-sm font-medium mb-1.5 text-foreground">{t('dashboard.riskDistribution')}</h3>
+              <ChartContainer config={riskChartConfig} className="h-48">
                 <BarChart data={riskDistribution}>
                   <CartesianGrid vertical={false} className="stroke-muted" />
                   <XAxis dataKey="level" tickLine={false} axisLine={false} />
@@ -281,9 +284,9 @@ const Dashboard = () => {
               </ChartContainer>
             </Card>
 
-            <Card className="p-4 col-span-1 lg:col-span-1">
-              <h3 className="text-sm font-medium mb-2 text-foreground">{t('dashboard.symptomFrequency')}</h3>
-              <ChartContainer config={symptomChartConfig} className="h-56">
+            <Card className="p-3 col-span-1 lg:col-span-1">
+              <h3 className="text-xs sm:text-sm font-medium mb-1.5 text-foreground">{t('dashboard.symptomFrequency')}</h3>
+              <ChartContainer config={symptomChartConfig} className="h-48">
                 <BarChart data={symptomFrequency}>
                   <CartesianGrid vertical={false} className="stroke-muted" />
                   <XAxis dataKey="symptom" tickLine={false} axisLine={false} />
@@ -294,9 +297,9 @@ const Dashboard = () => {
               </ChartContainer>
             </Card>
 
-            <Card className="p-4 col-span-1 lg:col-span-1">
-              <h3 className="text-sm font-medium mb-2 text-foreground">{t('dashboard.trend')}</h3>
-              <ChartContainer config={trendChartConfig} className="h-56">
+            <Card className="p-3 col-span-1 lg:col-span-1">
+              <h3 className="text-xs sm:text-sm font-medium mb-1.5 text-foreground">{t('dashboard.trend')}</h3>
+              <ChartContainer config={trendChartConfig} className="h-48">
                 <LineChart data={riskTrend}>
                   <CartesianGrid vertical={false} className="stroke-muted" />
                   <XAxis dataKey="date" tickLine={false} axisLine={false} />
@@ -310,55 +313,55 @@ const Dashboard = () => {
         </section>
 
         {/* Assessments List */}
-        <Card className="p-4 sm:p-6">
-          <h2 className="text-xl font-semibold text-foreground mb-4">
+        <Card className="p-3 sm:p-4">
+          <h2 className="text-base sm:text-lg font-semibold text-foreground mb-2.5">
             {t('dashboard.history')}
           </h2>
 
           {!assessments || assessments.length === 0 ? (
-              <div className="text-center py-10 sm:py-12">
-                <p className="text-muted-foreground">{t('dashboard.empty')}</p>
-                <Link to="/assess" className="block mt-4">
-                  <Button className="w-full sm:w-auto">{t('dashboard.startFirst')}</Button>
+              <div className="text-center py-6">
+                <p className="text-sm text-muted-foreground">{t('dashboard.empty')}</p>
+                <Link to="/assess" className="block mt-3">
+                  <Button size="sm" className="w-full sm:w-auto">{t('dashboard.startFirst')}</Button>
                 </Link>
               </div>
           ) : (
-            <div className="space-y-3">
+            <div className="space-y-2">
               {assessments
                 .slice()
                 .sort((a, b) => b.timestamp - a.timestamp)
                 .map((assessment: Assessment) => (
-                  <Card key={assessment.id} className="p-4 hover:bg-accent transition-colors">
-                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
-                      <div className="space-y-1">
-                        <div className="flex flex-wrap items-center gap-2">
-                          <span className={`text-lg font-semibold ${getRiskColor(assessment.riskLevel)}`}>
+                  <Card key={assessment.id} className="p-3 hover:bg-accent transition-colors">
+                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
+                      <div className="space-y-0.5">
+                        <div className="flex flex-wrap items-center gap-1.5">
+                          <span className={`text-base font-semibold ${getRiskColor(assessment.riskLevel)}`}>
                             {assessment.riskLevel} Risk
                           </span>
                           {!assessment.isSynced && (
-                            <span className="text-xs px-2 py-1 rounded bg-muted text-muted-foreground">
+                            <span className="text-[10px] px-1.5 py-0.5 rounded bg-muted text-muted-foreground">
                               Unsynced
                             </span>
                           )}
                         </div>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-xs text-muted-foreground">
                           Score: {assessment.riskScore} | Symptoms: {assessment.symptoms.length}
                         </p>
                         {assessment.notes && (
-                          <p className="text-xs text-muted-foreground line-clamp-2">
+                          <p className="text-[10px] text-muted-foreground line-clamp-2">
                             Notes: {assessment.notes}
                           </p>
                         )}
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-[10px] text-muted-foreground">
                           {formatDate(assessment.timestamp)}
                         </p>
                       </div>
 
-                      <div className="flex flex-col sm:flex-col gap-2 sm:items-end w-full sm:w-auto">
+                      <div className="flex flex-row sm:flex-col gap-1.5 sm:items-end w-full sm:w-auto">
                         <Button
                           size="sm"
                           variant="outline"
-                          className="w-full sm:w-auto"
+                          className="flex-1 sm:flex-initial text-xs"
                           onClick={() => navigate('/assess', { state: { reopenId: assessment.id } })}
                         >
                           Reopen
@@ -366,7 +369,7 @@ const Dashboard = () => {
                         <Button
                           size="sm"
                           variant="outline"
-                          className="w-full sm:w-auto"
+                          className="flex-1 sm:flex-initial text-xs"
                           onClick={() => navigate('/assess', { state: { followUpForId: assessment.id } })}
                         >
                           Follow-up
