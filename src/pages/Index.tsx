@@ -18,12 +18,12 @@ const Index = () => {
             <img
               src={logoIcon}
               alt="MaaSathi AI logo"
-              className="h-12 w-12 sm:h-14 sm:w-14 rounded-full shadow-sm"
+              className="h-12 w-12 sm:h-14 sm:w-14 rounded-full shadow-sm object-cover"
             />
             <div className="leading-tight space-y-0.5">
-              <h1 className="text-xl sm:text-3xl font-bold text-foreground tracking-tight">{t('app.name')}</h1>
+              <h1 className="text-xl sm:text-3xl font-bold text-foreground tracking-tight">MaaSathi AI</h1>
               <p className="text-sm sm:text-base text-muted-foreground max-w-[14rem] sm:max-w-none">
-                {t('app.tagline')}
+                Early Care. Early Awareness.
               </p>
             </div>
           </div>
@@ -50,27 +50,36 @@ const Index = () => {
                 <Link to="/assess">
                   <Button
                     size="lg"
-                    className="w-full text-base sm:text-lg py-3 sm:py-4 shadow-lg hover:shadow-xl transition-all duration-200 active:scale-95"
+                    className="w-full justify-center text-base sm:text-lg py-3 sm:py-4 shadow-lg hover:shadow-xl transition-all duration-200 active:scale-95"
                   >
-                    {t('home.start')}
+                    <span className="flex flex-col leading-tight items-center">
+                      <span>{t('home.start')}</span>
+                      <span className="text-xs font-normal text-muted-foreground">স্বাস্থ্য পরীক্ষা শুরু</span>
+                    </span>
                   </Button>
                 </Link>
                 <Link to="/dashboard">
                   <Button
                     variant="outline"
                     size="lg"
-                    className="w-full text-base sm:text-lg py-3 sm:py-4 transition-all duration-200 active:scale-95"
+                    className="w-full justify-center text-base sm:text-lg py-3 sm:py-4 transition-all duration-200 active:scale-95"
                   >
-                    {t('home.dashboard')}
+                    <span className="flex flex-col leading-tight items-center">
+                      <span>{t('home.dashboard')}</span>
+                      <span className="text-xs font-normal text-muted-foreground">স্বাস্থ্যকর্মী ড্যাশবোর্ড</span>
+                    </span>
                   </Button>
                 </Link>
                 <Link to="/settings">
                   <Button
                     variant="outline"
                     size="lg"
-                    className="w-full text-base sm:text-lg py-3 sm:py-4 transition-all duration-200 active:scale-95"
+                    className="w-full justify-center text-base sm:text-lg py-3 sm:py-4 transition-all duration-200 active:scale-95"
                   >
-                    Settings
+                    <span className="flex flex-col leading-tight items-center">
+                      <span>Settings</span>
+                      <span className="text-xs font-normal text-muted-foreground">সেটিংস</span>
+                    </span>
                   </Button>
                 </Link>
               </div>

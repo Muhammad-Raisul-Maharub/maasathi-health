@@ -168,30 +168,39 @@ const Result = () => {
         <div className="space-y-3">
           <Button
             size="lg"
-            className="w-full"
+            className="w-full justify-center"
             onClick={handleSave}
             disabled={isSaving}
           >
             <Save className="w-5 h-5 mr-2" />
-            {isSaving ? t('result.save') + '...' : t('result.save')}
+            <span className="flex flex-col leading-tight items-start">
+              <span>{isSaving ? t('result.save') + '...' : t('result.save')}</span>
+              <span className="text-xs font-normal text-muted-foreground">ফলাফল সংরক্ষণ করুন</span>
+            </span>
           </Button>
 
           <Button
             variant="outline"
             size="lg"
-            className="w-full"
+            className="w-full justify-center"
             onClick={() => navigate('/assess')}
           >
-            {t('home.start')}
+            <span className="flex flex-col leading-tight items-center">
+              <span>{t('home.start')}</span>
+              <span className="text-xs font-normal text-muted-foreground">নতুন স্বাস্থ্য পরীক্ষা</span>
+            </span>
           </Button>
 
           <Button
             variant="outline"
             size="lg"
-            className="w-full"
+            className="w-full justify-center"
             onClick={() => navigate('/dashboard')}
           >
-            {t('home.dashboard')}
+            <span className="flex flex-col leading-tight items-center">
+              <span>{t('home.dashboard')}</span>
+              <span className="text-xs font-normal text-muted-foreground">ফলাফলের সারসংক্ষেপ</span>
+            </span>
           </Button>
 
           <Button
