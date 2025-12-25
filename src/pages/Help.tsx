@@ -20,7 +20,7 @@ const Help = () => {
           <ThemeToggle />
         </header>
 
-        <Card className="p-4 space-y-3">
+        <Card id="assessment" className="p-4 space-y-3">
           <h2 className="text-lg font-semibold text-foreground">
             1. Using the assessment / মূল্যায়ন ব্যবহার
           </h2>
@@ -48,7 +48,7 @@ const Help = () => {
           </p>
         </Card>
 
-        <Card className="p-4 space-y-3">
+        <Card id="result" className="p-4 space-y-3">
           <h2 className="text-lg font-semibold text-foreground">
             3. When to escalate / কখন রেফার করবেন
           </h2>
