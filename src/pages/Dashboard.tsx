@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { db, Assessment } from '@/lib/db';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { RefreshCw, ArrowLeft, Calendar, Activity } from 'lucide-react';
+import { RefreshCw, ArrowLeft, Calendar, Activity, Download } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
 import { useOnlineStatus } from '@/hooks/useOnlineStatus';
@@ -59,7 +59,10 @@ const Dashboard = () => {
           id: assessment.id,
           risk_score: assessment.riskScore,
           risk_level: assessment.riskLevel,
-          symptoms: assessment.symptoms as any,
+          symptoms: {
+            selected: assessment.symptoms,
+            notes: assessment.notes ?? null,
+          } as any,
           created_at: new Date(assessment.timestamp).toISOString(),
         } as any);
 
@@ -149,6 +152,35 @@ const Dashboard = () => {
     score: { label: 'Risk score', color: 'hsl(var(--chart-5))' },
   };
 
+  const handleExportCsv = () => {
+    if (!assessments || assessments.length === 0) return;
+
+    const header = ['id', 'timestamp', 'riskScore', 'riskLevel', 'symptoms', 'notes', 'isSynced'];
+    const rows = assessments.map((a) => [
+      a.id,
+      new Date(a.timestamp).toISOString(),
+      a.riskScore,
+      a.riskLevel,
+      a.symptoms.join('|'),
+      a.notes ?? '',
+      a.isSynced ? 'yes' : 'no',
+    ]);
+
+    const csv = [header, ...rows]
+      .map((row) => row.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(','))
+      .join('\n');
+
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'maasathi-assessments.csv');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-5xl mx-auto p-4 sm:p-6 space-y-6">
@@ -164,14 +196,25 @@ const Dashboard = () => {
               {t('dashboard.title')}
             </h1>
           </div>
-          <Button
-            onClick={handleSync}
-            disabled={isSyncing || !isOnline || unsyncedCount === 0}
-            className="gap-2"
-          >
-            <RefreshCw className={`w-4 h-4 ${isSyncing ? 'animate-spin' : ''}`} />
-            {t('dashboard.sync')} {unsyncedCount > 0 && `(${unsyncedCount})`}
-          </Button>
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              className="gap-2"
+              onClick={handleExportCsv}
+              disabled={!assessments || assessments.length === 0}
+            >
+              <Download className="w-4 h-4" />
+              Export CSV
+            </Button>
+            <Button
+              onClick={handleSync}
+              disabled={isSyncing || !isOnline || unsyncedCount === 0}
+              className="gap-2"
+            >
+              <RefreshCw className={`w-4 h-4 ${isSyncing ? 'animate-spin' : ''}`} />
+              {t('dashboard.sync')} {unsyncedCount > 0 && `(${unsyncedCount})`}
+            </Button>
+          </div>
         </div>
 
         {/* Stats */}
@@ -290,6 +333,11 @@ const Dashboard = () => {
                         <p className="text-sm text-muted-foreground">
                           Score: {assessment.riskScore} | Symptoms: {assessment.symptoms.length}
                         </p>
+                        {assessment.notes && (
+                          <p className="text-xs text-muted-foreground line-clamp-2">
+                            Notes: {assessment.notes}
+                          </p>
+                        )}
                         <p className="text-xs text-muted-foreground">
                           {formatDate(assessment.timestamp)}
                         </p>
