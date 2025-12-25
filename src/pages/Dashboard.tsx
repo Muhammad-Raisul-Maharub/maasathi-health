@@ -9,6 +9,15 @@ import { useToast } from '@/hooks/use-toast';
 import { useOnlineStatus } from '@/hooks/useOnlineStatus';
 import { supabase } from '@/integrations/supabase/client';
 import { useLanguage } from '@/context/LanguageContext';
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+  ChartLegend,
+  ChartLegendContent,
+  type ChartConfig,
+} from '@/components/ui/chart';
+import { Bar, BarChart, CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts';
 
 const Dashboard = () => {
   const { toast } = useToast();
@@ -17,7 +26,7 @@ const Dashboard = () => {
   const [isSyncing, setIsSyncing] = useState(false);
 
   const assessments = useLiveQuery(
-    () => db.assessments.orderBy('timestamp').reverse().toArray()
+    () => db.assessments.orderBy('timestamp').toArray()
   );
 
   const unsyncedCount = assessments?.filter(a => !a.isSynced).length || 0;
@@ -25,9 +34,9 @@ const Dashboard = () => {
   const handleSync = async () => {
     if (!isOnline) {
       toast({
-        title: "Offline Mode",
-        description: "Cannot sync while offline. Connect to internet and try again.",
-        variant: "destructive"
+        title: t('toast.offlineTitle'),
+        description: t('toast.offlineDescription'),
+        variant: 'destructive',
       });
       return;
     }
@@ -35,11 +44,11 @@ const Dashboard = () => {
     setIsSyncing(true);
     try {
       const unsynced = await db.assessments.filter(a => !a.isSynced).toArray();
-      
+
       if (unsynced.length === 0) {
         toast({
-          title: "Already Synced",
-          description: "All assessments are already synced to cloud.",
+          title: t('toast.alreadySyncedTitle'),
+          description: t('toast.alreadySyncedDescription'),
         });
         setIsSyncing(false);
         return;
@@ -51,7 +60,7 @@ const Dashboard = () => {
           risk_score: assessment.riskScore,
           risk_level: assessment.riskLevel,
           symptoms: assessment.symptoms as any,
-          created_at: new Date(assessment.timestamp).toISOString()
+          created_at: new Date(assessment.timestamp).toISOString(),
         } as any);
 
         if (!error) {
@@ -60,14 +69,14 @@ const Dashboard = () => {
       }
 
       toast({
-        title: "Sync Complete",
-        description: `Successfully synced ${unsynced.length} assessment(s) to cloud.`,
+        title: t('toast.syncCompleteTitle'),
+        description: t('toast.syncCompleteDescription'),
       });
     } catch (error) {
       toast({
-        title: "Sync Failed",
-        description: "Failed to sync assessments. Please try again.",
-        variant: "destructive"
+        title: t('toast.syncFailedTitle'),
+        description: t('toast.syncFailedDescription'),
+        variant: 'destructive',
       });
     } finally {
       setIsSyncing(false);
@@ -75,13 +84,7 @@ const Dashboard = () => {
   };
 
   const formatDate = (timestamp: number) => {
-    return new Date(timestamp).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
+    return new Date(timestamp).toLocaleString();
   };
 
   const getRiskColor = (level: string) => {
@@ -89,20 +92,69 @@ const Dashboard = () => {
       case 'High':
         return 'text-destructive';
       case 'Medium':
-        return 'text-amber-500';
+        return 'text-primary';
       case 'Low':
-        return 'text-green-500';
+        return 'text-muted-foreground';
       default:
         return 'text-muted-foreground';
     }
   };
 
+  const riskDistribution = useMemo(() => {
+    const base = { Low: 0, Medium: 0, High: 0 } as Record<'Low' | 'Medium' | 'High', number>;
+    (assessments || []).forEach(a => {
+      base[a.riskLevel] = (base[a.riskLevel] || 0) + 1;
+    });
+    return [
+      { level: 'Low', count: base.Low },
+      { level: 'Medium', count: base.Medium },
+      { level: 'High', count: base.High },
+    ];
+  }, [assessments]);
+
+  const symptomFrequency = useMemo(() => {
+    const map: Record<string, number> = {};
+    (assessments || []).forEach(a => {
+      a.symptoms.forEach(id => {
+        map[id] = (map[id] || 0) + 1;
+      });
+    });
+    return Object.entries(map).map(([id, count]) => ({ symptom: id, count }));
+  }, [assessments]);
+
+  const riskTrend = useMemo(() => {
+    const byDay: Record<string, { total: number; count: number }> = {};
+    (assessments || []).forEach(a => {
+      const date = new Date(a.timestamp).toLocaleDateString();
+      if (!byDay[date]) byDay[date] = { total: 0, count: 0 };
+      byDay[date].total += a.riskScore;
+      byDay[date].count += 1;
+    });
+    return Object.entries(byDay)
+      .sort(([a], [b]) => new Date(a).getTime() - new Date(b).getTime())
+      .map(([date, { total, count }]) => ({ date, score: total / count }));
+  }, [assessments]);
+
+  const riskChartConfig: ChartConfig = {
+    Low: { label: 'Low', color: 'hsl(var(--chart-1))' },
+    Medium: { label: 'Medium', color: 'hsl(var(--chart-2))' },
+    High: { label: 'High', color: 'hsl(var(--chart-3))' },
+  };
+
+  const symptomChartConfig: ChartConfig = {
+    count: { label: 'Count', color: 'hsl(var(--chart-4))' },
+  };
+
+  const trendChartConfig: ChartConfig = {
+    score: { label: 'Risk score', color: 'hsl(var(--chart-5))' },
+  };
+
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-5xl mx-auto p-6 space-y-6">
+      <div className="max-w-5xl mx-auto p-4 sm:p-6 space-y-6">
         {/* Header */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div className="flex items-center gap-3">
             <Link to="/">
               <Button variant="ghost" size="icon">
                 <ArrowLeft className="w-5 h-5" />
@@ -148,52 +200,103 @@ const Dashboard = () => {
               <div>
                 <p className="text-sm text-muted-foreground">{t('dashboard.status')}</p>
                 <p className="text-lg font-semibold text-foreground">
-                  {isOnline ? 'Online' : 'Offline'}
+                  {isOnline ? t('dashboard.online') : t('dashboard.offline')}
                 </p>
               </div>
             </div>
           </Card>
         </div>
 
-        {/* Assessments List */}
-        <Card className="p-6">
-          <h2 className="text-xl font-semibold text-foreground mb-4">
-            Assessment History
+        {/* Analytics */}
+        <section className="space-y-4">
+          <h2 className="text-xl font-semibold text-foreground">
+            {t('dashboard.analytics')}
           </h2>
-          
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            <Card className="p-4 col-span-1 lg:col-span-1">
+              <h3 className="text-sm font-medium mb-2 text-foreground">{t('dashboard.riskDistribution')}</h3>
+              <ChartContainer config={riskChartConfig} className="h-56">
+                <BarChart data={riskDistribution}>
+                  <CartesianGrid vertical={false} className="stroke-muted" />
+                  <XAxis dataKey="level" tickLine={false} axisLine={false} />
+                  <YAxis allowDecimals={false} tickLine={false} axisLine={false} />
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <Bar dataKey="count" radius={4} />
+                  <ChartLegend content={<ChartLegendContent />} />
+                </BarChart>
+              </ChartContainer>
+            </Card>
+
+            <Card className="p-4 col-span-1 lg:col-span-1">
+              <h3 className="text-sm font-medium mb-2 text-foreground">{t('dashboard.symptomFrequency')}</h3>
+              <ChartContainer config={symptomChartConfig} className="h-56">
+                <BarChart data={symptomFrequency}>
+                  <CartesianGrid vertical={false} className="stroke-muted" />
+                  <XAxis dataKey="symptom" tickLine={false} axisLine={false} />
+                  <YAxis allowDecimals={false} tickLine={false} axisLine={false} />
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <Bar dataKey="count" radius={4} />
+                </BarChart>
+              </ChartContainer>
+            </Card>
+
+            <Card className="p-4 col-span-1 lg:col-span-1">
+              <h3 className="text-sm font-medium mb-2 text-foreground">{t('dashboard.trend')}</h3>
+              <ChartContainer config={trendChartConfig} className="h-56">
+                <LineChart data={riskTrend}>
+                  <CartesianGrid vertical={false} className="stroke-muted" />
+                  <XAxis dataKey="date" tickLine={false} axisLine={false} />
+                  <YAxis tickLine={false} axisLine={false} />
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <Line type="monotone" dataKey="score" strokeWidth={2} dot={false} />
+                </LineChart>
+              </ChartContainer>
+            </Card>
+          </div>
+        </section>
+
+        {/* Assessments List */}
+        <Card className="p-4 sm:p-6">
+          <h2 className="text-xl font-semibold text-foreground mb-4">
+            {t('dashboard.history')}
+          </h2>
+
           {!assessments || assessments.length === 0 ? (
             <div className="text-center py-12">
-              <p className="text-muted-foreground">No assessments recorded yet.</p>
+              <p className="text-muted-foreground">{t('dashboard.empty')}</p>
               <Link to="/assess">
-                <Button className="mt-4">Start First Assessment</Button>
+                <Button className="mt-4">{t('dashboard.startFirst')}</Button>
               </Link>
             </div>
           ) : (
             <div className="space-y-3">
-              {assessments.map((assessment) => (
-                <Card key={assessment.id} className="p-4 hover:bg-accent transition-colors">
-                  <div className="flex justify-between items-start">
-                    <div className="space-y-1">
-                      <div className="flex items-center gap-2">
-                        <span className={`text-lg font-semibold ${getRiskColor(assessment.riskLevel)}`}>
-                          {assessment.riskLevel} Risk
-                        </span>
-                        {!assessment.isSynced && (
-                          <span className="text-xs bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-200 px-2 py-1 rounded">
-                            Not Synced
+              {assessments
+                .slice()
+                .sort((a, b) => b.timestamp - a.timestamp)
+                .map((assessment: Assessment) => (
+                  <Card key={assessment.id} className="p-4 hover:bg-accent transition-colors">
+                    <div className="flex justify-between items-start">
+                      <div className="space-y-1">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <span className={`text-lg font-semibold ${getRiskColor(assessment.riskLevel)}`}>
+                            {assessment.riskLevel} Risk
                           </span>
-                        )}
+                          {!assessment.isSynced && (
+                            <span className="text-xs px-2 py-1 rounded bg-muted text-muted-foreground">
+                              Unsynced
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-sm text-muted-foreground">
+                          Score: {assessment.riskScore} | Symptoms: {assessment.symptoms.length}
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                          {formatDate(assessment.timestamp)}
+                        </p>
                       </div>
-                      <p className="text-sm text-muted-foreground">
-                        Score: {assessment.riskScore} | Symptoms: {assessment.symptoms.length}
-                      </p>
-                      <p className="text-xs text-muted-foreground">
-                        {formatDate(assessment.timestamp)}
-                      </p>
                     </div>
-                  </div>
-                </Card>
-              ))}
+                  </Card>
+                ))}
             </div>
           )}
         </Card>

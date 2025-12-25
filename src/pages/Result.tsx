@@ -55,16 +55,16 @@ const Result = () => {
       });
 
       toast({
-        title: "Assessment Saved",
-        description: "Your health assessment has been saved successfully.",
+        title: t('toast.saveSuccessTitle'),
+        description: t('toast.saveSuccessDescription'),
       });
 
       setTimeout(() => navigate('/dashboard'), 1500);
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to save assessment. Please try again.",
-        variant: "destructive",
+        title: t('toast.saveErrorTitle'),
+        description: t('toast.saveErrorDescription'),
+        variant: 'destructive',
       });
     } finally {
       setIsSaving(false);
@@ -126,8 +126,8 @@ const Result = () => {
         {/* Disclaimer */}
         <Card className="p-4 bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-900">
           <p className="text-sm text-amber-900 dark:text-amber-200">
-            <strong>Important:</strong> This tool does not diagnose conditions or prescribe medication. 
-            Always consult with a healthcare professional for medical advice.
+            <strong>{t('result.disclaimerHeading')}</strong>{' '}
+            {t('result.disclaimerBody')}
           </p>
         </Card>
 
@@ -138,12 +138,12 @@ const Result = () => {
             size="lg"
             className="w-full"
             onClick={() => toast({
-              title: "Coming Soon",
-              description: "Clinic finder feature will be available soon.",
+              title: t('toast.clinicComingSoonTitle'),
+              description: t('toast.clinicComingSoonDescription'),
             })}
           >
             <MapPin className="w-5 h-5 mr-2" />
-            Find Nearby Clinic
+            {t('result.findClinic')}
           </Button>
           
           <Button
@@ -153,7 +153,7 @@ const Result = () => {
             disabled={isSaving}
           >
             <Save className="w-5 h-5 mr-2" />
-            {isSaving ? 'Saving...' : 'Save Record'}
+            {isSaving ? t('result.save') + '...' : t('result.save')}
           </Button>
         </div>
       </div>
