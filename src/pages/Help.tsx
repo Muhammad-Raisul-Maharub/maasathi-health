@@ -10,7 +10,7 @@ const Help = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-2xl mx-auto w-full px-4 py-5 sm:p-6 space-y-5 sm:space-y-6">
+      <div className="max-w-md sm:max-w-2xl mx-auto w-full px-4 py-5 sm:p-6 space-y-5 sm:space-y-6">
         <header className="flex items-center justify-between mb-1 sm:mb-2 gap-3">
           <div className="flex items-center gap-2">
             <Link to="/">
