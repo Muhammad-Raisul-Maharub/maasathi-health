@@ -4,10 +4,11 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { calculateRisk } from '@/lib/riskEngine';
 import { db } from '@/lib/db';
-import { MapPin, Save, AlertTriangle, CheckCircle2, AlertCircle, ArrowLeft } from 'lucide-react';
+import { MapPin, Save, AlertTriangle, CheckCircle2, AlertCircle, ArrowLeft, Printer } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/context/LanguageContext';
 import { Textarea } from '@/components/ui/textarea';
+import ThemeToggle from '@/components/ThemeToggle';
 
 const Result = () => {
   const location = useLocation();
@@ -97,12 +98,26 @@ const Result = () => {
     <div className="min-h-screen bg-background">
       <div className="max-w-md mx-auto w-full p-6 space-y-6">
         <div className="flex items-center justify-between mb-4">
-          <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
-            <ArrowLeft className="w-5 h-5" />
-          </Button>
-          <h1 className="text-2xl font-bold text-foreground text-center flex-1">
-            {t('result.title')}
-          </h1>
+          <div className="flex items-center gap-2">
+            <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
+              <ArrowLeft className="w-5 h-5" />
+            </Button>
+            <h1 className="text-2xl font-bold text-foreground text-center">
+              {t('result.title')}
+            </h1>
+          </div>
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <Button
+              variant="outline"
+              size="icon"
+              className="print:hidden"
+              onClick={() => window.print()}
+              aria-label="Print assessment report"
+            >
+              <Printer className="w-5 h-5" />
+            </Button>
+          </div>
         </div>
 
         {/* Risk Level Card */}
