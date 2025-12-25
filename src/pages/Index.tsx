@@ -46,8 +46,8 @@ const Index = () => {
               </p>
 
               {/* Action Buttons */}
-              <div className="mt-4 space-y-3 sm:space-y-0 sm:flex sm:flex-wrap sm:gap-3">
-                <Link to="/assess" className="flex-1 min-w-[150px]">
+              <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                <Link to="/assess">
                   <Button
                     size="lg"
                     className="w-full text-base sm:text-lg py-3 sm:py-4 shadow-lg hover:shadow-xl transition-all duration-200 active:scale-95"
@@ -55,7 +55,7 @@ const Index = () => {
                     {t('home.start')}
                   </Button>
                 </Link>
-                <Link to="/dashboard" className="flex-1 min-w-[150px]">
+                <Link to="/dashboard">
                   <Button
                     variant="outline"
                     size="lg"
@@ -64,7 +64,7 @@ const Index = () => {
                     {t('home.dashboard')}
                   </Button>
                 </Link>
-                <Link to="/settings" className="flex-1 min-w-[150px]">
+                <Link to="/settings">
                   <Button
                     variant="outline"
                     size="lg"
