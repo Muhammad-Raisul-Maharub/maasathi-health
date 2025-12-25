@@ -371,15 +371,6 @@ const Dashboard = () => {
                         >
                           Follow-up
                         </Button>
-                        <Button
-                          size="icon"
-                          variant="ghost"
-                          className="border border-border/60 self-end"
-                          onClick={() => window.print()}
-                          aria-label="Print assessment"
-                        >
-                          <Printer className="w-4 h-4" />
-                        </Button>
                       </div>
                     </div>
                   </Card>
