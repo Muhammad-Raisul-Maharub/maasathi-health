@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useLocation, useNavigate, Link } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { calculateRisk } from '@/lib/riskEngine';
@@ -174,18 +174,18 @@ const Result = () => {
         <div className="space-y-3">
           <Button
             size="lg"
-            className="w-full justify-center"
+            className="w-full justify-center text-sm sm:text-base"
             onClick={handleSave}
             disabled={isSaving}
           >
-            <Save className="w-5 h-5 mr-2" />
+            <Save className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
             {isSaving ? t('result.save') + '...' : t('result.save')}
           </Button>
 
           <Button
             variant="outline"
             size="lg"
-            className="w-full justify-center"
+            className="w-full justify-center text-sm sm:text-base"
             onClick={() => navigate('/assess')}
           >
             {t('home.start')}
@@ -194,7 +194,7 @@ const Result = () => {
           <Button
             variant="outline"
             size="lg"
-            className="w-full justify-center"
+            className="w-full justify-center text-sm sm:text-base"
             onClick={() => navigate('/dashboard')}
           >
             {t('home.dashboard')}
@@ -203,7 +203,7 @@ const Result = () => {
           <Button
             variant="ghost"
             size="sm"
-            className="w-full justify-center gap-1"
+            className="w-full justify-center gap-1 text-xs sm:text-sm"
             onClick={() =>
               toast({
                 title: `${t('toast.clinicComingSoonTitle')} / ক্লিনিক লোকেশন শীঘ্রই আসছে`,
@@ -211,18 +211,9 @@ const Result = () => {
               })
             }
           >
-            <MapPin className="w-4 h-4" />
+            <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             {t('result.findClinic')}
           </Button>
-
-          <div className="flex justify-center pt-2">
-            <Link to="/">
-              <Button variant="ghost" size="sm" className="gap-1">
-                <ArrowLeft className="w-4 h-4" />
-                Back to home
-              </Button>
-            </Link>
-          </div>
         </div>
         <FloatingHelpButton section="result" />
       </div>

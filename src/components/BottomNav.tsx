@@ -24,7 +24,7 @@ const BottomNav = () => {
                 activeClassName="text-primary font-semibold bg-primary/10 border-t-2 border-primary"
                 aria-label={item.label}
               >
-                <Icon className="h-4 w-4" />
+                <Icon className="h-5 w-5" />
                 <span className="leading-tight text-center">{item.label}</span>
               </NavLink>
             );
