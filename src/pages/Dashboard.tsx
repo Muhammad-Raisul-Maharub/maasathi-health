@@ -190,7 +190,7 @@ const Dashboard = () => {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
           <div className="flex items-center gap-2 sm:gap-3">
-            <Button variant="ghost" size="icon" className="-ml-1" onClick={() => navigate(-1)}>
+            <Button variant="ghost" size="icon" className="-ml-1 hover-scale" onClick={() => navigate(-1)}>
               <ArrowLeft className="w-5 h-5" />
             </Button>
             <h1 className="text-xl sm:text-2xl font-bold text-foreground">
@@ -201,7 +201,7 @@ const Dashboard = () => {
             <ThemeToggle />
             <Button
               variant="outline"
-              className="gap-2 print:hidden"
+              className="gap-2 print:hidden hover-scale"
               onClick={() => window.print()}
             >
               <Printer className="w-4 h-4" />
@@ -209,7 +209,7 @@ const Dashboard = () => {
             </Button>
             <Button
               variant="outline"
-              className="gap-2 print:hidden"
+              className="gap-2 print:hidden hover-scale"
               onClick={handleExportCsv}
               disabled={!assessments || assessments.length === 0}
             >
@@ -219,7 +219,7 @@ const Dashboard = () => {
             <Button
               onClick={handleSync}
               disabled={isSyncing || !isOnline || unsyncedCount === 0}
-              className="gap-2 print:hidden"
+              className="gap-2 print:hidden hover-scale"
             >
               <RefreshCw className={`w-4 h-4 ${isSyncing ? 'animate-spin' : ''}`} />
               <span className="hidden sm:inline">{t('dashboard.sync')}</span>

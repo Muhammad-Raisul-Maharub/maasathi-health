@@ -1,7 +1,7 @@
 import { Home, Stethoscope, BarChart3, Settings as SettingsIcon } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 
-const BottomNav = () => {
+const TopNav = () => {
   const items = [
     { label: "Home", to: "/", icon: Home },
     { label: "Assess", to: "/assess", icon: Stethoscope },
@@ -10,9 +10,9 @@ const BottomNav = () => {
   ];
 
   return (
-    <nav className="fixed bottom-0 inset-x-0 z-40 border-t border-border bg-card/95 backdrop-blur-sm sm:hidden">
-      <div className="mx-auto w-full max-w-md px-3 py-2">
-        <div className="flex items-stretch justify-between gap-1.5">
+    <nav className="hidden sm:block sticky top-0 inset-x-0 z-40 border-b border-border bg-background/95 backdrop-blur animate-fade-in">
+      <div className="mx-auto w-full max-w-5xl px-4">
+        <div className="flex items-center justify-center gap-2 py-2">
           {items.map((item) => {
             const Icon = item.icon;
             return (
@@ -20,12 +20,12 @@ const BottomNav = () => {
                 key={item.to}
                 to={item.to}
                 end={item.to === "/"}
-                className="flex-1 flex flex-col items-center justify-center gap-0.5 rounded-lg px-1.5 py-1.5 text-[11px] font-medium text-muted-foreground hover-scale hover:text-foreground transition-colors"
-                activeClassName="text-primary font-semibold bg-primary/10 border-t-2 border-primary shadow-md"
+                className="hover-scale inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors"
+                activeClassName="bg-primary text-primary-foreground shadow-md"
                 aria-label={item.label}
               >
-                <Icon className="h-5 w-5" />
-                <span className="leading-tight text-center">{item.label}</span>
+                <Icon className="h-4 w-4" />
+                <span>{item.label}</span>
               </NavLink>
             );
           })}
@@ -35,4 +35,4 @@ const BottomNav = () => {
   );
 };
 
-export default BottomNav;
+export default TopNav;

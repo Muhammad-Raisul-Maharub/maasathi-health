@@ -155,9 +155,9 @@ const Assessment = () => {
           {/* Answer Options */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 mt-1">
             <Card
-              className={`p-3 sm:p-5 cursor-pointer transition-all hover:scale-[1.02] ${
+              className={`p-3 sm:p-5 cursor-pointer transition-all hover-scale hover:shadow-md ${
                 answers[currentSymptom.id] === true
-                  ? 'bg-primary text-primary-foreground border-primary'
+                  ? 'bg-primary text-primary-foreground border-primary shadow-md'
                   : 'bg-card hover:bg-accent'
               }`}
               onClick={() => handleAnswer(true)}
@@ -177,9 +177,9 @@ const Assessment = () => {
             </Card>
 
             <Card
-              className={`p-3 sm:p-5 cursor-pointer transition-all hover:scale-[1.02] ${
+              className={`p-3 sm:p-5 cursor-pointer transition-all hover-scale hover:shadow-md ${
                 answers[currentSymptom.id] === false
-                  ? 'bg-secondary text-secondary-foreground border-secondary'
+                  ? 'bg-destructive text-destructive-foreground border-destructive shadow-md'
                   : 'bg-card hover:bg-accent'
               }`}
               onClick={() => handleAnswer(false)}
@@ -188,7 +188,7 @@ const Assessment = () => {
                 <div
                   className={`p-2 sm:p-3 rounded-full ${
                     answers[currentSymptom.id] === false
-                      ? 'bg-secondary-foreground/20'
+                      ? 'bg-destructive-foreground/20'
                       : 'bg-muted'
                   }`}
                 >
@@ -215,7 +215,12 @@ const Assessment = () => {
 
         {/* Navigation */}
         <div className="flex gap-3 mt-4">
-          <Button variant="outline" size="lg" onClick={handleBack} className="flex-1">
+          <Button
+            variant="outline"
+            size="lg"
+            onClick={handleBack}
+            className="flex-1 hover-scale"
+          >
             <ArrowLeft className="w-5 h-5 mr-1.5" />
             {t('nav.back')}
           </Button>
@@ -223,7 +228,7 @@ const Assessment = () => {
             size="lg"
             onClick={handleNext}
             disabled={!hasAnswer}
-            className="flex-1"
+            className="flex-1 hover-scale"
           >
             {isLastStep ? t('assessment.viewResults') : t('assessment.next')}
             {!isLastStep && <ArrowRight className="w-5 h-5 ml-1.5" />}

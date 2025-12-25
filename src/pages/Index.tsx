@@ -51,7 +51,7 @@ const Index = () => {
                 <Link to="/assess">
                   <Button
                     size="lg"
-                    className="w-full justify-center text-base sm:text-lg py-3 sm:py-4 shadow-lg hover:shadow-xl transition-all duration-200 active:scale-95"
+                    className="w-full justify-center text-base sm:text-lg py-3 sm:py-4 shadow-lg hover:shadow-xl hover-scale transition-all duration-200 active:scale-95"
                   >
                     {t('home.start')}
                   </Button>
@@ -60,7 +60,7 @@ const Index = () => {
                   <Button
                     variant="outline"
                     size="lg"
-                    className="w-full justify-center text-base sm:text-lg py-3 sm:py-4 transition-all duration-200 active:scale-95"
+                    className="w-full justify-center text-base sm:text-lg py-3 sm:py-4 hover-scale transition-all duration-200 active:scale-95"
                   >
                     {t('home.dashboard')}
                   </Button>
@@ -69,7 +69,7 @@ const Index = () => {
                   <Button
                     variant="outline"
                     size="lg"
-                    className="w-full justify-center text-base sm:text-lg py-3 sm:py-4 transition-all duration-200 active:scale-95"
+                    className="w-full justify-center text-base sm:text-lg py-3 sm:py-4 hover-scale transition-all duration-200 active:scale-95"
                   >
                     Settings
                   </Button>
