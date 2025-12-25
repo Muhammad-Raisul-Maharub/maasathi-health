@@ -4,13 +4,15 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { calculateRisk } from '@/lib/riskEngine';
 import { db } from '@/lib/db';
-import { MapPin, Save, AlertTriangle, CheckCircle2, AlertCircle } from 'lucide-react';
+import { MapPin, Save, AlertTriangle, CheckCircle2, AlertCircle, ArrowLeft } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { useLanguage } from '@/context/LanguageContext';
 
 const Result = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { t } = useLanguage();
   const [isSaving, setIsSaving] = useState(false);
 
   const selectedSymptoms = location.state?.selectedSymptoms || [];
@@ -91,9 +93,14 @@ const Result = () => {
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-md mx-auto w-full p-6 space-y-6">
-        <h1 className="text-2xl font-bold text-foreground text-center mb-8">
-          Your Assessment Results
-        </h1>
+        <div className="flex items-center justify-between mb-4">
+          <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
+            <ArrowLeft className="w-5 h-5" />
+          </Button>
+          <h1 className="text-2xl font-bold text-foreground text-center flex-1">
+            {t('result.title')}
+          </h1>
+        </div>
 
         {/* Risk Level Card */}
         <Card className={`p-8 ${getRiskColor()} shadow-lg`}>
