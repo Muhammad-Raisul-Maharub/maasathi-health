@@ -5,6 +5,8 @@ import { ArrowLeft, ArrowRight, Check, Info, Stethoscope, X } from 'lucide-react
 import { symptoms } from '@/lib/riskEngine';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/context/LanguageContext';
+import ThemeToggle from '@/components/ThemeToggle';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 
 const Assessment = () => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -48,6 +50,9 @@ const Assessment = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <div className="max-w-md mx-auto w-full p-6 flex flex-col min-h-screen">
+        <div className="flex justify-end mb-2">
+          <ThemeToggle />
+        </div>
         {/* Progress Bar */}
         <div className="mb-6">
           <div className="flex justify-between text-sm text-muted-foreground mb-2">
@@ -86,9 +91,34 @@ const Assessment = () => {
               {t('assessment.subtitle')}
             </p>
             <div className="mt-3 space-y-1">
-              <p className="text-base font-semibold text-foreground">
-                {currentSymptom.questionEn}
-              </p>
+              <div className="flex items-center justify-center gap-2">
+                <p className="text-base font-semibold text-foreground">
+                  {currentSymptom.questionEn}
+                </p>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <button
+                      type="button"
+                      className="inline-flex items-center justify-center rounded-full border border-border bg-card px-1.5 py-1 text-xs text-muted-foreground hover:bg-accent"
+                      aria-label="Why this symptom matters"
+                    >
+                      <Info className="w-3 h-3" />
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent className="max-w-xs text-left">
+                    <p className="text-xs font-medium mb-1">Why this matters clinically</p>
+                    <p className="text-xs text-muted-foreground mb-1">
+                      This warning sign can indicate serious pregnancy complications such as high blood
+                      pressure or organ stress. If present, it increases the overall risk score and may
+                      require earlier clinical review.
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      বাংলায়: এই উপসর্গটি প্রি-এক্লাম্পসিয়া বা অন্যান্য জটিলতার একটি গুরুত্বপূর্ণ সতর্ক সংকেত।
+                      এই উপসর্গ থাকলে ঝুঁকির মাত্রা বাড়ে এবং দ্রুত স্বাস্থ্যকর্মীর মূল্যায়ন প্রয়োজন হতে পারে।
+                    </p>
+                  </TooltipContent>
+                </Tooltip>
+              </div>
               <p className="text-sm text-muted-foreground">
                 {currentSymptom.questionBn}
               </p>

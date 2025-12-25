@@ -3,12 +3,13 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { db, Assessment } from '@/lib/db';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { RefreshCw, ArrowLeft, Calendar, Activity, Download } from 'lucide-react';
+import { RefreshCw, ArrowLeft, Calendar, Activity, Download, Printer } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
 import { useOnlineStatus } from '@/hooks/useOnlineStatus';
 import { supabase } from '@/integrations/supabase/client';
 import { useLanguage } from '@/context/LanguageContext';
+import ThemeToggle from '@/components/ThemeToggle';
 import {
   ChartContainer,
   ChartTooltip,
@@ -196,10 +197,19 @@ const Dashboard = () => {
               {t('dashboard.title')}
             </h1>
           </div>
-          <div className="flex gap-2">
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
             <Button
               variant="outline"
-              className="gap-2"
+              className="gap-2 print:hidden"
+              onClick={() => window.print()}
+            >
+              <Printer className="w-4 h-4" />
+              Print
+            </Button>
+            <Button
+              variant="outline"
+              className="gap-2 print:hidden"
               onClick={handleExportCsv}
               disabled={!assessments || assessments.length === 0}
             >
@@ -209,7 +219,7 @@ const Dashboard = () => {
             <Button
               onClick={handleSync}
               disabled={isSyncing || !isOnline || unsyncedCount === 0}
-              className="gap-2"
+              className="gap-2 print:hidden"
             >
               <RefreshCw className={`w-4 h-4 ${isSyncing ? 'animate-spin' : ''}`} />
               {t('dashboard.sync')} {unsyncedCount > 0 && `(${unsyncedCount})`}

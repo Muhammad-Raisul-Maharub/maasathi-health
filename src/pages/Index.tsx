@@ -5,6 +5,7 @@ import logoIcon from '@/assets/maasathi-logo-icon.png';
 import landingHero from '@/assets/maasathi-landing.png';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { useLanguage } from '@/context/LanguageContext';
+import ThemeToggle from '@/components/ThemeToggle';
 
 const Index = () => {
   const { t } = useLanguage();
@@ -22,6 +23,7 @@ const Index = () => {
           </div>
           <div className="flex items-center gap-3">
             <LanguageSwitcher />
+            <ThemeToggle />
             <StatusBar />
           </div>
         </header>
