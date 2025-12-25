@@ -97,96 +97,96 @@ const Result = () => {
   }, [location.state, navigate]);
 
   return (
-    <div className="bg-background pb-16">
-      <div className="max-w-md mx-auto w-full px-4 py-3 space-y-2.5 animate-fade-in">
-        <div className="flex items-center justify-between mb-1 gap-2 border-b border-border/60 pb-1.5">
-          <div className="flex items-center gap-2">
-            <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
-              <ArrowLeft className="w-5 h-5" />
+    <div className="bg-background min-h-screen pb-20">
+      <div className="max-w-md mx-auto w-full px-4 py-3 space-y-3 animate-fade-in">
+        <div className="flex items-center justify-between mb-2 gap-2">
+          <div className="flex items-center gap-2 flex-1">
+            <Button variant="ghost" size="icon" onClick={() => navigate(-1)} className="hover-scale">
+              <ArrowLeft className="w-6 h-6" />
             </Button>
             <div>
-              <h1 className="text-lg sm:text-xl font-bold text-foreground">
+              <h1 className="text-lg font-bold text-foreground">
                 {t('result.title')}
               </h1>
-              <p className="text-[10px] sm:text-xs text-muted-foreground">
+              <p className="text-xs text-muted-foreground leading-tight">
                 Snapshot of this assessment's risk so you can decide next steps quickly.
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-2">
             <ThemeToggle />
             <Button
               variant="outline"
               size="icon"
-              className="print:hidden"
+              className="print:hidden hover-scale"
               onClick={() => window.print()}
               aria-label="Print assessment report"
             >
-              <Printer className="w-4 h-4" />
+              <Printer className="w-5 h-5" />
             </Button>
           </div>
         </div>
 
         {/* Risk Level Card */}
-        <Card className={`p-4 ${getRiskColor()} shadow-lg animate-fade-in`}>
-          <div className="flex flex-col items-center gap-2.5 text-center">
+        <Card className={`p-6 ${getRiskColor()} shadow-lg animate-fade-in`}>
+          <div className="flex flex-col items-center gap-3 text-center">
             {getRiskIcon()}
             <div>
-              <h2 className="text-xl sm:text-2xl font-bold mb-1">{result.level} Risk</h2>
-              <p className="text-sm sm:text-base opacity-90">Risk Score: {result.score}</p>
+              <h2 className="text-2xl font-bold mb-1">{result.level} Risk</h2>
+              <p className="text-base font-semibold opacity-90">Risk Score: {result.score}</p>
             </div>
           </div>
         </Card>
 
         {/* Explanation */}
-        <Card className="p-3 animate-fade-in">
-          <h3 className="text-sm sm:text-base font-semibold text-foreground mb-2">
+        <Card className="p-4 animate-fade-in">
+          <h3 className="text-base font-bold text-foreground mb-2">
             ফলাফল ব্যাখ্যা (Explanation)
           </h3>
-          <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+          <p className="text-sm text-muted-foreground leading-relaxed">
             {getBanglaExplanation()}
           </p>
         </Card>
 
         {/* Disclaimer */}
-        <Card className="p-2.5 bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-900 animate-fade-in">
-          <p className="text-xs text-amber-900 dark:text-amber-200">
-            <strong>{t('result.disclaimerHeading')}</strong>{' '}
+        <Card className="p-3.5 bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-900 animate-fade-in">
+          <p className="text-sm text-amber-900 dark:text-amber-200 leading-relaxed">
+            <strong className="font-bold">{t('result.disclaimerHeading')}</strong>{' '}
             {t('result.disclaimerBody')}
           </p>
         </Card>
 
         {/* Notes */}
-        <Card className="p-2.5 space-y-1.5 animate-fade-in">
-          <p className="text-xs font-medium text-foreground">Optional notes</p>
-          <p className="text-[10px] text-muted-foreground">
+        <Card className="p-4 space-y-2 animate-fade-in">
+          <p className="text-sm font-semibold text-foreground">Optional notes</p>
+          <p className="text-xs text-muted-foreground leading-relaxed">
             Add any observations, blood pressure readings or follow-up plan. This will be saved with the assessment.
           </p>
           <Textarea
-            rows={2}
+            rows={3}
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
             placeholder="Type notes here (optional)"
-            className="text-xs"
+            className="text-sm"
           />
         </Card>
 
         {/* Action Buttons */}
-        <div className="space-y-2">
+        <div className="space-y-2.5">
           <Button
             size="lg"
-            className="w-full justify-center text-sm"
+            className="w-full justify-center text-base font-semibold py-6 hover-scale shadow-md"
             onClick={handleSave}
             disabled={isSaving}
           >
-            <Save className="w-4 h-4 mr-1.5" />
+            <Save className="w-5 h-5 mr-2" />
             {isSaving ? t('result.save') + '...' : t('result.save')}
           </Button>
 
           <Button
             variant="outline"
             size="lg"
-            className="w-full justify-center text-sm"
+            className="w-full justify-center text-base font-medium py-5 hover-scale"
             onClick={() => navigate('/assess')}
           >
             {t('home.start')}
@@ -195,7 +195,7 @@ const Result = () => {
           <Button
             variant="outline"
             size="lg"
-            className="w-full justify-center text-sm"
+            className="w-full justify-center text-base font-medium py-5 hover-scale"
             onClick={() => navigate('/dashboard')}
           >
             {t('home.dashboard')}
@@ -204,7 +204,7 @@ const Result = () => {
           <Button
             variant="ghost"
             size="sm"
-            className="w-full justify-center gap-1 text-xs"
+            className="w-full justify-center gap-2 text-sm hover-scale"
             onClick={() =>
               toast({
                 title: `${t('toast.clinicComingSoonTitle')} / ক্লিনিক লোকেশন শীঘ্রই আসছে`,
@@ -212,7 +212,7 @@ const Result = () => {
               })
             }
           >
-            <MapPin className="w-3.5 h-3.5" />
+            <MapPin className="w-4 h-4" />
             {t('result.findClinic')}
           </Button>
         </div>
