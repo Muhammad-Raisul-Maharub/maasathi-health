@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useLanguage } from "@/context/LanguageContext";
 import { useTheme } from "@/context/ThemeContext";
-import { ArrowLeft, Moon, Sun } from "lucide-react";
+import { ArrowLeft, Moon, Sun, HelpCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Settings = () => {
@@ -56,6 +56,19 @@ const Settings = () => {
               </Button>
             </div>
           </div>
+        </Card>
+
+        <Card className="p-4 flex items-center justify-between">
+          <div>
+            <p className="font-medium text-foreground">Help & guidance</p>
+            <p className="text-sm text-muted-foreground">How to use MaaSathi safely</p>
+          </div>
+          <Link to="/help">
+            <Button variant="outline" className="gap-2">
+              <HelpCircle className="w-4 h-4" />
+              Open help
+            </Button>
+          </Link>
         </Card>
       </div>
     </div>
