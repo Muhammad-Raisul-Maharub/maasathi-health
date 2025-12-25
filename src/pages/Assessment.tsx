@@ -8,7 +8,7 @@ import { useLanguage } from '@/context/LanguageContext';
 import ThemeToggle from '@/components/ThemeToggle';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import FloatingHelpButton from '@/components/FloatingHelpButton';
-
+import PageLayout from '@/components/PageLayout';
 const Assessment = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState<Record<string, boolean>>({});
@@ -74,7 +74,7 @@ const Assessment = () => {
           <ThemeToggle />
         </div>
         {/* Progress Bar */}
-        <div className="mb-3">
+        <div className="mb-2.5 border-b border-border/60 pb-2">
           <div className="flex justify-between text-xs sm:text-sm text-muted-foreground mb-1.5">
             <span>
               {t('assessment.step')} {currentStep + 1} {t('assessment.of')} {symptoms.length}
@@ -87,6 +87,9 @@ const Assessment = () => {
               style={{ width: `${((currentStep + 1) / symptoms.length) * 100}%` }}
             />
           </div>
+          <p className="mt-1 text-[11px] sm:text-xs text-muted-foreground">
+            Complete all questions to generate an accurate clinic risk summary.
+          </p>
         </div>
 
         {/* Details: how it works */}

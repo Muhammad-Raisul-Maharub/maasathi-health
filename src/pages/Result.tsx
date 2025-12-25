@@ -10,6 +10,7 @@ import { useLanguage } from '@/context/LanguageContext';
 import { Textarea } from '@/components/ui/textarea';
 import ThemeToggle from '@/components/ThemeToggle';
 import FloatingHelpButton from '@/components/FloatingHelpButton';
+import PageLayout from '@/components/PageLayout';
 
 const Result = () => {
   const location = useLocation();
@@ -98,14 +99,19 @@ const Result = () => {
   return (
     <div className="min-h-screen bg-background pb-20">
       <div className="max-w-md mx-auto w-full px-4 py-4 sm:p-5 space-y-4 sm:space-y-5">
-        <div className="flex items-center justify-between mb-1 sm:mb-2 gap-2">
+        <div className="flex items-center justify-between mb-1 sm:mb-2 gap-2 border-b border-border/60 pb-2">
           <div className="flex items-center gap-2">
             <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
               <ArrowLeft className="w-5 h-5" />
             </Button>
-            <h1 className="text-xl sm:text-2xl font-bold text-foreground">
-              {t('result.title')}
-            </h1>
+            <div>
+              <h1 className="text-xl sm:text-2xl font-bold text-foreground">
+                {t('result.title')}
+              </h1>
+              <p className="text-xs sm:text-sm text-muted-foreground">
+                Snapshot of this assessment’s risk so you can decide next steps quickly.
+              </p>
+            </div>
           </div>
           <div className="flex items-center gap-2">
             <ThemeToggle />
