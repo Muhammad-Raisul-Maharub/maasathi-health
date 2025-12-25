@@ -9,6 +9,8 @@ import Result from "./pages/Result";
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 import { LanguageProvider } from "./context/LanguageContext";
+import Settings from "./pages/Settings";
+import { ThemeProvider } from "./context/ThemeContext";
 
 const queryClient = new QueryClient();
 
@@ -18,16 +20,19 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <LanguageProvider>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/assess" element={<Assessment />} />
-            <Route path="/result" element={<Result />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </LanguageProvider>
+        <ThemeProvider>
+          <LanguageProvider>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/assess" element={<Assessment />} />
+              <Route path="/result" element={<Result />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/settings" element={<Settings />} />
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </LanguageProvider>
+        </ThemeProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

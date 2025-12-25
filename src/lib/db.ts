@@ -6,6 +6,7 @@ export interface Assessment {
   riskScore: number;
   riskLevel: 'Low' | 'Medium' | 'High';
   symptoms: string[];
+  notes?: string;
   isSynced: boolean;
 }
 

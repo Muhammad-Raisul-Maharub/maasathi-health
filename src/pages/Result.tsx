@@ -7,6 +7,7 @@ import { db } from '@/lib/db';
 import { MapPin, Save, AlertTriangle, CheckCircle2, AlertCircle, ArrowLeft } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/context/LanguageContext';
+import { Textarea } from '@/components/ui/textarea';
 
 const Result = () => {
   const location = useLocation();
@@ -14,6 +15,7 @@ const Result = () => {
   const { toast } = useToast();
   const { t } = useLanguage();
   const [isSaving, setIsSaving] = useState(false);
+  const [notes, setNotes] = useState('');
 
   const selectedSymptoms = location.state?.selectedSymptoms || [];
   const result = calculateRisk(selectedSymptoms);
@@ -51,6 +53,7 @@ const Result = () => {
         riskScore: result.score,
         riskLevel: result.level,
         symptoms: selectedSymptoms,
+        notes,
         isSynced: false,
       });
 
@@ -131,21 +134,37 @@ const Result = () => {
           </p>
         </Card>
 
+        {/* Notes */}
+        <Card className="p-4 space-y-2">
+          <p className="text-sm font-medium text-foreground">Optional notes</p>
+          <p className="text-xs text-muted-foreground">
+            Add any observations, blood pressure readings or follow-up plan. This will be saved with the assessment.
+          </p>
+          <Textarea
+            rows={3}
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+            placeholder="Type notes here (optional)"
+          />
+        </Card>
+
         {/* Action Buttons */}
         <div className="space-y-3">
           <Button
             variant="outline"
             size="lg"
             className="w-full"
-            onClick={() => toast({
-              title: t('toast.clinicComingSoonTitle'),
-              description: t('toast.clinicComingSoonDescription'),
-            })}
+            onClick={() =>
+              toast({
+                title: t('toast.clinicComingSoonTitle'),
+                description: t('toast.clinicComingSoonDescription'),
+              })
+            }
           >
             <MapPin className="w-5 h-5 mr-2" />
             {t('result.findClinic')}
           </Button>
-          
+
           <Button
             size="lg"
             className="w-full"

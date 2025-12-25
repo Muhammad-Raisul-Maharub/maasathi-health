@@ -56,6 +56,15 @@ const Index = () => {
                     {t('home.dashboard')}
                   </Button>
                 </Link>
+                <Link to="/settings" className="flex-1 min-w-[150px]">
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="w-full text-base sm:text-lg py-3 sm:py-4 transition-all duration-200 active:scale-95"
+                  >
+                    Settings
+                  </Button>
+                </Link>
               </div>
 
               {/* Info Badge */}
