@@ -97,13 +97,13 @@ const Result = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-md mx-auto w-full p-6 space-y-6">
-        <div className="flex items-center justify-between mb-4">
+      <div className="max-w-md mx-auto w-full px-4 py-5 sm:p-6 space-y-5 sm:space-y-6">
+        <div className="flex items-center justify-between mb-1 sm:mb-2 gap-2">
           <div className="flex items-center gap-2">
             <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
               <ArrowLeft className="w-5 h-5" />
             </Button>
-            <h1 className="text-2xl font-bold text-foreground text-center">
+            <h1 className="text-xl sm:text-2xl font-bold text-foreground">
               {t('result.title')}
             </h1>
           </div>
@@ -122,12 +122,12 @@ const Result = () => {
         </div>
 
         {/* Risk Level Card */}
-        <Card className={`p-8 ${getRiskColor()} shadow-lg`}>
-          <div className="flex flex-col items-center gap-4 text-center">
+        <Card className={`p-6 sm:p-8 ${getRiskColor()} shadow-lg`}>
+          <div className="flex flex-col items-center gap-3 sm:gap-4 text-center">
             {getRiskIcon()}
             <div>
-              <h2 className="text-3xl font-bold mb-2">{result.level} Risk</h2>
-              <p className="text-lg opacity-90">Risk Score: {result.score}</p>
+              <h2 className="text-2xl sm:text-3xl font-bold mb-1 sm:mb-2">{result.level} Risk</h2>
+              <p className="text-base sm:text-lg opacity-90">Risk Score: {result.score}</p>
             </div>
           </div>
         </Card>

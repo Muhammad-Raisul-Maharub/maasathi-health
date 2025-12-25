@@ -50,8 +50,8 @@ const Assessment = () => {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <div className="max-w-md mx-auto w-full p-6 flex flex-col min-h-screen">
-        <div className="flex justify-end mb-2">
+      <div className="max-w-md mx-auto w-full px-4 py-5 sm:p-6 flex flex-col min-h-screen gap-2">
+        <div className="flex justify-end mb-1 sm:mb-2">
           <ThemeToggle />
         </div>
         {/* Progress Bar */}
@@ -85,22 +85,22 @@ const Assessment = () => {
         </Card>
 
         {/* Question */}
-        <div className="flex-1 flex flex-col justify-center space-y-6">
-          <div className="text-center space-y-3">
-            <h1 className="text-2xl font-bold text-foreground">{t('assessment.title')}</h1>
+        <div className="flex-1 flex flex-col justify-center space-y-6 mt-4 sm:mt-2">
+          <div className="text-center space-y-3 px-1">
+            <h1 className="text-xl sm:text-2xl font-bold text-foreground">{t('assessment.title')}</h1>
             <p className="text-sm text-muted-foreground max-w-md mx-auto">
               {t('assessment.subtitle')}
             </p>
             <div className="mt-3 space-y-1">
-              <div className="flex items-center justify-center gap-2">
-                <p className="text-base font-semibold text-foreground">
+              <div className="flex flex-col items-center gap-2">
+                <p className="text-base font-semibold text-foreground text-center">
                   {currentSymptom.questionEn}
                 </p>
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <button
                       type="button"
-                      className="inline-flex items-center justify-center rounded-full border border-border bg-card px-1.5 py-1 text-xs text-muted-foreground hover:bg-accent"
+                      className="inline-flex items-center justify-center rounded-full border border-border bg-card px-2 py-1 text-xs text-muted-foreground hover:bg-accent"
                       aria-label="Why this symptom matters"
                     >
                       <Info className="w-3 h-3" />
@@ -120,7 +120,7 @@ const Assessment = () => {
                   </TooltipContent>
                 </Tooltip>
               </div>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-muted-foreground text-center">
                 {currentSymptom.questionBn}
               </p>
               <p className="text-xs text-muted-foreground flex items-center gap-1 justify-center mt-1">
@@ -131,48 +131,48 @@ const Assessment = () => {
           </div>
 
           {/* Answer Options */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mt-2">
             <Card
-              className={`p-6 cursor-pointer transition-all hover:scale-105 ${
+              className={`p-4 sm:p-6 cursor-pointer transition-all hover:scale-[1.02] ${
                 answers[currentSymptom.id] === true
                   ? 'bg-primary text-primary-foreground border-primary'
                   : 'bg-card hover:bg-accent'
               }`}
               onClick={() => handleAnswer(true)}
             >
-              <div className="flex flex-col items-center gap-3">
+              <div className="flex flex-col items-center gap-2 sm:gap-3">
                 <div
-                  className={`p-3 rounded-full ${
+                  className={`p-2 sm:p-3 rounded-full ${
                     answers[currentSymptom.id] === true
                       ? 'bg-primary-foreground/20'
                       : 'bg-primary/10'
                   }`}
                 >
-                  <Check className="w-8 h-8" />
+                  <Check className="w-7 h-7 sm:w-8 sm:h-8" />
                 </div>
-                <span className="text-lg font-semibold">{t('assessment.yes')}</span>
+                <span className="text-base sm:text-lg font-semibold">{t('assessment.yes')}</span>
               </div>
             </Card>
 
             <Card
-              className={`p-6 cursor-pointer transition-all hover:scale-105 ${
+              className={`p-4 sm:p-6 cursor-pointer transition-all hover:scale-[1.02] ${
                 answers[currentSymptom.id] === false
                   ? 'bg-secondary text-secondary-foreground border-secondary'
                   : 'bg-card hover:bg-accent'
               }`}
               onClick={() => handleAnswer(false)}
             >
-              <div className="flex flex-col items-center gap-3">
+              <div className="flex flex-col items-center gap-2 sm:gap-3">
                 <div
-                  className={`p-3 rounded-full ${
+                  className={`p-2 sm:p-3 rounded-full ${
                     answers[currentSymptom.id] === false
                       ? 'bg-secondary-foreground/20'
                       : 'bg-muted'
                   }`}
                 >
-                  <X className="w-8 h-8" />
+                  <X className="w-7 h-7 sm:w-8 sm:h-8" />
                 </div>
-                <span className="text-lg font-semibold">{t('assessment.no')}</span>
+                <span className="text-base sm:text-lg font-semibold">{t('assessment.no')}</span>
               </div>
             </Card>
           </div>

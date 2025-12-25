@@ -11,14 +11,14 @@ const Settings = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-md mx-auto w-full p-6 space-y-6">
-        <header className="flex items-center gap-3 mb-4">
+      <div className="max-w-md mx-auto w-full px-4 py-5 sm:p-6 space-y-5 sm:space-y-6">
+        <header className="flex items-center gap-3 mb-1 sm:mb-2">
           <Link to="/">
-            <Button variant="ghost" size="icon">
+            <Button variant="ghost" size="icon" className="-ml-1">
               <ArrowLeft className="w-5 h-5" />
             </Button>
           </Link>
-          <h1 className="text-2xl font-bold text-foreground flex-1">
+          <h1 className="text-xl sm:text-2xl font-bold text-foreground flex-1">
             Settings
           </h1>
         </header>

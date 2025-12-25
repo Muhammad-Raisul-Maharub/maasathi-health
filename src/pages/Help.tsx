@@ -10,19 +10,19 @@ const Help = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-2xl mx-auto w-full p-6 space-y-6">
-        <header className="flex items-center justify-between mb-2 gap-3">
+      <div className="max-w-2xl mx-auto w-full px-4 py-5 sm:p-6 space-y-5 sm:space-y-6">
+        <header className="flex items-center justify-between mb-1 sm:mb-2 gap-3">
           <div className="flex items-center gap-2">
             <Link to="/">
-              <Button variant="ghost" size="icon" aria-label="Back to home">
+              <Button variant="ghost" size="icon" aria-label="Back to home" className="-ml-1">
                 <ArrowLeft className="w-5 h-5" />
               </Button>
             </Link>
             <div>
-              <h1 className="text-2xl font-bold text-foreground">
+              <h1 className="text-xl sm:text-2xl font-bold text-foreground">
                 MaaSathi Help / সহায়তা
               </h1>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-xs sm:text-sm text-muted-foreground">
                 How to use the app safely in the clinic.
               </p>
             </div>
