@@ -46,7 +46,7 @@ const Index = () => {
               </p>
 
               {/* Action Buttons */}
-              <div className="mt-4 grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="mt-6 w-full space-y-3 sm:max-w-sm sm:mx-auto md:mx-0">
                 <Link to="/assess">
                   <Button
                     size="lg"
