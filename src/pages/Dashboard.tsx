@@ -10,6 +10,7 @@ import { useOnlineStatus } from '@/hooks/useOnlineStatus';
 import { supabase } from '@/integrations/supabase/client';
 import { useLanguage } from '@/context/LanguageContext';
 import ThemeToggle from '@/components/ThemeToggle';
+import PageLayout from '@/components/PageLayout';
 import {
   ChartContainer,
   ChartTooltip,

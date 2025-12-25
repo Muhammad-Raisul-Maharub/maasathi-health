@@ -6,6 +6,7 @@ import landingHero from '@/assets/maasathi-landing.png';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { useLanguage } from '@/context/LanguageContext';
 import ThemeToggle from '@/components/ThemeToggle';
+import PageLayout from '@/components/PageLayout';
 
 const Index = () => {
   const { t } = useLanguage();
