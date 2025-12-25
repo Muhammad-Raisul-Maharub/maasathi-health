@@ -14,9 +14,13 @@ const Index = () => {
     <div className="min-h-screen bg-background flex flex-col">
       <div className="max-w-5xl mx-auto w-full px-4 py-6 sm:px-6 sm:py-8 flex flex-col min-h-screen" aria-label="MaaSathi AI home">
         <header className="flex items-center justify-between mb-8 gap-4">
-          <div className="flex items-center gap-3 animate-fade-in">
-            <img src={logoIcon} alt="MaaSathi AI logo" className="h-10 w-10 rounded-full shadow-sm" />
-            <div>
+          <div className="flex items-center gap-4 animate-fade-in">
+            <img
+              src={logoIcon}
+              alt="MaaSathi AI logo"
+              className="h-10 w-10 sm:h-12 sm:w-12 rounded-full shadow-sm"
+            />
+            <div className="leading-tight">
               <h1 className="text-2xl sm:text-3xl font-bold text-foreground">{t('app.name')}</h1>
               <p className="text-sm sm:text-base text-muted-foreground">{t('app.tagline')}</p>
             </div>

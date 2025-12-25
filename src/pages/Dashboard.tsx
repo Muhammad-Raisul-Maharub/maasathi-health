@@ -4,7 +4,7 @@ import { Card } from '@/components/ui/card';
 import { db, Assessment } from '@/lib/db';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { RefreshCw, ArrowLeft, Calendar, Activity, Download, Printer } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
 import { useOnlineStatus } from '@/hooks/useOnlineStatus';
 import { supabase } from '@/integrations/supabase/client';
@@ -25,6 +25,7 @@ const Dashboard = () => {
   const isOnline = useOnlineStatus();
   const { t } = useLanguage();
   const [isSyncing, setIsSyncing] = useState(false);
+  const navigate = useNavigate();
 
   const assessments = useLiveQuery(
     () => db.assessments.orderBy('timestamp').toArray()
@@ -328,7 +329,7 @@ const Dashboard = () => {
                 .sort((a, b) => b.timestamp - a.timestamp)
                 .map((assessment: Assessment) => (
                   <Card key={assessment.id} className="p-4 hover:bg-accent transition-colors">
-                    <div className="flex justify-between items-start">
+                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
                       <div className="space-y-1">
                         <div className="flex flex-wrap items-center gap-2">
                           <span className={`text-lg font-semibold ${getRiskColor(assessment.riskLevel)}`}>
@@ -351,6 +352,32 @@ const Dashboard = () => {
                         <p className="text-xs text-muted-foreground">
                           {formatDate(assessment.timestamp)}
                         </p>
+                      </div>
+
+                      <div className="flex flex-wrap sm:flex-col gap-2 sm:items-end">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => navigate('/assess', { state: { reopenId: assessment.id } })}
+                        >
+                          Reopen
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => navigate('/assess', { state: { followUpForId: assessment.id } })}
+                        >
+                          Follow-up
+                        </Button>
+                        <Button
+                          size="icon"
+                          variant="ghost"
+                          className="border border-border/60"
+                          onClick={() => window.print()}
+                          aria-label="Print assessment"
+                        >
+                          <Printer className="w-4 h-4" />
+                        </Button>
                       </div>
                     </div>
                   </Card>
