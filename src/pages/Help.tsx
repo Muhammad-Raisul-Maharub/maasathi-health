@@ -1,6 +1,9 @@
 import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/LanguageContext";
 import ThemeToggle from "@/components/ThemeToggle";
+import { ArrowLeft } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Help = () => {
   const { t, language } = useLanguage();
@@ -8,14 +11,21 @@ const Help = () => {
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-2xl mx-auto w-full p-6 space-y-6">
-        <header className="flex items-center justify-between mb-2">
-          <div>
-            <h1 className="text-2xl font-bold text-foreground">
-              MaaSathi Help / সহায়তা
-            </h1>
-            <p className="text-sm text-muted-foreground">
-              How to use the app safely in the clinic.
-            </p>
+        <header className="flex items-center justify-between mb-2 gap-3">
+          <div className="flex items-center gap-2">
+            <Link to="/">
+              <Button variant="ghost" size="icon" aria-label="Back to home">
+                <ArrowLeft className="w-5 h-5" />
+              </Button>
+            </Link>
+            <div>
+              <h1 className="text-2xl font-bold text-foreground">
+                MaaSathi Help / সহায়তা
+              </h1>
+              <p className="text-sm text-muted-foreground">
+                How to use the app safely in the clinic.
+              </p>
+            </div>
           </div>
           <ThemeToggle />
         </header>
