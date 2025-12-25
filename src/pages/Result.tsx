@@ -9,6 +9,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/context/LanguageContext';
 import { Textarea } from '@/components/ui/textarea';
 import ThemeToggle from '@/components/ThemeToggle';
+import FloatingHelpButton from '@/components/FloatingHelpButton';
 
 const Result = () => {
   const location = useLocation();
@@ -190,6 +191,7 @@ const Result = () => {
             {isSaving ? t('result.save') + '...' : t('result.save')}
           </Button>
         </div>
+        <FloatingHelpButton section="result" />
       </div>
     </div>
   );

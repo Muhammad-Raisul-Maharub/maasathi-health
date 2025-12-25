@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/context/LanguageContext';
 import ThemeToggle from '@/components/ThemeToggle';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import FloatingHelpButton from '@/components/FloatingHelpButton';
 
 const Assessment = () => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -205,6 +206,7 @@ const Assessment = () => {
             {!isLastStep && <ArrowRight className="w-5 h-5 ml-2" />}
           </Button>
         </div>
+        <FloatingHelpButton section="assessment" />
       </div>
     </div>
   );
