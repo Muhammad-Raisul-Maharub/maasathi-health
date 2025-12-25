@@ -12,8 +12,8 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background flex flex-col pb-20">
-      <div className="max-w-5xl mx-auto w-full px-4 py-5 sm:px-6 sm:py-8 flex flex-col min-h-screen" aria-label="MaaSathi AI home">
-        <header className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-6 sm:mb-8">
+      <div className="max-w-5xl mx-auto w-full px-4 py-4 sm:px-6 sm:py-6 flex flex-col min-h-screen" aria-label="MaaSathi AI home">
+        <header className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-4 sm:mb-6">
           <div className="flex items-center gap-3 animate-fade-in">
             <img
               src={logoIcon}
@@ -36,7 +36,7 @@ const Index = () => {
 
         {/* Hero Section */}
         <main className="flex-1 flex flex-col justify-center">
-          <section className="grid gap-8 md:grid-cols-2 md:items-center">
+          <section className="grid gap-6 md:grid-cols-2 md:items-center">
             <div className="order-2 md:order-1 space-y-4 text-center md:text-left px-2 md:px-0">
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground leading-snug">
                 {t('home.heroTitle')}
@@ -46,7 +46,7 @@ const Index = () => {
               </p>
 
               {/* Action Buttons */}
-              <div className="mt-6 w-full space-y-3 sm:max-w-sm sm:mx-auto md:mx-0">
+              <div className="mt-5 w-full space-y-3 sm:max-w-sm sm:mx-auto md:mx-0">
                 <Link to="/assess">
                   <Button
                     size="lg"
@@ -76,7 +76,7 @@ const Index = () => {
               </div>
 
               {/* Info Badge */}
-              <div className="bg-card p-4 rounded-lg border border-border mt-4 max-w-xl mx-auto md:mx-0">
+              <div className="bg-card p-3 rounded-lg border border-border mt-3 max-w-xl mx-auto md:mx-0">
                 <p className="text-sm sm:text-base text-muted-foreground text-center md:text-left">
                   {t('home.info')}
                 </p>

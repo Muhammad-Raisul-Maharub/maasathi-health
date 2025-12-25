@@ -69,12 +69,12 @@ const Assessment = () => {
 
   return (
     <div className="min-h-screen bg-background flex flex-col pb-20">
-      <div className="max-w-md mx-auto w-full px-4 py-4 sm:p-5 flex flex-col min-h-screen gap-2">
+      <div className="max-w-md mx-auto w-full px-4 py-3 sm:py-4 flex flex-col gap-1.5">
         <div className="flex justify-end mb-1 sm:mb-2">
           <ThemeToggle />
         </div>
         {/* Progress Bar */}
-        <div className="mb-4">
+        <div className="mb-3">
           <div className="flex justify-between text-xs sm:text-sm text-muted-foreground mb-1.5">
             <span>
               {t('assessment.step')} {currentStep + 1} {t('assessment.of')} {symptoms.length}
@@ -90,7 +90,7 @@ const Assessment = () => {
         </div>
 
         {/* Details: how it works */}
-        <Card className="mb-3 p-3 flex gap-3 items-start">
+        <Card className="mb-2.5 p-3 flex gap-3 items-start">
           <div className="mt-0.5">
             <Info className="w-4 h-4 text-primary" />
           </div>
@@ -104,7 +104,7 @@ const Assessment = () => {
         </Card>
 
         {/* Question */}
-        <div className="flex-1 flex flex-col justify-center space-y-5 mt-3 sm:mt-2">
+        <div className="flex-1 flex flex-col justify-start space-y-4 mt-2 sm:mt-1">
           <div className="text-center space-y-2.5 px-1">
             <h1 className="text-xl sm:text-2xl font-bold text-foreground">{t('assessment.title')}</h1>
             <p className="text-xs sm:text-sm text-muted-foreground max-w-md mx-auto">
@@ -150,7 +150,7 @@ const Assessment = () => {
           </div>
 
           {/* Answer Options */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mt-1.5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 mt-1">
             <Card
               className={`p-3 sm:p-5 cursor-pointer transition-all hover:scale-[1.02] ${
                 answers[currentSymptom.id] === true
@@ -198,7 +198,7 @@ const Assessment = () => {
         </div>
 
         {/* Category overview */}
-        <div className="mt-4 flex flex-wrap gap-1.5 justify-center text-[11px] sm:text-xs text-muted-foreground">
+        <div className="mt-3 flex flex-wrap gap-1 justify-center text-[11px] sm:text-xs text-muted-foreground">
           {groupedCategories.map((cat) => (
             <span
               key={cat}
@@ -211,7 +211,7 @@ const Assessment = () => {
         </div>
 
         {/* Navigation */}
-        <div className="flex gap-3 mt-5">
+        <div className="flex gap-3 mt-4">
           <Button variant="outline" size="lg" onClick={handleBack} className="flex-1">
             <ArrowLeft className="w-5 h-5 mr-1.5" />
             {t('nav.back')}

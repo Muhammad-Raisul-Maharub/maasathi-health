@@ -185,7 +185,7 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-background pb-20">
-      <div className="w-full max-w-md sm:max-w-3xl lg:max-w-5xl mx-auto px-4 py-5 sm:p-6 space-y-5 sm:space-y-6">
+      <div className="w-full max-w-md sm:max-w-3xl lg:max-w-5xl mx-auto px-4 py-4 sm:p-5 space-y-4 sm:space-y-5">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
           <div className="flex items-center gap-2 sm:gap-3">
@@ -228,7 +228,7 @@ const Dashboard = () => {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           <Card className="p-4">
             <div className="flex items-center gap-3">
               <Activity className="w-8 h-8 text-primary" />
