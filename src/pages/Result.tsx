@@ -60,15 +60,15 @@ const Result = () => {
       });
 
       toast({
-        title: t('toast.saveSuccessTitle'),
-        description: t('toast.saveSuccessDescription'),
+        title: `${t('toast.saveSuccessTitle')} / সফলভাবে সংরক্ষণ হয়েছে`,
+        description: `${t('toast.saveSuccessDescription')} / মূল্যায়নের তথ্য নিরাপদে সংরক্ষণ করা হয়েছে।`,
       });
 
       setTimeout(() => navigate('/dashboard'), 1500);
     } catch (error) {
       toast({
-        title: t('toast.saveErrorTitle'),
-        description: t('toast.saveErrorDescription'),
+        title: `${t('toast.saveErrorTitle')} / সংরক্ষণ করা যায়নি`,
+        description: `${t('toast.saveErrorDescription')} / দয়া করে আবার চেষ্টা করুন।`,
         variant: 'destructive',
       });
     } finally {
@@ -173,10 +173,7 @@ const Result = () => {
             disabled={isSaving}
           >
             <Save className="w-5 h-5 mr-2" />
-            <span className="flex flex-col leading-tight items-start">
-              <span>{isSaving ? t('result.save') + '...' : t('result.save')}</span>
-              <span className="text-xs font-normal text-muted-foreground">ফলাফল সংরক্ষণ করুন</span>
-            </span>
+            {isSaving ? t('result.save') + '...' : t('result.save')}
           </Button>
 
           <Button
@@ -185,10 +182,7 @@ const Result = () => {
             className="w-full justify-center"
             onClick={() => navigate('/assess')}
           >
-            <span className="flex flex-col leading-tight items-center">
-              <span>{t('home.start')}</span>
-              <span className="text-xs font-normal text-muted-foreground">নতুন স্বাস্থ্য পরীক্ষা</span>
-            </span>
+            {t('home.start')}
           </Button>
 
           <Button
@@ -197,10 +191,7 @@ const Result = () => {
             className="w-full justify-center"
             onClick={() => navigate('/dashboard')}
           >
-            <span className="flex flex-col leading-tight items-center">
-              <span>{t('home.dashboard')}</span>
-              <span className="text-xs font-normal text-muted-foreground">ফলাফলের সারসংক্ষেপ</span>
-            </span>
+            {t('home.dashboard')}
           </Button>
 
           <Button
@@ -209,8 +200,8 @@ const Result = () => {
             className="w-full justify-center gap-1"
             onClick={() =>
               toast({
-                title: t('toast.clinicComingSoonTitle'),
-                description: t('toast.clinicComingSoonDescription'),
+                title: `${t('toast.clinicComingSoonTitle')} / ক্লিনিক লোকেশন শীঘ্রই আসছে`,
+                description: `${t('toast.clinicComingSoonDescription')} / আপাতত কাছের রেফারেল সেন্টারের তথ্য ম্যানুয়ালি ব্যবহার করুন।`,
               })
             }
           >

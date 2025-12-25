@@ -36,8 +36,8 @@ const Dashboard = () => {
   const handleSync = async () => {
     if (!isOnline) {
       toast({
-        title: t('toast.offlineTitle'),
-        description: t('toast.offlineDescription'),
+        title: `${t('toast.offlineTitle')} / আপনি অফলাইনে আছেন`,
+        description: `${t('toast.offlineDescription')} / সিঙ্ক করতে ইন্টারনেট সংযোগ প্রয়োজন।`,
         variant: 'destructive',
       });
       return;
@@ -49,8 +49,8 @@ const Dashboard = () => {
 
       if (unsynced.length === 0) {
         toast({
-          title: t('toast.alreadySyncedTitle'),
-          description: t('toast.alreadySyncedDescription'),
+          title: `${t('toast.alreadySyncedTitle')} / সব ডেটা আগে থেকেই সিঙ্ক হয়েছে`,
+          description: `${t('toast.alreadySyncedDescription')} / নতুন করে পাঠানোর কিছু নেই।`,
         });
         setIsSyncing(false);
         return;
@@ -74,13 +74,13 @@ const Dashboard = () => {
       }
 
       toast({
-        title: t('toast.syncCompleteTitle'),
-        description: t('toast.syncCompleteDescription'),
+        title: `${t('toast.syncCompleteTitle')} / সিঙ্ক সম্পন্ন হয়েছে`,
+        description: `${t('toast.syncCompleteDescription')} / সব মূল্যায়ন সফলভাবে ক্লাউডে পাঠানো হয়েছে।`,
       });
     } catch (error) {
       toast({
-        title: t('toast.syncFailedTitle'),
-        description: t('toast.syncFailedDescription'),
+        title: `${t('toast.syncFailedTitle')} / সিঙ্ক করা যায়নি`,
+        description: `${t('toast.syncFailedDescription')} / পরে আবার চেষ্টা করুন বা ইন্টারনেট সংযোগ পরীক্ষা করুন।`,
         variant: 'destructive',
       });
     } finally {

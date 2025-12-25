@@ -46,16 +46,13 @@ const Index = () => {
               </p>
 
               {/* Action Buttons */}
-              <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="mt-4 grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                 <Link to="/assess">
                   <Button
                     size="lg"
                     className="w-full justify-center text-base sm:text-lg py-3 sm:py-4 shadow-lg hover:shadow-xl transition-all duration-200 active:scale-95"
                   >
-                    <span className="flex flex-col leading-tight items-center">
-                      <span>{t('home.start')}</span>
-                      <span className="text-xs font-normal text-muted-foreground">স্বাস্থ্য পরীক্ষা শুরু</span>
-                    </span>
+                    {t('home.start')}
                   </Button>
                 </Link>
                 <Link to="/dashboard">
@@ -64,10 +61,7 @@ const Index = () => {
                     size="lg"
                     className="w-full justify-center text-base sm:text-lg py-3 sm:py-4 transition-all duration-200 active:scale-95"
                   >
-                    <span className="flex flex-col leading-tight items-center">
-                      <span>{t('home.dashboard')}</span>
-                      <span className="text-xs font-normal text-muted-foreground">স্বাস্থ্যকর্মী ড্যাশবোর্ড</span>
-                    </span>
+                    {t('home.dashboard')}
                   </Button>
                 </Link>
                 <Link to="/settings">
@@ -76,10 +70,7 @@ const Index = () => {
                     size="lg"
                     className="w-full justify-center text-base sm:text-lg py-3 sm:py-4 transition-all duration-200 active:scale-95"
                   >
-                    <span className="flex flex-col leading-tight items-center">
-                      <span>Settings</span>
-                      <span className="text-xs font-normal text-muted-foreground">সেটিংস</span>
-                    </span>
+                    Settings
                   </Button>
                 </Link>
               </div>
