@@ -39,7 +39,7 @@ const Assessment = () => {
     if (currentStep > 0) {
       setCurrentStep(currentStep - 1);
     } else {
-      navigate('/');
+      navigate(-1);
     }
   };
 
@@ -49,7 +49,7 @@ const Assessment = () => {
   );
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col pb-20">
       <div className="max-w-md mx-auto w-full px-4 py-5 sm:p-6 flex flex-col min-h-screen gap-2">
         <div className="flex justify-end mb-1 sm:mb-2">
           <ThemeToggle />

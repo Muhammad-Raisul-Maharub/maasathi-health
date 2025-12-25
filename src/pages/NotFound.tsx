@@ -12,7 +12,7 @@ const NotFound = () => {
   }, [location.pathname]);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
+    <div className="flex min-h-screen items-center justify-center bg-background px-4 pb-20">
       <div className="absolute top-3 right-3 sm:top-4 sm:right-4">
         <ThemeToggle />
       </div>
