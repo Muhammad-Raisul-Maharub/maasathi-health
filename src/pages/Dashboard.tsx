@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { db, Assessment } from '@/lib/db';
@@ -8,10 +8,12 @@ import { Link } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
 import { useOnlineStatus } from '@/hooks/useOnlineStatus';
 import { supabase } from '@/integrations/supabase/client';
+import { useLanguage } from '@/context/LanguageContext';
 
 const Dashboard = () => {
   const { toast } = useToast();
   const isOnline = useOnlineStatus();
+  const { t } = useLanguage();
   const [isSyncing, setIsSyncing] = useState(false);
 
   const assessments = useLiveQuery(
@@ -97,7 +99,7 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-4xl mx-auto p-6 space-y-6">
+      <div className="max-w-5xl mx-auto p-6 space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
@@ -107,17 +109,16 @@ const Dashboard = () => {
               </Button>
             </Link>
             <h1 className="text-2xl font-bold text-foreground">
-              Health Worker Dashboard
+              {t('dashboard.title')}
             </h1>
           </div>
-          
           <Button
             onClick={handleSync}
             disabled={isSyncing || !isOnline || unsyncedCount === 0}
             className="gap-2"
           >
             <RefreshCw className={`w-4 h-4 ${isSyncing ? 'animate-spin' : ''}`} />
-            Sync to Cloud {unsyncedCount > 0 && `(${unsyncedCount})`}
+            {t('dashboard.sync')} {unsyncedCount > 0 && `(${unsyncedCount})`}
           </Button>
         </div>
 
@@ -127,27 +128,25 @@ const Dashboard = () => {
             <div className="flex items-center gap-3">
               <Activity className="w-8 h-8 text-primary" />
               <div>
-                <p className="text-sm text-muted-foreground">Total Assessments</p>
+                <p className="text-sm text-muted-foreground">{t('dashboard.total')}</p>
                 <p className="text-2xl font-bold text-foreground">{assessments?.length || 0}</p>
               </div>
             </div>
           </Card>
-          
           <Card className="p-4">
             <div className="flex items-center gap-3">
               <RefreshCw className="w-8 h-8 text-primary" />
               <div>
-                <p className="text-sm text-muted-foreground">Unsynced</p>
+                <p className="text-sm text-muted-foreground">{t('dashboard.unsynced')}</p>
                 <p className="text-2xl font-bold text-foreground">{unsyncedCount}</p>
               </div>
             </div>
           </Card>
-
           <Card className="p-4">
             <div className="flex items-center gap-3">
               <Calendar className="w-8 h-8 text-primary" />
               <div>
-                <p className="text-sm text-muted-foreground">Status</p>
+                <p className="text-sm text-muted-foreground">{t('dashboard.status')}</p>
                 <p className="text-lg font-semibold text-foreground">
                   {isOnline ? 'Online' : 'Offline'}
                 </p>

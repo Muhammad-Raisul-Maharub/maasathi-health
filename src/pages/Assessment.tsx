@@ -4,11 +4,13 @@ import { Card } from '@/components/ui/card';
 import { ArrowLeft, ArrowRight, Check, X } from 'lucide-react';
 import { symptoms } from '@/lib/riskEngine';
 import { useNavigate } from 'react-router-dom';
+import { useLanguage } from '@/context/LanguageContext';
 
 const Assessment = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState<Record<string, boolean>>({});
   const navigate = useNavigate();
+  const { t, language } = useLanguage();
 
   const currentSymptom = symptoms[currentStep];
   const isLastStep = currentStep === symptoms.length - 1;
@@ -44,7 +46,7 @@ const Assessment = () => {
         {/* Progress Bar */}
         <div className="mb-8">
           <div className="flex justify-between text-sm text-muted-foreground mb-2">
-            <span>Step {currentStep + 1} of {symptoms.length}</span>
+            <span>{t('assessment.step')} {currentStep + 1} {t('assessment.of')} {symptoms.length}</span>
             <span>{Math.round(((currentStep + 1) / symptoms.length) * 100)}%</span>
           </div>
           <div className="w-full bg-muted rounded-full h-2">
@@ -57,12 +59,21 @@ const Assessment = () => {
 
         {/* Question */}
         <div className="flex-1 flex flex-col justify-center space-y-8">
-          <div className="text-center space-y-4">
-            <h2 className="text-2xl font-bold text-foreground">
+          <div className="text-center space-y-3">
+            <h1 className="text-2xl font-bold text-foreground">
+              {t('assessment.title')}
+            </h1>
+            <p className="text-sm text-muted-foreground max-w-md mx-auto">
+              {t('assessment.subtitle')}
+            </p>
+            <h2 className="text-xl font-semibold text-foreground mt-4">
               {currentSymptom.question}
             </h2>
-            <p className="text-muted-foreground">
-              Select your answer
+            <p className="text-sm text-muted-foreground">
+              {/* Simple bilingual helper */}
+              {language === 'bn'
+                ? 'বাংলা ও ইংরেজি দুটোই দেখানো হচ্ছে।'
+                : 'Showing questions in English with Bangla guidance.'}
             </p>
           </div>
 
@@ -84,7 +95,7 @@ const Assessment = () => {
                 }`}>
                   <Check className="w-8 h-8" />
                 </div>
-                <span className="text-lg font-semibold">Yes</span>
+                <span className="text-lg font-semibold">{t('assessment.yes')}</span>
               </div>
             </Card>
 
@@ -104,7 +115,7 @@ const Assessment = () => {
                 }`}>
                   <X className="w-8 h-8" />
                 </div>
-                <span className="text-lg font-semibold">No</span>
+                <span className="text-lg font-semibold">{t('assessment.no')}</span>
               </div>
             </Card>
           </div>
@@ -119,7 +130,7 @@ const Assessment = () => {
             className="flex-1"
           >
             <ArrowLeft className="w-5 h-5 mr-2" />
-            Back
+            {t('nav.back')}
           </Button>
           <Button
             size="lg"
@@ -127,7 +138,7 @@ const Assessment = () => {
             disabled={!hasAnswer}
             className="flex-1"
           >
-            {isLastStep ? 'View Results' : 'Next'}
+            {isLastStep ? t('assessment.viewResults') : t('assessment.next')}
             {!isLastStep && <ArrowRight className="w-5 h-5 ml-2" />}
           </Button>
         </div>
