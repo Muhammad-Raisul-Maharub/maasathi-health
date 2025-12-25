@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { calculateRisk } from '@/lib/riskEngine';
@@ -190,6 +190,15 @@ const Result = () => {
             <Save className="w-5 h-5 mr-2" />
             {isSaving ? t('result.save') + '...' : t('result.save')}
           </Button>
+
+          <div className="flex justify-center pt-2">
+            <Link to="/">
+              <Button variant="ghost" size="sm" className="gap-1">
+                <ArrowLeft className="w-4 h-4" />
+                Back to home
+              </Button>
+            </Link>
+          </div>
         </div>
         <FloatingHelpButton section="result" />
       </div>
