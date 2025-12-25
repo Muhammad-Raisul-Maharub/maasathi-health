@@ -3,10 +3,10 @@ import { NavLink } from "@/components/NavLink";
 
 const BottomNav = () => {
   const items = [
-    { label: "Home", to: "/", icon: Home },
-    { label: "Assess", to: "/assess", icon: Stethoscope },
-    { label: "Analytics", to: "/dashboard", icon: BarChart3 },
-    { label: "Settings", to: "/settings", icon: SettingsIcon },
+    { labelEn: "Home", labelBn: "হোম", to: "/", icon: Home },
+    { labelEn: "Assess", labelBn: "মূল্যায়ন", to: "/assess", icon: Stethoscope },
+    { labelEn: "Analytics", labelBn: "বিশ্লেষণ", to: "/dashboard", icon: BarChart3 },
+    { labelEn: "Settings", labelBn: "সেটিংস", to: "/settings", icon: SettingsIcon },
   ];
 
   return (
@@ -22,10 +22,13 @@ const BottomNav = () => {
                 end={item.to === "/"}
                 className="flex-1 flex flex-col items-center justify-center gap-0.5 rounded-lg px-1.5 py-1.5 text-[11px] font-medium text-muted-foreground"
                 activeClassName="text-primary font-semibold bg-primary/10 border-t-2 border-primary"
-                aria-label={item.label}
+                aria-label={`${item.labelEn} / ${item.labelBn}`}
               >
                 <Icon className="h-4 w-4" />
-                <span>{item.label}</span>
+                <span className="leading-tight text-center">
+                  <span>{item.labelEn}</span>
+                  <span className="block text-[10px] text-muted-foreground">{item.labelBn}</span>
+                </span>
               </NavLink>
             );
           })}
