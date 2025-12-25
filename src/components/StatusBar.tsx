@@ -7,16 +7,16 @@ export const StatusBar = () => {
   const { t } = useLanguage();
 
   return (
-    <div className="flex items-center gap-2 px-4 py-2 bg-card rounded-lg shadow-sm">
+    <div className="inline-flex items-center gap-2 px-3 py-1 bg-card rounded-full shadow-sm border border-border">
       {isOnline ? (
         <>
-          <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+          <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
           <Wifi className="w-4 h-4 text-muted-foreground" />
           <span className="text-sm font-medium text-foreground">{t('status.online')}</span>
         </>
       ) : (
         <>
-          <div className="w-2 h-2 bg-muted rounded-full" />
+          <div className="w-2 h-2 rounded-full bg-muted-foreground/60" />
           <WifiOff className="w-4 h-4 text-muted-foreground" />
           <span className="text-sm font-medium text-muted-foreground">{t('status.offline')}</span>
         </>

@@ -18,10 +18,10 @@ const Index = () => {
             <img
               src={logoIcon}
               alt="MaaSathi AI logo"
-              className="h-10 w-10 sm:h-12 sm:w-12 rounded-full shadow-sm"
+              className="h-12 w-12 sm:h-14 sm:w-14 rounded-full shadow-sm"
             />
-            <div className="leading-tight">
-              <h1 className="text-2xl sm:text-3xl font-bold text-foreground">{t('app.name')}</h1>
+            <div className="leading-tight space-y-0.5">
+              <h1 className="text-2xl sm:text-3xl font-bold text-foreground tracking-tight">{t('app.name')}</h1>
               <p className="text-sm sm:text-base text-muted-foreground">{t('app.tagline')}</p>
             </div>
           </div>
