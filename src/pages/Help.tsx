@@ -4,6 +4,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import ThemeToggle from "@/components/ThemeToggle";
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import PageLayout from "@/components/PageLayout";
 
 const Help = () => {
   const { t, language } = useLanguage();
