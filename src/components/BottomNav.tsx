@@ -10,7 +10,7 @@ const BottomNav = () => {
   ];
 
   return (
-    <nav className="fixed bottom-0 inset-x-0 z-40 border-t border-border bg-card/95 backdrop-blur-sm sm:hidden">
+    <nav className="fixed bottom-0 inset-x-0 z-40 border-t border-border bg-card/95 backdrop-blur-sm sm:hidden animate-fade-in">
       <div className="mx-auto w-full max-w-md px-3 py-2">
         <div className="flex items-stretch justify-between gap-1.5">
           {items.map((item) => {

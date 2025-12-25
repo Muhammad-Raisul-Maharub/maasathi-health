@@ -13,7 +13,7 @@ const Settings = () => {
 
   return (
     <div className="min-h-screen bg-background pb-20">
-      <div className="max-w-md mx-auto w-full px-4 py-4 sm:p-5 space-y-4 sm:space-y-5">
+      <div className="max-w-md mx-auto w-full px-4 py-4 sm:p-5 space-y-3 sm:space-y-4 animate-fade-in">
         <header className="flex items-center gap-3 mb-1 sm:mb-2">
           <Button variant="ghost" size="icon" className="-ml-1 hover-scale" onClick={() => navigate(-1)}>
             <ArrowLeft className="w-5 h-5" />
@@ -23,7 +23,7 @@ const Settings = () => {
           </h1>
         </header>
 
-        <Card className="p-3 space-y-3">
+        <Card className="p-3 space-y-3 animate-fade-in">
           <div className="flex items-center justify-between">
             <div>
               <p className="font-medium text-foreground">Theme</p>
@@ -58,7 +58,7 @@ const Settings = () => {
           </div>
         </Card>
 
-        <Card className="p-3 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <Card className="p-3 flex flex-col sm:flex-row items-center justify-between gap-3 animate-fade-in">
           <div className="text-left w-full sm:w-auto">
             <p className="font-medium text-foreground">Help & guidance</p>
             <p className="text-sm text-muted-foreground">How to use MaaSathi safely</p>

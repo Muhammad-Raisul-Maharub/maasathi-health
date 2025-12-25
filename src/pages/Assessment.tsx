@@ -152,52 +152,52 @@ const Assessment = () => {
             </div>
           </div>
 
-          {/* Answer Options */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 mt-1">
-            <Card
-              className={`p-3 sm:p-5 cursor-pointer transition-all hover-scale hover:shadow-md ${
-                answers[currentSymptom.id] === true
-                  ? 'bg-primary text-primary-foreground border-primary shadow-md'
-                  : 'bg-card hover:bg-accent'
-              }`}
-              onClick={() => handleAnswer(true)}
-            >
-              <div className="flex flex-col items-center gap-2 sm:gap-3">
-                <div
-                  className={`p-2 sm:p-3 rounded-full ${
-                    answers[currentSymptom.id] === true
-                      ? 'bg-primary-foreground/20'
-                      : 'bg-primary/10'
-                  }`}
-                >
-                  <Check className="w-7 h-7 sm:w-8 sm:h-8" />
-                </div>
-                <span className="text-base sm:text-lg font-semibold">{t('assessment.yes')}</span>
+        {/* Answer Options */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 mt-1">
+          <Card
+            className={`p-3 sm:p-5 cursor-pointer transition-all hover-scale hover:shadow-md animate-fade-in ${
+              answers[currentSymptom.id] === true
+                ? 'bg-primary text-primary-foreground border-primary shadow-md'
+                : 'bg-card hover:bg-accent'
+            }`}
+            onClick={() => handleAnswer(true)}
+          >
+            <div className="flex flex-col items-center gap-2 sm:gap-3">
+              <div
+                className={`p-2 sm:p-3 rounded-full ${
+                  answers[currentSymptom.id] === true
+                    ? 'bg-primary-foreground/20'
+                    : 'bg-primary/10'
+                }`}
+              >
+                <Check className="w-7 h-7 sm:w-8 sm:h-8" />
               </div>
-            </Card>
+              <span className="text-base sm:text-lg font-semibold">{t('assessment.yes')}</span>
+            </div>
+          </Card>
 
-            <Card
-              className={`p-3 sm:p-5 cursor-pointer transition-all hover-scale hover:shadow-md ${
-                answers[currentSymptom.id] === false
-                  ? 'bg-destructive text-destructive-foreground border-destructive shadow-md'
-                  : 'bg-card hover:bg-accent'
-              }`}
-              onClick={() => handleAnswer(false)}
-            >
-              <div className="flex flex-col items-center gap-2 sm:gap-3">
-                <div
-                  className={`p-2 sm:p-3 rounded-full ${
-                    answers[currentSymptom.id] === false
-                      ? 'bg-destructive-foreground/20'
-                      : 'bg-muted'
-                  }`}
-                >
-                  <X className="w-7 h-7 sm:w-8 sm:h-8" />
-                </div>
-                <span className="text-base sm:text-lg font-semibold">{t('assessment.no')}</span>
+          <Card
+            className={`p-3 sm:p-5 cursor-pointer transition-all hover-scale hover:shadow-md animate-fade-in ${
+              answers[currentSymptom.id] === false
+                ? 'bg-destructive text-destructive-foreground border-destructive shadow-md'
+                : 'bg-card hover:bg-accent'
+            }`}
+            onClick={() => handleAnswer(false)}
+          >
+            <div className="flex flex-col items-center gap-2 sm:gap-3">
+              <div
+                className={`p-2 sm:p-3 rounded-full ${
+                  answers[currentSymptom.id] === false
+                    ? 'bg-destructive-foreground/20'
+                    : 'bg-muted'
+                }`}
+              >
+                <X className="w-7 h-7 sm:w-8 sm:h-8" />
               </div>
-            </Card>
-          </div>
+              <span className="text-base sm:text-lg font-semibold">{t('assessment.no')}</span>
+            </div>
+          </Card>
+        </div>
         </div>
 
         {/* Category overview */}
