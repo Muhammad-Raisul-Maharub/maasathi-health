@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { ArrowLeft, ArrowRight, Check, Info, Stethoscope, X } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check, Info, Stethoscope, X, Brain, Eye, Activity, Droplets, Wind } from 'lucide-react';
 import { symptoms } from '@/lib/riskEngine';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/context/LanguageContext';
@@ -48,36 +48,55 @@ const Assessment = () => {
     []
   );
 
+  const getCategoryIcon = (category: string) => {
+    switch (category) {
+      case 'Neurological':
+        return <Brain className="w-3 h-3" />;
+      case 'Vision':
+        return <Eye className="w-3 h-3" />;
+      case 'Breathing':
+        return <Wind className="w-3 h-3" />;
+      case 'Kidney':
+        return <Droplets className="w-3 h-3" />;
+      case 'Abdominal':
+        return <Activity className="w-3 h-3" />;
+      case 'Swelling':
+        return <Activity className="w-3 h-3" />;
+      default:
+        return <Stethoscope className="w-3 h-3" />;
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background flex flex-col pb-20">
-      <div className="max-w-md mx-auto w-full px-4 py-5 sm:p-6 flex flex-col min-h-screen gap-2">
+      <div className="max-w-md mx-auto w-full px-4 py-4 sm:p-5 flex flex-col min-h-screen gap-2">
         <div className="flex justify-end mb-1 sm:mb-2">
           <ThemeToggle />
         </div>
         {/* Progress Bar */}
-        <div className="mb-6">
-          <div className="flex justify-between text-sm text-muted-foreground mb-2">
+        <div className="mb-4">
+          <div className="flex justify-between text-xs sm:text-sm text-muted-foreground mb-1.5">
             <span>
               {t('assessment.step')} {currentStep + 1} {t('assessment.of')} {symptoms.length}
             </span>
             <span>{Math.round(((currentStep + 1) / symptoms.length) * 100)}%</span>
           </div>
-          <div className="w-full bg-muted rounded-full h-2">
+          <div className="w-full bg-muted rounded-full h-1.5">
             <div
-              className="bg-primary h-2 rounded-full transition-all duration-300"
+              className="bg-primary h-1.5 rounded-full transition-all duration-300"
               style={{ width: `${((currentStep + 1) / symptoms.length) * 100}%` }}
             />
           </div>
         </div>
 
         {/* Details: how it works */}
-        <Card className="mb-4 p-4 flex gap-3 items-start">
-          <div className="mt-1">
+        <Card className="mb-3 p-3 flex gap-3 items-start">
+          <div className="mt-0.5">
             <Info className="w-4 h-4 text-primary" />
           </div>
           <div className="space-y-1">
-            <p className="text-sm font-medium text-foreground">How this assessment works</p>
-            <p className="text-xs text-muted-foreground leading-relaxed">
+            <p className="text-xs sm:text-sm font-medium text-foreground">How this assessment works</p>
+            <p className="text-[11px] sm:text-xs text-muted-foreground leading-relaxed">
               We add different weights to each warning sign (like severe headache, swelling, blurred vision).
               Higher scores mean higher risk. This tool is designed to support, not replace, clinical judgment.
             </p>
@@ -85,10 +104,10 @@ const Assessment = () => {
         </Card>
 
         {/* Question */}
-        <div className="flex-1 flex flex-col justify-center space-y-6 mt-4 sm:mt-2">
-          <div className="text-center space-y-3 px-1">
+        <div className="flex-1 flex flex-col justify-center space-y-5 mt-3 sm:mt-2">
+          <div className="text-center space-y-2.5 px-1">
             <h1 className="text-xl sm:text-2xl font-bold text-foreground">{t('assessment.title')}</h1>
-            <p className="text-sm text-muted-foreground max-w-md mx-auto">
+            <p className="text-xs sm:text-sm text-muted-foreground max-w-md mx-auto">
               {t('assessment.subtitle')}
             </p>
             <div className="mt-3 space-y-1">
@@ -123,17 +142,17 @@ const Assessment = () => {
               <p className="text-sm text-muted-foreground text-center">
                 {currentSymptom.questionBn}
               </p>
-              <p className="text-xs text-muted-foreground flex items-center gap-1 justify-center mt-1">
-                <Stethoscope className="w-3 h-3" />
-                <span>{currentSymptom.category}</span>
-              </p>
+            <p className="text-xs text-muted-foreground flex items-center gap-1 justify-center mt-1">
+              {getCategoryIcon(currentSymptom.category)}
+              <span>{currentSymptom.category}</span>
+            </p>
             </div>
           </div>
 
           {/* Answer Options */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mt-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mt-1.5">
             <Card
-              className={`p-4 sm:p-6 cursor-pointer transition-all hover:scale-[1.02] ${
+              className={`p-3 sm:p-5 cursor-pointer transition-all hover:scale-[1.02] ${
                 answers[currentSymptom.id] === true
                   ? 'bg-primary text-primary-foreground border-primary'
                   : 'bg-card hover:bg-accent'
@@ -155,7 +174,7 @@ const Assessment = () => {
             </Card>
 
             <Card
-              className={`p-4 sm:p-6 cursor-pointer transition-all hover:scale-[1.02] ${
+              className={`p-3 sm:p-5 cursor-pointer transition-all hover:scale-[1.02] ${
                 answers[currentSymptom.id] === false
                   ? 'bg-secondary text-secondary-foreground border-secondary'
                   : 'bg-card hover:bg-accent'
@@ -179,21 +198,22 @@ const Assessment = () => {
         </div>
 
         {/* Category overview */}
-        <div className="mt-6 flex flex-wrap gap-2 justify-center text-xs text-muted-foreground">
+        <div className="mt-4 flex flex-wrap gap-1.5 justify-center text-[11px] sm:text-xs text-muted-foreground">
           {groupedCategories.map((cat) => (
             <span
               key={cat}
-              className="px-2 py-1 rounded-full border border-border bg-card"
+              className="px-2.5 py-1 rounded-full border border-border bg-card inline-flex items-center gap-1.5"
             >
-              {cat}
+              {getCategoryIcon(cat)}
+              <span>{cat}</span>
             </span>
           ))}
         </div>
 
         {/* Navigation */}
-        <div className="flex gap-4 mt-6">
+        <div className="flex gap-3 mt-5">
           <Button variant="outline" size="lg" onClick={handleBack} className="flex-1">
-            <ArrowLeft className="w-5 h-5 mr-2" />
+            <ArrowLeft className="w-5 h-5 mr-1.5" />
             {t('nav.back')}
           </Button>
           <Button
@@ -203,7 +223,7 @@ const Assessment = () => {
             className="flex-1"
           >
             {isLastStep ? t('assessment.viewResults') : t('assessment.next')}
-            {!isLastStep && <ArrowRight className="w-5 h-5 ml-2" />}
+            {!isLastStep && <ArrowRight className="w-5 h-5 ml-1.5" />}
           </Button>
         </div>
         <FloatingHelpButton section="assessment" />
