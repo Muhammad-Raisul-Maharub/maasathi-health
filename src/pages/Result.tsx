@@ -167,21 +167,6 @@ const Result = () => {
         {/* Action Buttons */}
         <div className="space-y-3">
           <Button
-            variant="outline"
-            size="lg"
-            className="w-full"
-            onClick={() =>
-              toast({
-                title: t('toast.clinicComingSoonTitle'),
-                description: t('toast.clinicComingSoonDescription'),
-              })
-            }
-          >
-            <MapPin className="w-5 h-5 mr-2" />
-            {t('result.findClinic')}
-          </Button>
-
-          <Button
             size="lg"
             className="w-full"
             onClick={handleSave}
@@ -189,6 +174,39 @@ const Result = () => {
           >
             <Save className="w-5 h-5 mr-2" />
             {isSaving ? t('result.save') + '...' : t('result.save')}
+          </Button>
+
+          <Button
+            variant="outline"
+            size="lg"
+            className="w-full"
+            onClick={() => navigate('/assess')}
+          >
+            {t('home.start')}
+          </Button>
+
+          <Button
+            variant="outline"
+            size="lg"
+            className="w-full"
+            onClick={() => navigate('/dashboard')}
+          >
+            {t('home.dashboard')}
+          </Button>
+
+          <Button
+            variant="ghost"
+            size="sm"
+            className="w-full justify-center gap-1"
+            onClick={() =>
+              toast({
+                title: t('toast.clinicComingSoonTitle'),
+                description: t('toast.clinicComingSoonDescription'),
+              })
+            }
+          >
+            <MapPin className="w-4 h-4" />
+            {t('result.findClinic')}
           </Button>
 
           <div className="flex justify-center pt-2">
