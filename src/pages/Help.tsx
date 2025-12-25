@@ -11,7 +11,7 @@ const Help = () => {
 
   return (
     <div className="min-h-screen bg-background pb-20">
-      <div className="max-w-md sm:max-w-2xl mx-auto w-full px-4 py-5 sm:p-6 space-y-5 sm:space-y-6">
+      <div className="max-w-md sm:max-w-2xl mx-auto w-full px-4 py-4 sm:p-5 space-y-4 sm:space-y-5">
         <header className="flex items-center justify-between mb-1 sm:mb-2 gap-3">
           <div className="flex items-center gap-2">
             <Button
@@ -35,7 +35,7 @@ const Help = () => {
           <ThemeToggle />
         </header>
 
-        <Card id="assessment" className="p-4 space-y-3">
+        <Card id="assessment" className="p-3 space-y-3">
           <h2 className="text-lg font-semibold text-foreground">
             1. Using the assessment / মূল্যায়ন ব্যবহার
           </h2>
@@ -49,7 +49,7 @@ const Help = () => {
           </p>
         </Card>
 
-        <Card className="p-4 space-y-3">
+        <Card className="p-3 space-y-3">
           <h2 className="text-lg font-semibold text-foreground">
             2. Understanding scores / স্কোর বোঝা
           </h2>
@@ -63,7 +63,7 @@ const Help = () => {
           </p>
         </Card>
 
-        <Card id="result" className="p-4 space-y-3">
+        <Card id="result" className="p-3 space-y-3">
           <h2 className="text-lg font-semibold text-foreground">
             3. When to escalate / কখন রেফার করবেন
           </h2>
@@ -77,7 +77,7 @@ const Help = () => {
           </p>
         </Card>
 
-        <Card className="p-4 space-y-3">
+        <Card className="p-3 space-y-3">
           <h2 className="text-lg font-semibold text-foreground">
             4. Light vs Dark mode / লাইট ও ডার্ক মোড
           </h2>

@@ -97,7 +97,7 @@ const Result = () => {
 
   return (
     <div className="min-h-screen bg-background pb-20">
-      <div className="max-w-md mx-auto w-full px-4 py-5 sm:p-6 space-y-5 sm:space-y-6">
+      <div className="max-w-md mx-auto w-full px-4 py-4 sm:p-5 space-y-4 sm:space-y-5">
         <div className="flex items-center justify-between mb-1 sm:mb-2 gap-2">
           <div className="flex items-center gap-2">
             <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
@@ -122,7 +122,7 @@ const Result = () => {
         </div>
 
         {/* Risk Level Card */}
-        <Card className={`p-6 sm:p-8 ${getRiskColor()} shadow-lg`}>
+        <Card className={`p-5 sm:p-6 ${getRiskColor()} shadow-lg`}>
           <div className="flex flex-col items-center gap-3 sm:gap-4 text-center">
             {getRiskIcon()}
             <div>
@@ -133,7 +133,7 @@ const Result = () => {
         </Card>
 
         {/* Explanation */}
-        <Card className="p-6">
+        <Card className="p-5">
           <h3 className="text-lg font-semibold text-foreground mb-3">
             ফলাফল ব্যাখ্যা (Explanation)
           </h3>
@@ -143,7 +143,7 @@ const Result = () => {
         </Card>
 
         {/* Disclaimer */}
-        <Card className="p-4 bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-900">
+        <Card className="p-3 bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-900">
           <p className="text-sm text-amber-900 dark:text-amber-200">
             <strong>{t('result.disclaimerHeading')}</strong>{' '}
             {t('result.disclaimerBody')}
@@ -151,7 +151,7 @@ const Result = () => {
         </Card>
 
         {/* Notes */}
-        <Card className="p-4 space-y-2">
+        <Card className="p-3 space-y-2">
           <p className="text-sm font-medium text-foreground">Optional notes</p>
           <p className="text-xs text-muted-foreground">
             Add any observations, blood pressure readings or follow-up plan. This will be saved with the assessment.
