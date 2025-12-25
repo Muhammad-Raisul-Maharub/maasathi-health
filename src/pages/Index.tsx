@@ -2,19 +2,22 @@ import { Button } from '@/components/ui/button';
 import { StatusBar } from '@/components/StatusBar';
 import { Heart, ShieldCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import logo from '@/assets/maasathi-logo.png';
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <div className="max-w-md mx-auto w-full p-6 flex flex-col min-h-screen">
-        {/* Header */}
-        <div className="flex justify-between items-center mb-8">
-          <div className="flex items-center gap-2">
-            <Heart className="w-8 h-8 text-primary" />
-            <h1 className="text-2xl font-bold text-foreground">MaaSathi AI</h1>
+        <header className="flex justify-between items-center mb-8">
+          <div className="flex items-center gap-3">
+            <img src={logo} alt="MaaSathi AI logo" className="h-12 w-auto rounded-full shadow-sm" />
+            <div>
+              <h1 className="text-2xl font-bold text-foreground">MaaSathi AI</h1>
+              <p className="text-sm text-muted-foreground">Early Care. Early Awareness.</p>
+            </div>
           </div>
           <StatusBar />
-        </div>
+        </header>
 
         {/* Hero Section */}
         <div className="flex-1 flex flex-col justify-center space-y-8">

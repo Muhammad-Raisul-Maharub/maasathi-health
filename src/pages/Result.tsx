@@ -21,11 +21,11 @@ const Result = () => {
       case 'High':
         return 'bg-destructive text-destructive-foreground border-destructive';
       case 'Medium':
-        return 'bg-amber-500 text-white border-amber-600';
+        return 'bg-primary text-primary-foreground border-primary';
       case 'Low':
-        return 'bg-green-500 text-white border-green-600';
+        return 'bg-card text-card-foreground border-border';
       default:
-        return 'bg-muted';
+        return 'bg-muted text-foreground border-border';
     }
   };
 
@@ -49,7 +49,7 @@ const Result = () => {
         riskScore: result.score,
         riskLevel: result.level,
         symptoms: selectedSymptoms,
-        isSynced: false
+        isSynced: false,
       });
 
       toast({
@@ -62,10 +62,23 @@ const Result = () => {
       toast({
         title: "Error",
         description: "Failed to save assessment. Please try again.",
-        variant: "destructive"
+        variant: "destructive",
       });
     } finally {
       setIsSaving(false);
+    }
+  };
+
+  const getBanglaExplanation = () => {
+    switch (result.level) {
+      case 'High':
+        return 'ঝুঁকির মাত্রা: উচ্চ (High). ব্যাখ্যা: আপনার লক্ষণগুলি প্রি-এক্লাম্পসিয়ার ইঙ্গিত দিচ্ছে। অবিলম্বে ডাক্তারের পরামর্শ নিন।';
+      case 'Medium':
+        return 'ঝুঁকির মাত্রা: মাঝারি (Medium). ব্যাখ্যা: আপনার লক্ষণগুলি উচ্চ রক্তচাপের ইঙ্গিত দিতে পারে।';
+      case 'Low':
+        return 'ঝুঁকির মাত্রা: নিম্ন (Low). ব্যাখ্যা: বর্তমানে গুরুতর ঝুঁকির লক্ষণ কম দেখা যাচ্ছে, তবে যেকোনো পরিবর্তন হলে স্বাস্থ্যকর্মীর সঙ্গে যোগাযোগ করুন।';
+      default:
+        return '';
     }
   };
 
@@ -96,10 +109,10 @@ const Result = () => {
         {/* Explanation */}
         <Card className="p-6">
           <h3 className="text-lg font-semibold text-foreground mb-3">
-            Why this result?
+            ফলাফল ব্যাখ্যা (Explanation)
           </h3>
           <p className="text-muted-foreground leading-relaxed">
-            {result.explanation}
+            {getBanglaExplanation()}
           </p>
         </Card>
 
@@ -133,7 +146,7 @@ const Result = () => {
             disabled={isSaving}
           >
             <Save className="w-5 h-5 mr-2" />
-            {isSaving ? 'Saving...' : 'Save & Finish'}
+            {isSaving ? 'Saving...' : 'Save Record'}
           </Button>
         </div>
       </div>
