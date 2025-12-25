@@ -19,7 +19,7 @@ const Help = () => {
               variant="ghost"
               size="icon"
               aria-label="Back to previous page"
-              className="-ml-1"
+              className="-ml-1 hover-scale"
               onClick={() => navigate(-1)}
             >
               <ArrowLeft className="w-5 h-5" />

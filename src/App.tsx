@@ -13,6 +13,7 @@ import Settings from "./pages/Settings";
 import { ThemeProvider } from "./context/ThemeContext";
 import Help from "./pages/Help";
 import BottomNav from "./components/BottomNav";
+import TopNav from "./components/TopNav";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +26,7 @@ const App = () => (
         <ThemeProvider>
           <LanguageProvider>
             <>
+              <TopNav />
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/assess" element={<Assessment />} />
