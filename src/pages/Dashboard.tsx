@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
 import { db, Assessment } from '@/lib/db';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { RefreshCw, ArrowLeft, Calendar, Activity, Download, Printer } from 'lucide-react';
@@ -271,43 +272,70 @@ const Dashboard = () => {
           </h2>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-2.5">
             <Card className="p-3 col-span-1 lg:col-span-1">
-              <h3 className="text-xs sm:text-sm font-medium mb-1.5 text-foreground">{t('dashboard.riskDistribution')}</h3>
-              <ChartContainer config={riskChartConfig} className="h-48">
-                <BarChart data={riskDistribution}>
-                  <CartesianGrid vertical={false} className="stroke-muted" />
-                  <XAxis dataKey="level" tickLine={false} axisLine={false} />
-                  <YAxis allowDecimals={false} tickLine={false} axisLine={false} />
-                  <ChartTooltip content={<ChartTooltipContent />} />
-                  <Bar dataKey="count" radius={4} />
-                  <ChartLegend content={<ChartLegendContent />} />
-                </BarChart>
-              </ChartContainer>
+              {(!assessments || assessments.length === 0) ? (
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-24 mb-1" />
+                  <Skeleton className="h-40 w-full rounded-md" />
+                </div>
+              ) : (
+                <>
+                  <h3 className="text-xs sm:text-sm font-medium mb-1.5 text-foreground">{t('dashboard.riskDistribution')}</h3>
+                  <ChartContainer config={riskChartConfig} className="h-48">
+                    <BarChart data={riskDistribution}>
+                      <CartesianGrid vertical={false} className="stroke-muted" />
+                      <XAxis dataKey="level" tickLine={false} axisLine={false} />
+                      <YAxis allowDecimals={false} tickLine={false} axisLine={false} />
+                      <ChartTooltip content={<ChartTooltipContent />} />
+                      <Bar dataKey="count" radius={4} />
+                      <ChartLegend content={<ChartLegendContent />} />
+                    </BarChart>
+                  </ChartContainer>
+                </>
+              )}
             </Card>
 
             <Card className="p-3 col-span-1 lg:col-span-1">
-              <h3 className="text-xs sm:text-sm font-medium mb-1.5 text-foreground">{t('dashboard.symptomFrequency')}</h3>
-              <ChartContainer config={symptomChartConfig} className="h-48">
-                <BarChart data={symptomFrequency}>
-                  <CartesianGrid vertical={false} className="stroke-muted" />
-                  <XAxis dataKey="symptom" tickLine={false} axisLine={false} />
-                  <YAxis allowDecimals={false} tickLine={false} axisLine={false} />
-                  <ChartTooltip content={<ChartTooltipContent />} />
-                  <Bar dataKey="count" radius={4} />
-                </BarChart>
-              </ChartContainer>
+              {(!assessments || assessments.length === 0) ? (
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-32 mb-1" />
+                  <Skeleton className="h-40 w-full rounded-md" />
+                </div>
+              ) : (
+                <>
+                  <h3 className="text-xs sm:text-sm font-medium mb-1.5 text-foreground">{t('dashboard.symptomFrequency')}</h3>
+                  <ChartContainer config={symptomChartConfig} className="h-48">
+                    <BarChart data={symptomFrequency}>
+                      <CartesianGrid vertical={false} className="stroke-muted" />
+                      <XAxis dataKey="symptom" tickLine={false} axisLine={false} />
+                      <YAxis allowDecimals={false} tickLine={false} axisLine={false} />
+                      <ChartTooltip content={<ChartTooltipContent />} />
+                      <Bar dataKey="count" radius={4} />
+                    </BarChart>
+                  </ChartContainer>
+                </>
+              )}
             </Card>
 
             <Card className="p-3 col-span-1 lg:col-span-1">
-              <h3 className="text-xs sm:text-sm font-medium mb-1.5 text-foreground">{t('dashboard.trend')}</h3>
-              <ChartContainer config={trendChartConfig} className="h-48">
-                <LineChart data={riskTrend}>
-                  <CartesianGrid vertical={false} className="stroke-muted" />
-                  <XAxis dataKey="date" tickLine={false} axisLine={false} />
-                  <YAxis tickLine={false} axisLine={false} />
-                  <ChartTooltip content={<ChartTooltipContent />} />
-                  <Line type="monotone" dataKey="score" strokeWidth={2} dot={false} />
-                </LineChart>
-              </ChartContainer>
+              {(!assessments || assessments.length === 0) ? (
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-28 mb-1" />
+                  <Skeleton className="h-40 w-full rounded-md" />
+                </div>
+              ) : (
+                <>
+                  <h3 className="text-xs sm:text-sm font-medium mb-1.5 text-foreground">{t('dashboard.trend')}</h3>
+                  <ChartContainer config={trendChartConfig} className="h-48">
+                    <LineChart data={riskTrend}>
+                      <CartesianGrid vertical={false} className="stroke-muted" />
+                      <XAxis dataKey="date" tickLine={false} axisLine={false} />
+                      <YAxis tickLine={false} axisLine={false} />
+                      <ChartTooltip content={<ChartTooltipContent />} />
+                      <Line type="monotone" dataKey="score" strokeWidth={2} dot={false} />
+                    </LineChart>
+                  </ChartContainer>
+                </>
+              )}
             </Card>
           </div>
         </section>
@@ -318,13 +346,26 @@ const Dashboard = () => {
             {t('dashboard.history')}
           </h2>
 
-          {!assessments || assessments.length === 0 ? (
-              <div className="text-center py-6">
-                <p className="text-sm text-muted-foreground">{t('dashboard.empty')}</p>
-                <Link to="/assess" className="block mt-3">
-                  <Button size="sm" className="w-full sm:w-auto">{t('dashboard.startFirst')}</Button>
-                </Link>
-              </div>
+          {!assessments ? (
+            <div className="space-y-2">
+              {Array.from({ length: 4 }).map((_, index) => (
+                <Card key={index} className="p-3">
+                  <div className="space-y-2">
+                    <Skeleton className="h-4 w-32" />
+                    <Skeleton className="h-3 w-48" />
+                    <Skeleton className="h-3 w-40" />
+                    <Skeleton className="h-3 w-24" />
+                  </div>
+                </Card>
+              ))}
+            </div>
+          ) : assessments.length === 0 ? (
+            <div className="text-center py-6">
+              <p className="text-sm text-muted-foreground">{t('dashboard.empty')}</p>
+              <Link to="/assess" className="block mt-3">
+                <Button size="sm" className="w-full sm:w-auto">{t('dashboard.startFirst')}</Button>
+              </Link>
+            </div>
           ) : (
             <div className="space-y-2">
               {assessments
