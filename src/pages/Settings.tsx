@@ -12,8 +12,8 @@ const Settings = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="bg-background flex flex-col pb-16">
-      <div className="w-full max-w-md sm:max-w-3xl lg:max-w-5xl mx-auto px-4 py-3 space-y-2.5 animate-fade-in">
+    <PageLayout maxWidth="lg">
+      <div className="space-y-2.5 animate-fade-in">
         <header className="flex items-center gap-2 mb-1">
           <Button variant="ghost" size="icon" className="-ml-1 hover-scale" onClick={() => navigate(-1)}>
             <ArrowLeft className="w-5 h-5" />
@@ -71,7 +71,7 @@ const Settings = () => {
           </Link>
         </Card>
       </div>
-    </div>
+    </PageLayout>
   );
 };
 

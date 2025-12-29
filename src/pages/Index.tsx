@@ -12,8 +12,8 @@ const Index = () => {
   const { t } = useLanguage();
 
   return (
-    <div className="bg-background flex flex-col pb-16">
-      <div className="w-full max-w-md sm:max-w-3xl lg:max-w-5xl mx-auto px-4 py-3 flex flex-col" aria-label="MaaSathi AI home">
+    <PageLayout maxWidth="xl">
+      <div className="flex flex-col" aria-label="MaaSathi AI home">
         <header className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between mb-2 animate-fade-in">
           <div className="flex items-center gap-3">
             <img
@@ -37,7 +37,7 @@ const Index = () => {
 
         {/* Hero Section */}
         <main className="flex-1 flex flex-col justify-center animate-fade-in">
-          <section className="grid gap-3 md:grid-cols-2 md:items-center">
+          <section className="grid gap-4 md:grid-cols-2 md:items-center lg:gap-6">
             <div className="order-2 md:order-1 space-y-3 text-center md:text-left px-2 md:px-0">
               <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground leading-snug">
                 {t('home.heroTitle')}
@@ -84,17 +84,17 @@ const Index = () => {
               </div>
             </div>
 
-            <div className="order-1 md:order-2 rounded-3xl overflow-hidden shadow-md border border-border animate-fade-in">
+            <div className="order-1 md:order-2 rounded-3xl overflow-hidden shadow-md border border-border bg-muted/40 flex items-center justify-center animate-fade-in">
               <img
                 src={landingHero}
                 alt="MaaSathi AI landing illustration showing mother and child with Offline-First and Explainable AI"
-                className="w-full h-full max-h-[260px] sm:max-h-[300px] md:max-h-[380px] object-cover"
+                className="w-full h-auto max-h-[260px] sm:max-h-[320px] md:max-h-[420px] object-contain md:object-cover"
               />
             </div>
           </section>
         </main>
       </div>
-    </div>
+    </PageLayout>
   );
 };
 
