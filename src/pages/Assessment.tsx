@@ -69,7 +69,7 @@ const Assessment = () => {
 
   return (
     <div className="bg-background flex flex-col pb-16">
-      <div className="max-w-md mx-auto w-full px-4 py-2 flex flex-col gap-1.5">
+      <div className="w-full max-w-md sm:max-w-3xl lg:max-w-5xl mx-auto px-4 py-3 flex flex-col gap-2">
         <div className="flex justify-end mb-1">
           <ThemeToggle />
         </div>

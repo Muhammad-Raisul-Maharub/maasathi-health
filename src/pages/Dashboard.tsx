@@ -186,7 +186,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="bg-background min-h-full pb-16">
+    <div className="bg-background flex flex-col min-h-full pb-16">
       <div className="w-full max-w-md sm:max-w-3xl lg:max-w-5xl mx-auto px-4 py-3 space-y-2.5 animate-fade-in">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
