@@ -9,11 +9,12 @@ import ThemeToggle from '@/components/ThemeToggle';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import FloatingHelpButton from '@/components/FloatingHelpButton';
 import PageLayout from '@/components/PageLayout';
+
 const Assessment = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState<Record<string, boolean>>({});
   const navigate = useNavigate();
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
 
   const currentSymptom = symptoms[currentStep];
   const isLastStep = currentStep === symptoms.length - 1;
@@ -68,8 +69,8 @@ const Assessment = () => {
   };
 
   return (
-    <div className="bg-background flex flex-col pb-16">
-      <div className="w-full max-w-md sm:max-w-3xl lg:max-w-5xl mx-auto px-4 py-3 flex flex-col gap-2">
+    <PageLayout maxWidth="lg">
+      <div className="flex flex-col gap-2">
         <div className="flex justify-end mb-1">
           <ThemeToggle />
         </div>
@@ -145,59 +146,59 @@ const Assessment = () => {
               <p className="text-xs sm:text-sm text-muted-foreground text-center">
                 {currentSymptom.questionBn}
               </p>
-            <p className="text-[10px] sm:text-xs text-muted-foreground flex items-center gap-1 justify-center mt-0.5">
-              {getCategoryIcon(currentSymptom.category)}
-              <span>{currentSymptom.category}</span>
-            </p>
+              <p className="text-[10px] sm:text-xs text-muted-foreground flex items-center gap-1 justify-center mt-0.5">
+                {getCategoryIcon(currentSymptom.category)}
+                <span>{currentSymptom.category}</span>
+              </p>
             </div>
           </div>
 
-        {/* Answer Options */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-          <Card
-            className={`p-3 sm:p-4 cursor-pointer transition-all hover-scale hover:shadow-md animate-fade-in ${
-              answers[currentSymptom.id] === true
-                ? 'bg-primary text-primary-foreground border-primary shadow-md'
-                : 'bg-card hover:bg-accent'
-            }`}
-            onClick={() => handleAnswer(true)}
-          >
-            <div className="flex flex-col items-center gap-1.5 sm:gap-2">
-              <div
-                className={`p-1.5 sm:p-2 rounded-full ${
-                  answers[currentSymptom.id] === true
-                    ? 'bg-primary-foreground/20'
-                    : 'bg-primary/10'
-                }`}
-              >
-                <Check className="w-6 h-6 sm:w-7 sm:h-7" />
+          {/* Answer Options */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <Card
+              className={`p-3 sm:p-4 cursor-pointer transition-all hover-scale hover:shadow-md animate-fade-in ${
+                answers[currentSymptom.id] === true
+                  ? 'bg-primary text-primary-foreground border-primary shadow-md'
+                  : 'bg-card hover:bg-accent'
+              }`}
+              onClick={() => handleAnswer(true)}
+            >
+              <div className="flex flex-col items-center gap-1.5 sm:gap-2">
+                <div
+                  className={`p-1.5 sm:p-2 rounded-full ${
+                    answers[currentSymptom.id] === true
+                      ? 'bg-primary-foreground/20'
+                      : 'bg-primary/10'
+                  }`}
+                >
+                  <Check className="w-6 h-6 sm:w-7 sm:h-7" />
+                </div>
+                <span className="text-sm sm:text-base font-semibold">{t('assessment.yes')}</span>
               </div>
-              <span className="text-sm sm:text-base font-semibold">{t('assessment.yes')}</span>
-            </div>
-          </Card>
+            </Card>
 
-          <Card
-            className={`p-3 sm:p-4 cursor-pointer transition-all hover-scale hover:shadow-md animate-fade-in ${
-              answers[currentSymptom.id] === false
-                ? 'bg-destructive text-destructive-foreground border-destructive shadow-md'
-                : 'bg-card hover:bg-accent'
-            }`}
-            onClick={() => handleAnswer(false)}
-          >
-            <div className="flex flex-col items-center gap-1.5 sm:gap-2">
-              <div
-                className={`p-1.5 sm:p-2 rounded-full ${
-                  answers[currentSymptom.id] === false
-                    ? 'bg-destructive-foreground/20'
-                    : 'bg-muted'
-                }`}
-              >
-                <X className="w-6 h-6 sm:w-7 sm:h-7" />
+            <Card
+              className={`p-3 sm:p-4 cursor-pointer transition-all hover-scale hover:shadow-md animate-fade-in ${
+                answers[currentSymptom.id] === false
+                  ? 'bg-destructive text-destructive-foreground border-destructive shadow-md'
+                  : 'bg-card hover:bg-accent'
+              }`}
+              onClick={() => handleAnswer(false)}
+            >
+              <div className="flex flex-col items-center gap-1.5 sm:gap-2">
+                <div
+                  className={`p-1.5 sm:p-2 rounded-full ${
+                    answers[currentSymptom.id] === false
+                      ? 'bg-destructive-foreground/20'
+                      : 'bg-muted'
+                  }`}
+                >
+                  <X className="w-6 h-6 sm:w-7 sm:h-7" />
+                </div>
+                <span className="text-sm sm:text-base font-semibold">{t('assessment.no')}</span>
               </div>
-              <span className="text-sm sm:text-base font-semibold">{t('assessment.no')}</span>
-            </div>
-          </Card>
-        </div>
+            </Card>
+          </div>
         </div>
 
         {/* Category overview */}
@@ -236,7 +237,7 @@ const Assessment = () => {
         </div>
         <FloatingHelpButton section="assessment" />
       </div>
-    </div>
+    </PageLayout>
   );
 };
 

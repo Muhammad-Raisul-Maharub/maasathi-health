@@ -97,8 +97,8 @@ const Result = () => {
   }, [location.state, navigate]);
 
   return (
-    <div className="bg-background flex flex-col pb-16">
-      <div className="w-full max-w-md sm:max-w-3xl lg:max-w-5xl mx-auto px-4 py-3 space-y-2.5 animate-fade-in">
+    <PageLayout maxWidth="lg">
+      <div className="space-y-2.5 animate-fade-in">
         <div className="flex items-center justify-between mb-1 gap-2 border-b border-border/60 pb-1.5">
           <div className="flex items-center gap-2">
             <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
@@ -218,7 +218,7 @@ const Result = () => {
         </div>
         <FloatingHelpButton section="result" />
       </div>
-    </div>
+    </PageLayout>
   );
 };
 
