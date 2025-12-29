@@ -11,8 +11,8 @@ const Help = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="bg-background pb-16">
-      <div className="max-w-md sm:max-w-2xl mx-auto w-full px-4 py-3 space-y-2.5 animate-fade-in">
+    <div className="bg-background flex flex-col pb-16">
+      <div className="w-full max-w-md sm:max-w-2xl mx-auto px-4 py-3 space-y-2.5 animate-fade-in">
         <header className="flex items-center justify-between mb-1 gap-2">
           <div className="flex items-center gap-2">
             <Button
