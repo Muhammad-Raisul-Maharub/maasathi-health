@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-route
 import { AnimatePresence, motion } from "framer-motion";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
+import AuthCallback from "./pages/AuthCallback";
 import Assessment from "./pages/Assessment";
 import Result from "./pages/Result";
 import Dashboard from "./pages/Dashboard";
@@ -19,6 +20,7 @@ import BottomNav from "./components/BottomNav";
 import TopNav from "./components/TopNav";
 import SideNav from "./components/SideNav";
 import ProtectedRoute from "./components/ProtectedRoute";
+import HomeRedirect from "./components/HomeRedirect";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -43,10 +45,11 @@ const AppRoutes = () => {
         transition={{ duration: 0.28, ease: [0.22, 0.61, 0.36, 1] }}
       >
         <Routes location={location}>
-          {/* Default Route: Redirect to Login */}
-          <Route path="/" element={<Navigate to="/login" replace />} />
+          {/* Default Route: Smart Redirect */}
+          <Route path="/" element={<HomeRedirect />} />
 
           <Route path="/login" element={<Login />} />
+          <Route path="/auth/callback" element={<AuthCallback />} />
 
           {/* Protected Mother Routes */}
           <Route element={<ProtectedRoute allowedRoles={['mother']} />}>

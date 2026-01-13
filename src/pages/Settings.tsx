@@ -2,7 +2,8 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useLanguage } from "@/context/LanguageContext";
 import { useTheme } from "@/context/ThemeContext";
-import { ArrowLeft, Moon, Sun, HelpCircle } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { ArrowLeft, Moon, Sun, HelpCircle, LogOut } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import PageLayout from "@/components/PageLayout";
 
@@ -69,6 +70,24 @@ const Settings = () => {
               Open help
             </Button>
           </Link>
+        </Card>
+        <Card className="p-3 flex flex-col sm:flex-row items-center justify-between gap-2 animate-fade-in border-destructive/20 bg-destructive/5">
+          <div className="text-left w-full sm:w-auto">
+            <p className="text-sm font-medium text-destructive">Sign Out</p>
+            <p className="text-xs text-muted-foreground">Log out of your account on this device</p>
+          </div>
+          <Button
+            variant="destructive"
+            size="sm"
+            className="w-full sm:w-auto gap-2 hover-scale shadow-sm"
+            onClick={async () => {
+              await supabase.auth.signOut();
+              navigate('/login');
+            }}
+          >
+            <LogOut className="w-4 h-4" />
+            Log Out
+          </Button>
         </Card>
       </div>
     </PageLayout>

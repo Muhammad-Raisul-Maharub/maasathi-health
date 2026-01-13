@@ -12,7 +12,7 @@ const Index = () => {
   const { t } = useLanguage();
 
   return (
-    <PageLayout maxWidth="xl">
+    <PageLayout maxWidth="lg">
       <div className="flex flex-col" aria-label="MaaSathi AI home">
         <header className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between mb-2 animate-fade-in">
           <div className="flex items-center gap-3">

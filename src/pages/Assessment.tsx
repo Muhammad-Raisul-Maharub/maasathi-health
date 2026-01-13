@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { useUserRole } from '@/hooks/useUserRole';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { ArrowLeft, ArrowRight, Check, Info, Stethoscope, X, Brain, Eye, Activity, Droplets, Wind } from 'lucide-react';
@@ -15,6 +16,7 @@ const Assessment = () => {
   const [answers, setAnswers] = useState<Record<string, boolean>>({});
   const navigate = useNavigate();
   const { t } = useLanguage();
+  const { role } = useUserRole();
 
   const currentSymptom = symptoms[currentStep];
   const isLastStep = currentStep === symptoms.length - 1;
@@ -110,9 +112,13 @@ const Assessment = () => {
         {/* Question */}
         <div className="flex-1 flex flex-col justify-start space-y-3">
           <div className="text-center space-y-2 px-1">
-            <h1 className="text-lg sm:text-xl font-bold text-foreground">{t('assessment.title')}</h1>
+            <h1 className="text-lg sm:text-xl font-bold text-foreground">
+              {role === 'health_worker' ? 'Patient Assessment' : t('assessment.title')}
+            </h1>
             <p className="text-xs text-muted-foreground max-w-md mx-auto">
-              {t('assessment.subtitle')}
+              {role === 'health_worker'
+                ? 'Assess the patient for the following warning signs.'
+                : t('assessment.subtitle')}
             </p>
             <div className="mt-2 space-y-1">
               <div className="flex flex-col items-center gap-1.5">

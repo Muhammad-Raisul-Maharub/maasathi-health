@@ -4,7 +4,7 @@ import { Card } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { db, Assessment } from '@/lib/db';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { RefreshCw, ArrowLeft, Calendar, Activity, Download, Printer } from 'lucide-react';
+import { RefreshCw, ArrowLeft, Calendar, Activity, Download, Printer, BarChart3, Stethoscope, History as HistoryIcon } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
 import { useOnlineStatus } from '@/hooks/useOnlineStatus';
@@ -74,19 +74,26 @@ const Dashboard = () => {
   };
 
   const formatDate = (timestamp: number) => {
-    return new Date(timestamp).toLocaleString();
+    return new Date(timestamp).toLocaleString(undefined, {
+      month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+    });
   };
 
   const getRiskColor = (level: string) => {
     switch (level) {
-      case 'High':
-        return 'text-destructive';
-      case 'Medium':
-        return 'text-primary';
-      case 'Low':
-        return 'text-muted-foreground';
-      default:
-        return 'text-muted-foreground';
+      case 'High': return 'text-destructive';
+      case 'Medium': return 'text-orange-500';
+      case 'Low': return 'text-green-500';
+      default: return 'text-muted-foreground';
+    }
+  };
+
+  const getRiskBadgeColor = (level: string) => {
+    switch (level) {
+      case 'High': return 'bg-destructive/10 border-destructive/20 text-destructive';
+      case 'Medium': return 'bg-orange-500/10 border-orange-500/20 text-orange-600';
+      case 'Low': return 'bg-green-500/10 border-green-500/20 text-green-600';
+      default: return 'bg-muted text-muted-foreground';
     }
   };
 
@@ -96,9 +103,9 @@ const Dashboard = () => {
       base[a.riskLevel] = (base[a.riskLevel] || 0) + 1;
     });
     return [
-      { level: 'Low', count: base.Low },
-      { level: 'Medium', count: base.Medium },
-      { level: 'High', count: base.High },
+      { level: 'Low', count: base.Low, fill: 'var(--color-Low)' },
+      { level: 'Medium', count: base.Medium, fill: 'var(--color-Medium)' },
+      { level: 'High', count: base.High, fill: 'var(--color-High)' },
     ];
   }, [assessments]);
 
@@ -106,37 +113,43 @@ const Dashboard = () => {
     const map: Record<string, number> = {};
     (assessments || []).forEach(a => {
       a.symptoms.forEach(id => {
-        map[id] = (map[id] || 0) + 1;
+        // Beautify ID: 'abdominal_pain' -> 'Abdominal Pain'
+        const label = id.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+        map[label] = (map[label] || 0) + 1;
       });
     });
-    return Object.entries(map).map(([id, count]) => ({ symptom: id, count }));
+    return Object.entries(map)
+      .map(([id, count]) => ({ symptom: id, count }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 5); // Top 5 only
   }, [assessments]);
 
   const riskTrend = useMemo(() => {
     const byDay: Record<string, { total: number; count: number }> = {};
     (assessments || []).forEach(a => {
-      const date = new Date(a.timestamp).toLocaleDateString();
+      const date = new Date(a.timestamp).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
       if (!byDay[date]) byDay[date] = { total: 0, count: 0 };
       byDay[date].total += a.riskScore;
       byDay[date].count += 1;
     });
     return Object.entries(byDay)
-      .sort(([a], [b]) => new Date(a).getTime() - new Date(b).getTime())
-      .map(([date, { total, count }]) => ({ date, score: total / count }));
+      .sort(([a], [b]) => new Date(a).getTime() - new Date(b).getTime()) // This might need parsing if format changes, but okay for basic objects
+      .slice(-7) // Last 7 unique days
+      .map(([date, { total, count }]) => ({ date, score: Math.round((total / count) * 10) / 10 }));
   }, [assessments]);
 
   const riskChartConfig: ChartConfig = {
-    Low: { label: 'Low', color: 'hsl(var(--chart-1))' },
-    Medium: { label: 'Medium', color: 'hsl(var(--chart-2))' },
-    High: { label: 'High', color: 'hsl(var(--chart-3))' },
+    Low: { label: 'Low', color: '#22c55e' },
+    Medium: { label: 'Medium', color: '#f97316' },
+    High: { label: 'High', color: '#ef4444' },
   };
 
   const symptomChartConfig: ChartConfig = {
-    count: { label: 'Count', color: 'hsl(var(--chart-4))' },
+    count: { label: 'Count', color: 'hsl(var(--primary))' },
   };
 
   const trendChartConfig: ChartConfig = {
-    score: { label: 'Risk score', color: 'hsl(var(--chart-5))' },
+    score: { label: 'Avg Score', color: 'hsl(var(--primary))' },
   };
 
   const handleExportCsv = () => {
@@ -169,245 +182,264 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="bg-background flex flex-col min-h-full pb-16">
-      <div className="w-full max-w-md sm:max-w-3xl lg:max-w-5xl mx-auto px-4 py-3 space-y-2.5 animate-fade-in">
+    <PageLayout maxWidth="lg">
+      <div className="space-y-6 animate-fade-in pb-8">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-          <div className="flex items-center gap-2">
-            <Button variant="ghost" size="icon" className="-ml-1 hover-scale" onClick={() => navigate(-1)}>
-              <ArrowLeft className="w-5 h-5" />
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b pb-4">
+          <div className="flex items-center gap-3">
+            <Button variant="ghost" size="icon" className="-ml-2 hover-scale" onClick={() => navigate(-1)}>
+              <ArrowLeft className="w-6 h-6" />
             </Button>
-            <h1 className="text-lg sm:text-xl font-bold text-foreground">
-              {t('dashboard.title')}
-            </h1>
+            <div>
+              <h1 className="text-2xl font-bold tracking-tight text-foreground">
+                {t('dashboard.title')}
+              </h1>
+              <p className="text-sm text-muted-foreground">
+                Overview of maternal health assessments
+              </p>
+            </div>
           </div>
-          <div className="flex flex-wrap items-center gap-2 justify-end">
+          <div className="flex flex-wrap items-center gap-2">
             <ThemeToggle />
-            <Button
-              variant="outline"
-              size="sm"
-              className="gap-2 print:hidden hover-scale"
-              onClick={() => window.print()}
-            >
-              <Printer className="w-4 h-4" />
-              <span className="hidden sm:inline text-sm">Print</span>
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              className="gap-2 print:hidden hover-scale"
-              onClick={handleExportCsv}
-              disabled={!assessments || assessments.length === 0}
-            >
-              <Download className="w-4 h-4" />
-              <span className="hidden sm:inline text-sm">Export CSV</span>
-            </Button>
+            <div className="flex items-center gap-2 bg-muted/50 p-1 rounded-lg">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="gap-2 hover-scale"
+                onClick={() => window.print()}
+              >
+                <Printer className="w-4 h-4" />
+                <span className="hidden sm:inline">Print</span>
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="gap-2 hover-scale"
+                onClick={handleExportCsv}
+                disabled={!assessments || assessments.length === 0}
+              >
+                <Download className="w-4 h-4" />
+                <span className="hidden sm:inline">Export</span>
+              </Button>
+            </div>
             <Button
               size="sm"
               onClick={handleSync}
               disabled={isSyncing || !isOnline || unsyncedCount === 0}
-              className="gap-2 print:hidden hover-scale"
+              className={`gap-2 hover-scale shadow-md min-w-[120px] ${unsyncedCount > 0 ? 'animate-pulse' : ''}`}
             >
               <RefreshCw className={`w-4 h-4 ${isSyncing ? 'animate-spin' : ''}`} />
-              <span className="hidden sm:inline text-sm">{t('dashboard.sync')}</span>
-              {unsyncedCount > 0 && <span className="text-xs">({unsyncedCount})</span>}
+              <span>{isSyncing ? 'Syncing...' : 'Sync Cloud'}</span>
+              {unsyncedCount > 0 && (
+                <span className="ml-1 bg-white/20 text-white text-[10px] px-1.5 py-0.5 rounded-full">
+                  {unsyncedCount}
+                </span>
+              )}
             </Button>
           </div>
         </div>
 
-        {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-          <Card className="p-3 animate-fade-in">
-            <div className="flex items-center gap-2.5">
-              <Activity className="w-7 h-7 text-primary" />
-              <div>
-                <p className="text-xs text-muted-foreground">{t('dashboard.total')}</p>
-                <p className="text-xl font-bold text-foreground">{assessments?.length || 0}</p>
-              </div>
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <Card className="p-4 flex items-center justify-between hover:shadow-md transition-all border-l-4 border-l-primary/50">
+            <div>
+              <p className="text-sm font-medium text-muted-foreground">{t('dashboard.total')}</p>
+              <p className="text-3xl font-bold text-foreground mt-1">{assessments?.length || 0}</p>
+            </div>
+            <div className="p-3 bg-primary/10 rounded-full">
+              <Activity className="w-6 h-6 text-primary" />
             </div>
           </Card>
-          <Card className="p-3 animate-fade-in">
-            <div className="flex items-center gap-2.5">
-              <RefreshCw className="w-7 h-7 text-primary" />
-              <div>
-                <p className="text-xs text-muted-foreground">{t('dashboard.unsynced')}</p>
-                <p className="text-xl font-bold text-foreground">{unsyncedCount}</p>
-              </div>
+
+          <Card className="p-4 flex items-center justify-between hover:shadow-md transition-all border-l-4 border-l-orange-500/50">
+            <div>
+              <p className="text-sm font-medium text-muted-foreground">{t('dashboard.unsynced')}</p>
+              <p className="text-3xl font-bold text-foreground mt-1">{unsyncedCount}</p>
+            </div>
+            <div className="p-3 bg-orange-500/10 rounded-full">
+              <RefreshCw className="w-6 h-6 text-orange-600" />
             </div>
           </Card>
-          <Card className="p-3 animate-fade-in">
-            <div className="flex items-center gap-2.5">
-              <Calendar className="w-7 h-7 text-primary" />
-              <div>
-                <p className="text-xs text-muted-foreground">{t('dashboard.status')}</p>
-                <p className="text-base font-semibold text-foreground">
-                  {isOnline ? t('dashboard.online') : t('dashboard.offline')}
-                </p>
-              </div>
+
+          <Card className="p-4 flex items-center justify-between hover:shadow-md transition-all border-l-4 border-l-green-500/50">
+            <div>
+              <p className="text-sm font-medium text-muted-foreground">{t('dashboard.status')}</p>
+              <p className={`text-lg font-bold mt-1 ${isOnline ? 'text-green-600' : 'text-muted-foreground'}`}>
+                {isOnline ? t('dashboard.online') : t('dashboard.offline')}
+              </p>
+            </div>
+            <div className={`p-3 rounded-full ${isOnline ? 'bg-green-500/10' : 'bg-muted'}`}>
+              <Calendar className={`w-6 h-6 ${isOnline ? 'text-green-600' : 'text-muted-foreground'}`} />
             </div>
           </Card>
         </div>
 
-        {/* Analytics */}
-        <section className="space-y-2.5">
-          <h2 className="text-base sm:text-lg font-semibold text-foreground">
+        {/* Analytics Section */}
+        <div className="space-y-4">
+          <h2 className="text-xl font-semibold text-foreground flex items-center gap-2">
+            <BarChart3 className="w-5 h-5 text-primary" />
             {t('dashboard.analytics')}
           </h2>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-2.5">
-            <Card className="p-3 col-span-1 lg:col-span-1">
-              {(!assessments || assessments.length === 0) ? (
-                <div className="space-y-2">
-                  <Skeleton className="h-4 w-24 mb-1" />
-                  <Skeleton className="h-40 w-full rounded-md" />
-                </div>
-              ) : (
-                <>
-                  <h3 className="text-xs sm:text-sm font-medium mb-1.5 text-foreground">{t('dashboard.riskDistribution')}</h3>
-                  <ChartContainer config={riskChartConfig} className="h-48">
-                    <BarChart data={riskDistribution}>
-                      <CartesianGrid vertical={false} className="stroke-muted" />
-                      <XAxis dataKey="level" tickLine={false} axisLine={false} />
-                      <YAxis allowDecimals={false} tickLine={false} axisLine={false} />
-                      <ChartTooltip content={<ChartTooltipContent />} />
-                      <Bar dataKey="count" radius={4} />
-                      <ChartLegend content={<ChartLegendContent />} />
-                    </BarChart>
-                  </ChartContainer>
-                </>
-              )}
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            {/* 1. Risk Distribution (Pie/Bar) */}
+            <Card className="p-4 col-span-1 shadow-sm">
+              <div className="mb-4">
+                <h3 className="font-semibold text-foreground">{t('dashboard.riskDistribution')}</h3>
+                <p className="text-xs text-muted-foreground">Assessments by risk level</p>
+              </div>
+              <ChartContainer config={riskChartConfig} className="h-[200px] w-full">
+                <BarChart data={riskDistribution}>
+                  <CartesianGrid vertical={false} strokeDasharray="3 3" stroke="hsl(var(--muted))" />
+                  <XAxis
+                    dataKey="level"
+                    tickLine={false}
+                    axisLine={false}
+                    tickMargin={10}
+                    tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }}
+                  />
+                  <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
+                  <Bar dataKey="count" radius={[4, 4, 0, 0]} barSize={40} />
+                </BarChart>
+              </ChartContainer>
             </Card>
 
-            <Card className="p-3 col-span-1 lg:col-span-1">
-              {(!assessments || assessments.length === 0) ? (
-                <div className="space-y-2">
-                  <Skeleton className="h-4 w-32 mb-1" />
-                  <Skeleton className="h-40 w-full rounded-md" />
-                </div>
-              ) : (
-                <>
-                  <h3 className="text-xs sm:text-sm font-medium mb-1.5 text-foreground">{t('dashboard.symptomFrequency')}</h3>
-                  <ChartContainer config={symptomChartConfig} className="h-48">
-                    <BarChart data={symptomFrequency}>
-                      <CartesianGrid vertical={false} className="stroke-muted" />
-                      <XAxis dataKey="symptom" tickLine={false} axisLine={false} />
-                      <YAxis allowDecimals={false} tickLine={false} axisLine={false} />
-                      <ChartTooltip content={<ChartTooltipContent />} />
-                      <Bar dataKey="count" radius={4} />
-                    </BarChart>
-                  </ChartContainer>
-                </>
-              )}
+            {/* 2. Symptom Frequency (Horizontal Bar for better readability) */}
+            <Card className="p-4 col-span-1 shadow-sm">
+              <div className="mb-4">
+                <h3 className="font-semibold text-foreground">{t('dashboard.symptomFrequency')}</h3>
+                <p className="text-xs text-muted-foreground">Top reported symptoms</p>
+              </div>
+              <ChartContainer config={symptomChartConfig} className="h-[200px] w-full">
+                <BarChart layout="vertical" data={symptomFrequency} margin={{ left: 0 }}>
+                  <CartesianGrid horizontal={false} strokeDasharray="3 3" stroke="hsl(var(--muted))" />
+                  <YAxis
+                    dataKey="symptom"
+                    type="category"
+                    tickLine={false}
+                    axisLine={false}
+                    width={100}
+                    tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 11 }}
+                  />
+                  <XAxis type="number" hide />
+                  <ChartTooltip cursor={{ fill: 'transparent' }} content={<ChartTooltipContent />} />
+                  <Bar dataKey="count" fill="var(--color-count)" radius={[0, 4, 4, 0]} barSize={20} />
+                </BarChart>
+              </ChartContainer>
             </Card>
 
-            <Card className="p-3 col-span-1 lg:col-span-1">
-              {(!assessments || assessments.length === 0) ? (
-                <div className="space-y-2">
-                  <Skeleton className="h-4 w-28 mb-1" />
-                  <Skeleton className="h-40 w-full rounded-md" />
-                </div>
-              ) : (
-                <>
-                  <h3 className="text-xs sm:text-sm font-medium mb-1.5 text-foreground">{t('dashboard.trend')}</h3>
-                  <ChartContainer config={trendChartConfig} className="h-48">
-                    <LineChart data={riskTrend}>
-                      <CartesianGrid vertical={false} className="stroke-muted" />
-                      <XAxis dataKey="date" tickLine={false} axisLine={false} />
-                      <YAxis tickLine={false} axisLine={false} />
-                      <ChartTooltip content={<ChartTooltipContent />} />
-                      <Line type="monotone" dataKey="score" strokeWidth={2} dot={false} />
-                    </LineChart>
-                  </ChartContainer>
-                </>
-              )}
+            {/* 3. Trend Line */}
+            <Card className="p-4 col-span-1 shadow-sm">
+              <div className="mb-4">
+                <h3 className="font-semibold text-foreground">{t('dashboard.trend')}</h3>
+                <p className="text-xs text-muted-foreground">Risk scores over time</p>
+              </div>
+              <ChartContainer config={trendChartConfig} className="h-[200px] w-full">
+                <LineChart data={riskTrend} margin={{ left: 10, right: 10 }}>
+                  <CartesianGrid vertical={false} strokeDasharray="3 3" stroke="hsl(var(--muted))" />
+                  <XAxis
+                    dataKey="date"
+                    tickLine={false}
+                    axisLine={false}
+                    tickMargin={10}
+                    tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 10 }}
+                  />
+                  <YAxis
+                    hide
+                    domain={[0, 'auto']}
+                  />
+                  <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+                  <Line
+                    type="monotone"
+                    dataKey="score"
+                    stroke="var(--color-score)"
+                    strokeWidth={3}
+                    dot={{ fill: 'var(--color-score)', r: 4 }}
+                    activeDot={{ r: 6 }}
+                  />
+                </LineChart>
+              </ChartContainer>
             </Card>
           </div>
-        </section>
+        </div>
 
         {/* Assessments List */}
-        <Card className="p-3 sm:p-4">
-          <h2 className="text-base sm:text-lg font-semibold text-foreground mb-2.5">
+        <div className="space-y-4">
+          <h2 className="text-xl font-semibold text-foreground flex items-center gap-2">
+            <HistoryIcon className="w-5 h-5 text-primary" />
             {t('dashboard.history')}
           </h2>
-
-          {!assessments ? (
-            <div className="space-y-2">
-              {Array.from({ length: 4 }).map((_, index) => (
-                <Card key={index} className="p-3">
-                  <div className="space-y-2">
-                    <Skeleton className="h-4 w-32" />
-                    <Skeleton className="h-3 w-48" />
-                    <Skeleton className="h-3 w-40" />
-                    <Skeleton className="h-3 w-24" />
-                  </div>
-                </Card>
-              ))}
-            </div>
-          ) : assessments.length === 0 ? (
-            <div className="text-center py-6">
-              <p className="text-sm text-muted-foreground">{t('dashboard.empty')}</p>
-              <Link to="/assess" className="block mt-3">
-                <Button size="sm" className="w-full sm:w-auto">{t('dashboard.startFirst')}</Button>
-              </Link>
-            </div>
-          ) : (
-            <div className="space-y-2">
-              {assessments
+          <Card className="divide-y divide-border shadow-sm">
+            {!assessments || assessments.length === 0 ? (
+              <div className="text-center py-12">
+                <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Stethoscope className="w-8 h-8 text-muted-foreground" />
+                </div>
+                <p className="text-lg font-medium text-foreground">{t('dashboard.empty')}</p>
+                <p className="text-sm text-muted-foreground max-w-xs mx-auto mt-1">No assessments recorded yet. Start a new checkup to see data here.</p>
+              </div>
+            ) : (
+              assessments
                 .slice()
                 .sort((a, b) => b.timestamp - a.timestamp)
                 .map((assessment: Assessment) => (
-                  <Card key={assessment.id} className="p-3 hover:bg-accent transition-colors">
-                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
-                      <div className="space-y-0.5">
-                        <div className="flex flex-wrap items-center gap-1.5">
-                          <span className={`text-base font-semibold ${getRiskColor(assessment.riskLevel)}`}>
-                            {assessment.riskLevel} Risk
+                  <div key={assessment.id} className="p-4 hover:bg-muted/30 transition-colors flex flex-col sm:flex-row gap-4 sm:items-center justify-between group">
+                    <div className="space-y-1.5 flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold border ${getRiskBadgeColor(assessment.riskLevel)}`}>
+                          {assessment.riskLevel} Risk
+                        </span>
+                        {!assessment.isSynced && (
+                          <span className="text-[10px] px-2 py-0.5 rounded-full bg-muted text-muted-foreground font-medium flex items-center gap-1">
+                            <RefreshCw className="w-3 h-3" /> Unsynced
                           </span>
-                          {!assessment.isSynced && (
-                            <span className="text-[10px] px-1.5 py-0.5 rounded bg-muted text-muted-foreground">
-                              Unsynced
-                            </span>
-                          )}
-                        </div>
-                        <p className="text-xs text-muted-foreground">
-                          Score: {assessment.riskScore} | Symptoms: {assessment.symptoms.length}
-                        </p>
-                        {assessment.notes && (
-                          <p className="text-[10px] text-muted-foreground line-clamp-2">
-                            Notes: {assessment.notes}
-                          </p>
                         )}
-                        <p className="text-[10px] text-muted-foreground">
-                          {formatDate(assessment.timestamp)}
-                        </p>
                       </div>
 
-                      <div className="flex flex-row sm:flex-col gap-1.5 sm:items-end w-full sm:w-auto">
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          className="flex-1 sm:flex-initial text-xs"
-                          onClick={() => navigate('/assess', { state: { reopenId: assessment.id } })}
-                        >
-                          Reopen
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          className="flex-1 sm:flex-initial text-xs"
-                          onClick={() => navigate('/assess', { state: { followUpForId: assessment.id } })}
-                        >
-                          Follow-up
-                        </Button>
+                      <div className="flex items-baseline gap-2">
+                        <span className="text-2xl font-bold text-foreground">{assessment.riskScore}</span>
+                        <span className="text-sm text-muted-foreground">risk score</span>
+                      </div>
+
+                      <div className="text-sm text-muted-foreground flex flex-wrap gap-x-4 gap-y-1">
+                        <span className="flex items-center gap-1.5">
+                          <Calendar className="w-3.5 h-3.5" />
+                          {formatDate(assessment.timestamp)}
+                        </span>
+                        <span className="flex items-center gap-1.5">
+                          <Activity className="w-3.5 h-3.5" />
+                          {assessment.symptoms.length} symptoms
+                        </span>
                       </div>
                     </div>
-                  </Card>
-                ))}
-            </div>
-          )}
-        </Card>
+
+                    <div className="flex flex-row sm:flex-col gap-2 w-full sm:w-auto opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="flex-1 sm:flex-initial text-xs h-8"
+                        onClick={() => navigate('/assess', { state: { reopenId: assessment.id } })}
+                      >
+                        View Details
+                      </Button>
+                      <Button
+                        size="sm"
+                        className="flex-1 sm:flex-initial text-xs h-8 bg-primary/10 text-primary hover:bg-primary/20 border-primary/20"
+                        onClick={() => navigate('/assess', { state: { followUpForId: assessment.id } })}
+                      >
+                        Follow Up
+                      </Button>
+                    </div>
+                  </div>
+                ))
+            )}
+          </Card>
+        </div>
       </div>
-    </div>
+    </PageLayout>
   );
 };
 
 export default Dashboard;
+
+
