@@ -1,11 +1,16 @@
 import { Home, Stethoscope, BarChart3, Settings as SettingsIcon } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 
+import { useUserRole } from "@/hooks/useUserRole";
+
 const BottomNav = () => {
+  const { role } = useUserRole();
+
   const items = [
     { label: "Home", to: "/", icon: Home },
     { label: "Assess", to: "/assess", icon: Stethoscope },
-    { label: "Analytics", to: "/dashboard", icon: BarChart3 },
+    // Only show Analytics for Health Workers
+    ...(role === 'health_worker' ? [{ label: "Analytics", to: "/dashboard", icon: BarChart3 }] : []),
     { label: "Settings", to: "/settings", icon: SettingsIcon },
   ];
 

@@ -157,7 +157,7 @@ const Assessment = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <Card
               className={`p-3 sm:p-4 cursor-pointer transition-all hover-scale hover:shadow-md animate-fade-in ${answers[currentSymptom.id] === true
-                ? 'bg-primary text-primary-foreground border-primary shadow-md'
+                ? 'bg-green-500 hover:bg-green-600 text-white border-green-500 shadow-md'
                 : 'bg-card hover:bg-accent'
                 }`}
               onClick={() => handleAnswer(true)}
@@ -165,7 +165,7 @@ const Assessment = () => {
               <div className="flex flex-col items-center gap-1.5 sm:gap-2">
                 <div
                   className={`p-1.5 sm:p-2 rounded-full ${answers[currentSymptom.id] === true
-                    ? 'bg-primary-foreground/20'
+                    ? 'bg-white/20'
                     : 'bg-primary/10'
                     }`}
                 >

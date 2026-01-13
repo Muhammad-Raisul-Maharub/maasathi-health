@@ -56,15 +56,7 @@ const Index = () => {
                     {t('home.start')}
                   </Button>
                 </Link>
-                <Link to="/dashboard">
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    className="w-full justify-center text-sm sm:text-base py-2.5 sm:py-3 hover-scale transition-all duration-200 active:scale-95"
-                  >
-                    {t('home.dashboard')}
-                  </Button>
-                </Link>
+
                 <Link to="/settings">
                   <Button
                     variant="outline"
