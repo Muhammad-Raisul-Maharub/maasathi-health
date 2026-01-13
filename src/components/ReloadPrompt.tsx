@@ -9,10 +9,10 @@ const ReloadPrompt = () => {
         updateServiceWorker,
     } = useRegisterSW({
         onRegisteredSW(swUrl, r) {
-            console.log(`Service Worker at: ${swUrl}`);
+            (`Service Worker at: ${swUrl}`);
         },
         onRegisterError(error) {
-            console.log("SW registration error", error);
+            ("SW registration error", error);
         },
     });
 

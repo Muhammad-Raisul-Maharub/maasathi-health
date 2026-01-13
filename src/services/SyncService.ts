@@ -20,7 +20,7 @@ export const SyncService = {
             return 0;
         }
 
-        console.log(`Found ${unsyncedAssessments.length} unsynced records.`);
+        (`Found ${unsyncedAssessments.length} unsynced records.`);
 
         // 2. Prepare data for Supabase
         // Note: We map the local fields to match the Supabase table structure if needed.
@@ -43,7 +43,7 @@ export const SyncService = {
             .upsert(recordsToInsert as any, { onConflict: "id" }); // using upsert to be safe
 
         if (error) {
-            console.error("Supabase sync error:", error);
+            ("Supabase sync error:", error);
             throw new Error(`Sync failed: ${error.message}`);
         }
 
