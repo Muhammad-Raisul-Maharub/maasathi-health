@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
@@ -27,6 +27,7 @@ const queryClient = new QueryClient({
     },
   },
 });
+});
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -42,10 +43,10 @@ const AppRoutes = () => {
         transition={{ duration: 0.28, ease: [0.22, 0.61, 0.36, 1] }}
       >
         <Routes location={location}>
-          {/* Public Routes */}
-          <Route path="/" element={<Index />} />
+          {/* Default Route: Redirect to Login */}
+          <Route path="/" element={<Navigate to="/login" replace />} />
+
           <Route path="/login" element={<Login />} />
-          <Route path="/help" element={<Help />} />
 
           {/* Protected Mother Routes */}
           <Route element={<ProtectedRoute allowedRoles={['mother']} />}>
@@ -53,6 +54,7 @@ const AppRoutes = () => {
             <Route path="/assess" element={<Assessment />} />
             <Route path="/result" element={<Result />} />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/help" element={<Help />} />
           </Route>
 
           {/* Protected Health Worker Routes */}
@@ -69,6 +71,34 @@ const AppRoutes = () => {
   );
 };
 
+const AppLayout = () => {
+  const location = useLocation();
+  const isLoginPage = location.pathname === "/login";
+  // Also check for root path if we are redirecting from root to login initially
+
+  return (
+    <div className="min-h-screen flex flex-col bg-background">
+      {/* Mobile Top Nav - Hidden on Login */}
+      {!isLoginPage && (
+        <div className="md:hidden">
+          <TopNav />
+        </div>
+      )}
+
+      {/* Desktop Side Nav - Hidden on Login */}
+      {!isLoginPage && <SideNav />}
+
+      {/* Main Content Area */}
+      <div className={`flex-1 flex flex-col transition-all duration-300 ${!isLoginPage ? 'md:pl-20' : ''}`}>
+        <AppRoutes />
+      </div>
+
+      {/* Mobile Bottom Nav - Hidden on Login */}
+      {!isLoginPage && <BottomNav />}
+    </div>
+  );
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
@@ -77,23 +107,8 @@ const App = () => (
       <BrowserRouter>
         <ThemeProvider>
           <LanguageProvider>
-            <div className="min-h-screen flex flex-col bg-background">
-              {/* Mobile Top Nav */}
-              <div className="md:hidden">
-                <TopNav />
-              </div>
+            <AppLayout />
 
-              {/* Desktop Side Nav */}
-              <SideNav />
-
-              {/* Main Content Area */}
-              <div className="flex-1 flex flex-col md:pl-20 transition-all duration-300">
-                <AppRoutes />
-              </div>
-
-              {/* Mobile Bottom Nav */}
-              <BottomNav />
-            </div>
           </LanguageProvider>
         </ThemeProvider>
       </BrowserRouter>
