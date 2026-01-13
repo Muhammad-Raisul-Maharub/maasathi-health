@@ -14,13 +14,13 @@ export const useUserRole = () => {
 
                 if (session?.user) {
                     const { data: profile } = await supabase
-                        .from('profiles')
+                        .from('profiles' as any)
                         .select('role')
                         .eq('id', session.user.id)
                         .single();
 
                     if (profile) {
-                        setRole(profile.role as UserRole);
+                        setRole((profile as any).role as UserRole);
                     }
                 }
             } catch (error) {
