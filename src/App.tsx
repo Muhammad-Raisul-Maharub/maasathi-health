@@ -27,7 +27,6 @@ const queryClient = new QueryClient({
     },
   },
 });
-});
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -74,7 +73,6 @@ const AppRoutes = () => {
 const AppLayout = () => {
   const location = useLocation();
   const isLoginPage = location.pathname === "/login";
-  // Also check for root path if we are redirecting from root to login initially
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -108,7 +106,6 @@ const App = () => (
         <ThemeProvider>
           <LanguageProvider>
             <AppLayout />
-
           </LanguageProvider>
         </ThemeProvider>
       </BrowserRouter>
