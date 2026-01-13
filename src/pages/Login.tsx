@@ -8,7 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useToast } from '@/hooks/use-toast';
 import { Heart, Stethoscope, Loader2, Mail } from 'lucide-react';
-import PageLayout from '@/components/PageLayout';
+// import PageLayout from '@/components/PageLayout'; // Removing standard layout for full-screen custom login
 
 const Login = () => {
     const navigate = useNavigate();
@@ -112,19 +112,25 @@ const Login = () => {
     };
 
     return (
-        <PageLayout maxWidth="full" className="relative flex items-center justify-center min-h-[85vh] overflow-hidden bg-background">
-            {/* Background Effects for Glassmorphism */}
-            <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
-                <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-primary/20 blur-[120px] animate-pulse" />
-                <div className="absolute bottom-[-10%] right-[-5%] w-[40%] h-[40%] rounded-full bg-teal-500/20 blur-[100px] animate-pulse delay-1000" />
-            </div>
+        <div className="relative min-h-screen w-full flex items-center justify-center p-4 bg-background overflow-hidden">
+            {/* Background Image Layer */}
+            <div
+                className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-20 dark:opacity-10"
+                style={{
+                    backgroundImage: `url('/login_background.png')`, // We will need to copy the generated image here
+                    filter: 'blur(2px)'
+                }}
+            />
 
-            <Card className="w-full max-w-md bg-white/40 dark:bg-black/40 backdrop-blur-2xl border-white/20 shadow-2xl animate-fade-in transition-all duration-300 z-10">
+            {/* Gradient Overlay for better readability */}
+            <div className="absolute inset-0 z-0 bg-gradient-to-br from-background/80 via-background/50 to-background/80" />
+
+            <Card className="w-full max-w-md bg-white/70 dark:bg-black/60 backdrop-blur-xl border-white/20 shadow-2xl animate-fade-in transition-all duration-300 z-10">
                 <CardHeader className="text-center pb-2">
                     <CardTitle className="text-4xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-primary to-teal-500 mb-2 drop-shadow-sm">
                         MaaSathi AI
                     </CardTitle>
-                    <CardDescription className="text-base font-medium text-muted-foreground/80">
+                    <CardDescription className="text-base font-medium text-muted-foreground/90">
                         Your companion for a safer journey
                     </CardDescription>
                 </CardHeader>
@@ -136,8 +142,8 @@ const Login = () => {
                             type="button"
                             onClick={() => setRole('mother')}
                             className={`relative flex flex-col items-center justify-center p-4 rounded-xl border-2 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] group ${role === 'mother'
-                                ? 'border-primary bg-primary/10 shadow-lg shadow-primary/10 transform scale-[1.02]'
-                                : 'border-border/50 bg-white/20 dark:bg-black/20 hover:bg-white/40 dark:hover:bg-black/40 hover:border-primary/50'
+                                ? 'border-primary bg-primary/20 shadow-lg shadow-primary/10 transform scale-[1.02]'
+                                : 'border-border/50 bg-white/40 dark:bg-black/20 hover:bg-white/60 dark:hover:bg-black/40 hover:border-primary/50'
                                 }`}
                         >
                             {role === 'mother' && (
@@ -153,8 +159,8 @@ const Login = () => {
                             type="button"
                             onClick={() => setRole('health_worker')}
                             className={`relative flex flex-col items-center justify-center p-4 rounded-xl border-2 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] group ${role === 'health_worker'
-                                ? 'border-teal-500 bg-teal-500/10 shadow-lg shadow-teal-500/10 transform scale-[1.02]'
-                                : 'border-border/50 bg-white/20 dark:bg-black/20 hover:bg-white/40 dark:hover:bg-black/40 hover:border-teal-500/50'
+                                ? 'border-teal-500 bg-teal-500/20 shadow-lg shadow-teal-500/10 transform scale-[1.02]'
+                                : 'border-border/50 bg-white/40 dark:bg-black/20 hover:bg-white/60 dark:hover:bg-black/40 hover:border-teal-500/50'
                                 }`}
                         >
                             {role === 'health_worker' && (
@@ -171,7 +177,7 @@ const Login = () => {
                         {/* GOOGLE BUTTON - PRIMARY ACTION */}
                         <Button
                             variant="outline"
-                            className="w-full h-12 text-base font-medium shadow-sm hover:shadow-md transition-all border-white/40 dark:border-white/10 bg-white/50 dark:bg-black/30 hover:bg-white/80 dark:hover:bg-black/60 backdrop-blur-sm"
+                            className="w-full h-12 text-base font-medium shadow-sm hover:shadow-md transition-all border-white/40 dark:border-white/10 bg-white/60 dark:bg-black/40 hover:bg-white/90 dark:hover:bg-black/70 backdrop-blur-sm"
                             onClick={handleGoogleLogin}
                             disabled={loading}
                         >
@@ -254,7 +260,7 @@ const Login = () => {
                     </div>
                 </CardFooter>
             </Card>
-        </PageLayout>
+        </div>
     );
 };
 
