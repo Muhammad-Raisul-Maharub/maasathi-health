@@ -72,27 +72,28 @@ const AppRoutes = () => {
 
 const AppLayout = () => {
   const location = useLocation();
-  const isLoginPage = location.pathname === "/login";
+  // Hide Navigation on Login AND Root (while redirecting)
+  const shouldHideNav = location.pathname === "/login" || location.pathname === "/";
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      {/* Mobile Top Nav - Hidden on Login */}
-      {!isLoginPage && (
+      {/* Mobile Top Nav - Hidden on Login/Root */}
+      {!shouldHideNav && (
         <div className="md:hidden">
           <TopNav />
         </div>
       )}
 
-      {/* Desktop Side Nav - Hidden on Login */}
-      {!isLoginPage && <SideNav />}
+      {/* Desktop Side Nav - Hidden on Login/Root */}
+      {!shouldHideNav && <SideNav />}
 
       {/* Main Content Area */}
-      <div className={`flex-1 flex flex-col transition-all duration-300 ${!isLoginPage ? 'md:pl-20' : ''}`}>
+      <div className={`flex-1 flex flex-col transition-all duration-300 ${!shouldHideNav ? 'md:pl-20' : ''}`}>
         <AppRoutes />
       </div>
 
-      {/* Mobile Bottom Nav - Hidden on Login */}
-      {!isLoginPage && <BottomNav />}
+      {/* Mobile Bottom Nav - Hidden on Login/Root */}
+      {!shouldHideNav && <BottomNav />}
     </div>
   );
 };
