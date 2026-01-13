@@ -20,7 +20,7 @@ export const SyncService = {
             return 0;
         }
 
-        (`Found ${unsyncedAssessments.length} unsynced records.`);
+
 
         // 2. Prepare data for Supabase
         // Note: We map the local fields to match the Supabase table structure if needed.

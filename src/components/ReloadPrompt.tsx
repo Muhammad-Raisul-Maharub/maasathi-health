@@ -5,14 +5,15 @@ import { Button } from "./ui/button";
 
 const ReloadPrompt = () => {
     const {
+        offlineReady: [offlineReady, setOfflineReady],
         needRefresh: [needRefresh, setNeedRefresh],
         updateServiceWorker,
     } = useRegisterSW({
         onRegisteredSW(swUrl, r) {
-            (`Service Worker at: ${swUrl}`);
+
         },
         onRegisterError(error) {
-            ("SW registration error", error);
+
         },
     });
 
