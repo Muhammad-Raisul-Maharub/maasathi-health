@@ -127,8 +127,8 @@ const Login = () => {
 
             <Card className="w-full max-w-md bg-white/80 dark:bg-black/60 backdrop-blur-xl border-white/20 shadow-2xl animate-fade-in transition-all duration-300 z-10">
                 <CardHeader className="text-center pb-2">
-                    <div className="mx-auto w-20 h-20 bg-white/50 rounded-2xl flex items-center justify-center mb-4 shadow-sm border border-white/30 backdrop-blur-md">
-                        <img src="/pwa-192x192.png" alt="Logo" className="w-16 h-16 object-contain rounded-xl" />
+                    <div className="mx-auto w-24 h-24 bg-white/50 rounded-2xl flex items-center justify-center mb-4 shadow-sm border border-white/30 backdrop-blur-md p-2">
+                        <img src="/pwa-512x512.png" alt="Logo" className="w-full h-full object-contain rounded-xl" />
                     </div>
                     <CardTitle className="text-4xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-primary to-teal-500 mb-2 drop-shadow-sm">
                         MaaSathi AI
