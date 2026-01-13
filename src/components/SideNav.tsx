@@ -1,4 +1,4 @@
-import { Home, Stethoscope, BarChart3, Settings as SettingsIcon } from "lucide-react";
+import { Home, Stethoscope, BarChart3, Settings as SettingsIcon, History as HistoryIcon } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { cn } from "@/lib/utils";
 
@@ -10,8 +10,13 @@ const SideNav = () => {
     const items = [
         { label: "Home", to: "/", icon: Home },
         { label: "Assess", to: "/assess", icon: Stethoscope },
-        // Only show Analytics for Health Workers
+
+        // Show History for Mothers
+        ...(role === 'mother' ? [{ label: "History", to: "/history", icon: HistoryIcon }] : []),
+
+        // Show Analytics for Health Workers
         ...(role === 'health_worker' ? [{ label: "Analytics", to: "/dashboard", icon: BarChart3 }] : []),
+
         { label: "Settings", to: "/settings", icon: SettingsIcon },
     ];
 

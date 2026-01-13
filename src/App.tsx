@@ -13,6 +13,7 @@ import NotFound from "./pages/NotFound";
 import { LanguageProvider } from "./context/LanguageContext";
 import Settings from "./pages/Settings";
 import { ThemeProvider } from "./context/ThemeContext";
+import HistoryPage from "./pages/History";
 import Help from "./pages/Help";
 import BottomNav from "./components/BottomNav";
 import TopNav from "./components/TopNav";
@@ -52,6 +53,7 @@ const AppRoutes = () => {
             <Route path="/mother/home" element={<Index />} />
             <Route path="/assess" element={<Assessment />} />
             <Route path="/result" element={<Result />} />
+            <Route path="/history" element={<HistoryPage />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/help" element={<Help />} />
           </Route>
