@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-export type PageLayoutWidth = "sm" | "md" | "lg" | "xl" | "full";
+export type PageLayoutWidth = "sm" | "md" | "lg" | "xl" | "full" | "hybrid";
 
 interface PageLayoutProps {
   children: ReactNode;
@@ -19,16 +19,18 @@ const widthClassMap: Record<PageLayoutWidth, string> = {
   full: "max-w-full",
   xl: "max-w-7xl",
   lg: "max-w-5xl",
-  md: "max-w-3xl",
-  sm: "max-w-xl",
+  md: "max-w-prose", // Better for readability
+  sm: "max-w-md",
+  // Adding the hybrid constraint requested: max-w-md md:max-w-2xl lg:max-w-5xl
+  hybrid: "max-w-md md:max-w-2xl lg:max-w-5xl"
 };
 
-const PageLayout = ({ children, maxWidth = "md", className }: PageLayoutProps) => {
+const PageLayout = ({ children, maxWidth = "hybrid", className }: PageLayoutProps) => {
   return (
-    <div className="bg-background h-full pb-16">
+    <div className="bg-background min-h-screen flex flex-col items-center">
       <main
         className={cn(
-          "mx-auto w-full px-4 py-3 flex flex-col gap-3 flex-1",
+          "w-full px-4 py-6 flex flex-col gap-4 flex-1",
           widthClassMap[maxWidth],
           className,
         )}

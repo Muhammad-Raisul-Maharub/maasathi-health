@@ -47,21 +47,21 @@ const Index = () => {
               </p>
 
               {/* Action Buttons */}
-              <div className="w-full space-y-2 sm:max-w-sm sm:mx-auto md:mx-0">
-                <Link to="/assess">
+              <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-3 sm:max-w-md md:max-w-lg mx-auto md:mx-0">
+                <Link to="/assess" className="w-full">
                   <Button
                     size="lg"
-                    className="w-full justify-center text-sm sm:text-base py-2.5 sm:py-3 shadow-lg hover:shadow-xl hover-scale transition-all duration-200 active:scale-95"
+                    className="w-full h-12 sm:h-14 text-base font-semibold shadow-lg hover:shadow-xl hover-scale transition-all duration-200 active:scale-95"
                   >
                     {t('home.start')}
                   </Button>
                 </Link>
 
-                <Link to="/settings">
+                <Link to="/settings" className="w-full">
                   <Button
                     variant="outline"
                     size="lg"
-                    className="w-full justify-center text-sm sm:text-base py-2.5 sm:py-3 hover-scale transition-all duration-200 active:scale-95"
+                    className="w-full h-12 sm:h-14 text-base font-medium hover-scale transition-all duration-200 active:scale-95"
                   >
                     Settings
                   </Button>
@@ -69,18 +69,18 @@ const Index = () => {
               </div>
 
               {/* Info Badge */}
-              <div className="bg-card p-2.5 rounded-lg border border-border max-w-xl mx-auto md:mx-0 animate-fade-in">
-                <p className="text-xs sm:text-sm text-muted-foreground text-center md:text-left">
+              <div className="bg-card p-4 rounded-xl border border-border max-w-xl mx-auto md:mx-0 animate-fade-in shadow-sm">
+                <p className="text-sm text-muted-foreground text-center md:text-left leading-relaxed">
                   {t('home.info')}
                 </p>
               </div>
             </div>
 
-            <div className="order-1 md:order-2 rounded-3xl overflow-hidden shadow-md border border-border bg-muted/40 flex items-center justify-center animate-fade-in">
+            <div className="order-1 md:order-2 rounded-3xl overflow-hidden shadow-lg border border-border bg-muted/20 flex items-center justify-center animate-fade-in p-4 md:p-8">
               <img
                 src={landingHero}
-                alt="MaaSathi AI landing illustration showing mother and child with Offline-First and Explainable AI"
-                className="w-full h-auto max-h-[260px] sm:max-h-[320px] md:max-h-[420px] object-contain md:object-cover"
+                alt="MaaSathi AI landing illustration"
+                className="w-full h-auto max-h-[280px] sm:max-h-[360px] md:max-h-[400px] object-contain drop-shadow-md"
               />
             </div>
           </section>

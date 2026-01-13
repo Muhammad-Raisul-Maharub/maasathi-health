@@ -4,6 +4,9 @@
 
 ![MaaSathi Banner](/public/pwa-512x512.png)
 
+## 🌐 Live Demo
+[**https://maasathi-health.vercel.app/login**](https://maasathi-health.vercel.app/login)
+
 ## 🌟 Key Features
 
 ### 1. 📶 Offline-First Core

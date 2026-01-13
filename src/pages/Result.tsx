@@ -118,11 +118,11 @@ const Result = () => {
             <Button
               variant="outline"
               size="icon"
-              className="print:hidden"
+              className="print:hidden bg-background hover:bg-accent border-primary/20"
               onClick={() => window.print()}
               aria-label="Print assessment report"
             >
-              <Printer className="w-4 h-4" />
+              <Printer className="w-4 h-4 text-primary" />
             </Button>
           </div>
         </div>

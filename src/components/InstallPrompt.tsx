@@ -36,15 +36,21 @@ const InstallPrompt = () => {
     }, []);
 
     const handleInstallClick = async () => {
-        if (!deferredPrompt) return;
-
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-
-        if (outcome === 'accepted') {
-            setDeferredPrompt(null);
-            setShowPrompt(false);
+        if (!deferredPrompt) {
+            console.log("No deferred prompt found");
+            return;
         }
+
+        // Show the prompt
+        deferredPrompt.prompt();
+
+        // Wait for the user to respond to the prompt
+        const { outcome } = await deferredPrompt.userChoice;
+        console.log(`User response to the install prompt: ${outcome}`);
+
+        // We've used the prompt, and can't use it again, discard it
+        setDeferredPrompt(null);
+        setShowPrompt(false);
     };
 
     return (
@@ -84,9 +90,12 @@ const InstallPrompt = () => {
                                     </p>
                                 </div>
                             ) : (
-                                <Button onClick={handleInstallClick} className="w-full shadow-lg">
-                                    Install App
-                                </Button>
+                                // Only show button if we captured the event
+                                deferredPrompt && (
+                                    <Button onClick={handleInstallClick} className="w-full shadow-lg">
+                                        Install App
+                                    </Button>
+                                )
                             )}
                         </div>
                     </div>

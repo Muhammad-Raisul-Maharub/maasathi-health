@@ -123,7 +123,7 @@ const Assessment = () => {
                   <TooltipTrigger asChild>
                     <button
                       type="button"
-                      className="inline-flex items-center justify-center rounded-full border border-border bg-card px-2 py-0.5 text-xs text-muted-foreground hover:bg-accent"
+                      className="inline-flex items-center justify-center rounded-full border border-border bg-card px-3 py-1 text-xs font-medium text-muted-foreground hover:bg-accent transition-colors"
                       aria-label="Why this symptom matters"
                     >
                       <Info className="w-3 h-3" />
@@ -143,7 +143,7 @@ const Assessment = () => {
                   </TooltipContent>
                 </Tooltip>
               </div>
-              <p className="text-xs sm:text-sm text-muted-foreground text-center">
+              <p className="text-sm sm:text-lg text-muted-foreground text-center font-medium leading-relaxed">
                 {currentSymptom.questionBn}
               </p>
               <p className="text-[10px] sm:text-xs text-muted-foreground flex items-center gap-1 justify-center mt-0.5">
@@ -154,45 +154,41 @@ const Assessment = () => {
           </div>
 
           {/* Answer Options */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 md:justify-center gap-4 max-w-2xl mx-auto w-full">
             <Card
-              className={`p-3 sm:p-4 cursor-pointer transition-all hover-scale hover:shadow-md animate-fade-in ${answers[currentSymptom.id] === true
-                ? 'bg-green-500 hover:bg-green-600 text-white border-green-500 shadow-md'
-                : 'bg-card hover:bg-accent'
+              className={`p-3 sm:p-5 md:w-64 md:h-24 cursor-pointer transition-all hover-scale hover:shadow-lg animate-fade-in flex flex-col items-center justify-center gap-3 ${answers[currentSymptom.id] === true
+                ? 'bg-green-500 hover:bg-green-600 text-white border-green-500 shadow-md ring-2 ring-green-600 ring-offset-2'
+                : 'bg-card hover:bg-accent border-muted-foreground/20'
                 }`}
               onClick={() => handleAnswer(true)}
             >
-              <div className="flex flex-col items-center gap-1.5 sm:gap-2">
-                <div
-                  className={`p-1.5 sm:p-2 rounded-full ${answers[currentSymptom.id] === true
-                    ? 'bg-white/20'
-                    : 'bg-primary/10'
-                    }`}
-                >
-                  <Check className="w-6 h-6 sm:w-7 sm:h-7" />
-                </div>
-                <span className="text-sm sm:text-base font-semibold">{t('assessment.yes')}</span>
+              <div
+                className={`p-1.5 rounded-full ${answers[currentSymptom.id] === true
+                  ? 'bg-white/20'
+                  : 'bg-primary/10'
+                  }`}
+              >
+                <Check className="w-6 h-6 sm:w-8 sm:h-8" />
               </div>
+              <span className="text-base sm:text-lg font-semibold">{t('assessment.yes')}</span>
             </Card>
 
             <Card
-              className={`p-3 sm:p-4 cursor-pointer transition-all hover-scale hover:shadow-md animate-fade-in ${answers[currentSymptom.id] === false
-                ? 'bg-destructive text-destructive-foreground border-destructive shadow-md'
-                : 'bg-card hover:bg-accent'
+              className={`p-3 sm:p-5 md:w-64 md:h-24 cursor-pointer transition-all hover-scale hover:shadow-lg animate-fade-in flex flex-col items-center justify-center gap-3 ${answers[currentSymptom.id] === false
+                ? 'bg-destructive text-destructive-foreground border-destructive shadow-md ring-2 ring-destructive ring-offset-2'
+                : 'bg-card hover:bg-accent border-muted-foreground/20'
                 }`}
               onClick={() => handleAnswer(false)}
             >
-              <div className="flex flex-col items-center gap-1.5 sm:gap-2">
-                <div
-                  className={`p-1.5 sm:p-2 rounded-full ${answers[currentSymptom.id] === false
-                    ? 'bg-destructive-foreground/20'
-                    : 'bg-muted'
-                    }`}
-                >
-                  <X className="w-6 h-6 sm:w-7 sm:h-7" />
-                </div>
-                <span className="text-sm sm:text-base font-semibold">{t('assessment.no')}</span>
+              <div
+                className={`p-1.5 rounded-full ${answers[currentSymptom.id] === false
+                  ? 'bg-destructive-foreground/20'
+                  : 'bg-muted'
+                  }`}
+              >
+                <X className="w-6 h-6 sm:w-8 sm:h-8" />
               </div>
+              <span className="text-base sm:text-lg font-semibold">{t('assessment.no')}</span>
             </Card>
           </div>
         </div>
