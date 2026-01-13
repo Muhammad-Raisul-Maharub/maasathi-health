@@ -1,73 +1,114 @@
-# Welcome to your Lovable project
+# MaaSathi AI 🏥🤰
 
-## Project info
+**MaaSathi AI** is an intelligent, offline-first Progressive Web App (PWA) designed to empower Health Workers and Pregnant Mothers in rural areas. It uses rule-based AI to assess maternal health risks, works completely offline, and automatically syncs data to the cloud when internet connectivity is available.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+![MaaSathi Banner](/public/pwa-512x512.png)
 
-## How can I edit this code?
+## 🌟 Key Features
 
-There are several ways of editing your application.
+### 1. 📶 Offline-First Core
+*   **Works Everywhere**: Fully functional without internet access. Data is stored locally using `Dexie.js` (IndexedDB).
+*   **Smart Sync**: Automatically uploads offline assessments to Supabase once connectivity is restored.
+*   **Resilient**: Handles network interruptions gracefully with batch processing and retry logic.
 
-**Use Lovable**
+### 2. 🧠 AI-Powered Assessment
+*   **Clinical Logic**: Calculates risk scores based on symptoms (e.g., high fever, severe headache, bleeding).
+*   **Instant Feedback**: Classifies risks as **High**, **Moderate**, or **Low** and provides immediate actionable advice.
+*   **Bilingual**: Full support for **English** and **Bengali (Bangla)**.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+### 3. 📱 Mobile-First PWA & Android App
+*   **Installable**: safe to install on any Android/iOS device directly from the browser.
+*   **Native Android**: Built with **Capacitor** to generate a legitimate `.apk` file.
+*   **Optimized UI**:
+    *   **Glassmorphism Design**: Modern, beautiful interface.
+    *   **Thumb-Friendly**: Sticky bottom navigation and buttons for easy mobile use.
+    *   **Responsive**: Side Navigation Rail for desktop/tablet users.
 
-Changes made via Lovable will be committed automatically to this repo.
+### 4. 🔐 Secure Role-Based Authentication
+*   **Google Auth**: One-click login with automatic profile creation.
+*   **Role Management**:
+    *   **Health Workers**: Access to Analytics Dashboard, Patient History, and CSV Exports.
+    *   **Pregnant Mothers**: Access to Self-Assessment, Educational Home Page, and Emergency Contacts.
+*   **Security**: Row Level Security (RLS) ensures strict data privacy.
 
-**Use your preferred IDE**
+---
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## 🛠️ Tech Stack
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+*   **Frontend**: React (Vite), TypeScript, Tailwind CSS, Shadcn UI
+*   **State & Cache**: TanStack Query (React Query)
+*   **Local Database**: Dexie.js (IndexedDB wrapper)
+*   **Backend & Auth**: Supabase (PostgreSQL, Auth, Edge Functions)
+*   **Mobile Engine**: Capacitor (for Android Native Build)
+*   **Animations**: Framer Motion
 
-Follow these steps:
+---
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## 🚀 Getting Started
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+### Prerequisites
+*   Node.js & npm installed
+*   Android Studio (only for building the native Android app)
 
-# Step 3: Install the necessary dependencies.
-npm i
+### 1. Installation
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+```bash
+# Clone the repository
+git clone <your-repo-url>
+cd maasathi-health
+
+# Install dependencies
+npm install
 ```
 
-**Edit a file directly in GitHub**
+### 2. running Locally (Web)
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```bash
+npm run dev
+# Open http://localhost:8080
+```
 
-**Use GitHub Codespaces**
+### 3. Building for Android
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+```bash
+# Build web assets and sync with Capacitor
+npm run build:android
 
-## What technologies are used for this project?
+# Open Android Studio
+npx cap open android
+# Click the "Run" (Play) button in Android Studio to launch on Emulator/Device
+```
 
-This project is built with:
+---
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## ☁️ Deployment
 
-## How can I deploy this project?
+### Web (Vercel)
+The easiest way to deploy is via Vercel.
+1.  Push code to GitHub.
+2.  Import project in Vercel.
+3.  Add Environment Variables (`VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`).
+4.  Deploy!
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+### Android (APK)
+1.  Run `npx cap open android`.
+2.  Go to **Build > Build Bundle(s) / APK(s) > Build APK(s)**.
+3.  Locate the generated `app-debug.apk` and share it!
 
-## Can I connect a custom domain to my Lovable project?
+---
 
-Yes, you can!
+## 🔒 Environment Variables
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+Create a `.env` file in the root directory:
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+```env
+VITE_SUPABASE_URL=your_supabase_url
+VITE_SUPABASE_PUBLISHABLE_KEY=your_supabase_anon_key
+```
+
+---
+
+## 👨‍💻 Developed By
+
+**Muhammad Raisul Maharub**  
+*Empowering Maternal Health through Technology.*

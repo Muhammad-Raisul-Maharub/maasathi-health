@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-export type PageLayoutWidth = "md" | "lg" | "xl";
+export type PageLayoutWidth = "sm" | "md" | "lg" | "xl" | "full";
 
 interface PageLayoutProps {
   children: ReactNode;
@@ -16,9 +16,11 @@ interface PageLayoutProps {
 }
 
 const widthClassMap: Record<PageLayoutWidth, string> = {
-  md: "max-w-md",
-  lg: "max-w-3xl",
-  xl: "max-w-5xl",
+  full: "max-w-full",
+  xl: "max-w-7xl",
+  lg: "max-w-5xl",
+  md: "max-w-3xl",
+  sm: "max-w-xl",
 };
 
 const PageLayout = ({ children, maxWidth = "md", className }: PageLayoutProps) => {
@@ -26,13 +28,19 @@ const PageLayout = ({ children, maxWidth = "md", className }: PageLayoutProps) =
     <div className="bg-background h-full pb-16">
       <main
         className={cn(
-          "mx-auto w-full px-4 py-3 flex flex-col gap-3 min-h-full",
+          "mx-auto w-full px-4 py-3 flex flex-col gap-3 flex-1",
           widthClassMap[maxWidth],
           className,
         )}
       >
         {children}
       </main>
+      <footer className="py-4 text-center border-t border-border mt-auto">
+        <p className="text-xs text-muted-foreground font-medium">
+          Designed and Developed by{" "}
+          <span className="text-primary font-bold">Raisul Maharub</span>
+        </p>
+      </footer>
     </div>
   );
 };

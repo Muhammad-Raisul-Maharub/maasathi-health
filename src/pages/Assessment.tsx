@@ -69,7 +69,7 @@ const Assessment = () => {
   };
 
   return (
-    <PageLayout maxWidth="lg">
+    <PageLayout maxWidth="md">
       <div className="flex flex-col gap-2">
         <div className="flex justify-end mb-1">
           <ThemeToggle />
@@ -156,20 +156,18 @@ const Assessment = () => {
           {/* Answer Options */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <Card
-              className={`p-3 sm:p-4 cursor-pointer transition-all hover-scale hover:shadow-md animate-fade-in ${
-                answers[currentSymptom.id] === true
-                  ? 'bg-primary text-primary-foreground border-primary shadow-md'
-                  : 'bg-card hover:bg-accent'
-              }`}
+              className={`p-3 sm:p-4 cursor-pointer transition-all hover-scale hover:shadow-md animate-fade-in ${answers[currentSymptom.id] === true
+                ? 'bg-primary text-primary-foreground border-primary shadow-md'
+                : 'bg-card hover:bg-accent'
+                }`}
               onClick={() => handleAnswer(true)}
             >
               <div className="flex flex-col items-center gap-1.5 sm:gap-2">
                 <div
-                  className={`p-1.5 sm:p-2 rounded-full ${
-                    answers[currentSymptom.id] === true
-                      ? 'bg-primary-foreground/20'
-                      : 'bg-primary/10'
-                  }`}
+                  className={`p-1.5 sm:p-2 rounded-full ${answers[currentSymptom.id] === true
+                    ? 'bg-primary-foreground/20'
+                    : 'bg-primary/10'
+                    }`}
                 >
                   <Check className="w-6 h-6 sm:w-7 sm:h-7" />
                 </div>
@@ -178,20 +176,18 @@ const Assessment = () => {
             </Card>
 
             <Card
-              className={`p-3 sm:p-4 cursor-pointer transition-all hover-scale hover:shadow-md animate-fade-in ${
-                answers[currentSymptom.id] === false
-                  ? 'bg-destructive text-destructive-foreground border-destructive shadow-md'
-                  : 'bg-card hover:bg-accent'
-              }`}
+              className={`p-3 sm:p-4 cursor-pointer transition-all hover-scale hover:shadow-md animate-fade-in ${answers[currentSymptom.id] === false
+                ? 'bg-destructive text-destructive-foreground border-destructive shadow-md'
+                : 'bg-card hover:bg-accent'
+                }`}
               onClick={() => handleAnswer(false)}
             >
               <div className="flex flex-col items-center gap-1.5 sm:gap-2">
                 <div
-                  className={`p-1.5 sm:p-2 rounded-full ${
-                    answers[currentSymptom.id] === false
-                      ? 'bg-destructive-foreground/20'
-                      : 'bg-muted'
-                  }`}
+                  className={`p-1.5 sm:p-2 rounded-full ${answers[currentSymptom.id] === false
+                    ? 'bg-destructive-foreground/20'
+                    : 'bg-muted'
+                    }`}
                 >
                   <X className="w-6 h-6 sm:w-7 sm:h-7" />
                 </div>
@@ -215,25 +211,27 @@ const Assessment = () => {
         </div>
 
         {/* Navigation */}
-        <div className="flex gap-2 mt-2">
-          <Button
-            variant="outline"
-            size="lg"
-            onClick={handleBack}
-            className="flex-1 hover-scale"
-          >
-            <ArrowLeft className="w-4 h-4 mr-1" />
-            {t('nav.back')}
-          </Button>
-          <Button
-            size="lg"
-            onClick={handleNext}
-            disabled={!hasAnswer}
-            className="flex-1 hover-scale"
-          >
-            {isLastStep ? t('assessment.viewResults') : t('assessment.next')}
-            {!isLastStep && <ArrowRight className="w-4 h-4 ml-1" />}
-          </Button>
+        <div className="sticky bottom-0 left-0 right-0 p-3 bg-background/80 backdrop-blur-md border-t border-border mt-auto -mx-4 sm:mx-0 sm:rounded-b-lg z-10">
+          <div className="flex gap-2 max-w-lg mx-auto w-full">
+            <Button
+              variant="outline"
+              size="lg"
+              onClick={handleBack}
+              className="flex-1 hover-scale active:scale-95 transition-transform"
+            >
+              <ArrowLeft className="w-4 h-4 mr-1" />
+              {t('nav.back')}
+            </Button>
+            <Button
+              size="lg"
+              onClick={handleNext}
+              disabled={!hasAnswer}
+              className="flex-1 hover-scale active:scale-95 transition-transform shadow-lg"
+            >
+              {isLastStep ? t('assessment.viewResults') : t('assessment.next')}
+              {!isLastStep && <ArrowRight className="w-4 h-4 ml-1" />}
+            </Button>
+          </div>
         </div>
         <FloatingHelpButton section="assessment" />
       </div>

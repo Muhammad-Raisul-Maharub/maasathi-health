@@ -21,6 +21,7 @@ import {
   type ChartConfig,
 } from '@/components/ui/chart';
 import { Bar, BarChart, CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts';
+import { SyncService } from '@/services/SyncService';
 
 const Dashboard = () => {
   const { toast } = useToast();
@@ -47,42 +48,24 @@ const Dashboard = () => {
 
     setIsSyncing(true);
     try {
-      const unsynced = await db.assessments.filter(a => !a.isSynced).toArray();
+      const syncedCount = await SyncService.syncData();
 
-      if (unsynced.length === 0) {
+      if (syncedCount === 0) {
         toast({
           title: `${t('toast.alreadySyncedTitle')} / সব ডেটা আগে থেকেই সিঙ্ক হয়েছে`,
           description: `${t('toast.alreadySyncedDescription')} / নতুন করে পাঠানোর কিছু নেই।`,
         });
-        setIsSyncing(false);
-        return;
+      } else {
+        toast({
+          title: `${t('toast.syncCompleteTitle')} / সিঙ্ক সম্পন্ন হয়েছে`,
+          description: `${t('toast.syncCompleteDescription')} / ${syncedCount} টি রেকর্ড ক্লাউডে পাঠানো হয়েছে।`,
+        });
       }
-
-      for (const assessment of unsynced) {
-        const { error } = await supabase.from('assessments').insert({
-          id: assessment.id,
-          risk_score: assessment.riskScore,
-          risk_level: assessment.riskLevel,
-          symptoms: {
-            selected: assessment.symptoms,
-            notes: assessment.notes ?? null,
-          } as any,
-          created_at: new Date(assessment.timestamp).toISOString(),
-        } as any);
-
-        if (!error) {
-          await db.assessments.update(assessment.id, { isSynced: true });
-        }
-      }
-
-      toast({
-        title: `${t('toast.syncCompleteTitle')} / সিঙ্ক সম্পন্ন হয়েছে`,
-        description: `${t('toast.syncCompleteDescription')} / সব মূল্যায়ন সফলভাবে ক্লাউডে পাঠানো হয়েছে।`,
-      });
     } catch (error) {
+      const message = error instanceof Error ? error.message : "Unknown error";
       toast({
         title: `${t('toast.syncFailedTitle')} / সিঙ্ক করা যায়নি`,
-        description: `${t('toast.syncFailedDescription')} / পরে আবার চেষ্টা করুন বা ইন্টারনেট সংযোগ পরীক্ষা করুন।`,
+        description: `${t('toast.syncFailedDescription')} / ${message}`,
         variant: 'destructive',
       });
     } finally {

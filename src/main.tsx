@@ -1,14 +1,15 @@
 import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
+import ReloadPrompt from "./components/ReloadPrompt.tsx";
+import InstallPrompt from "./components/InstallPrompt.tsx";
 
 const container = document.getElementById("root")!;
-createRoot(container).render(<App />);
+createRoot(container).render(
+  <>
+    <App />
+    <ReloadPrompt />
+    <InstallPrompt />
+  </>
+);
 
-if ("serviceWorker" in navigator && import.meta.env.PROD) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("/sw.js").catch((err) => {
-      console.error("Service worker registration failed:", err);
-    });
-  });
-}
