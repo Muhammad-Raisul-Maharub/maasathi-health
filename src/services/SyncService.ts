@@ -43,9 +43,9 @@ export const SyncService = {
             .upsert(recordsToInsert as any, { onConflict: "id" }); // using upsert to be safe
 
         if (error) {
-            ("Supabase sync error:", error);
             throw new Error(`Sync failed: ${error.message}`);
         }
+
 
         // 4. Update local records to synced = true
         // We do this in a transaction or just loop for now.
