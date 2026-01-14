@@ -8,11 +8,12 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { format } from "date-fns";
-import { Cloud, CloudOff, History as HistoryIcon, AlertTriangle, Download, Eye, FileText, RefreshCw } from "lucide-react";
+import { Cloud, CloudOff, History as HistoryIcon, AlertTriangle, Download, Eye, FileText, RefreshCw, Loader2 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { generateMedicalReportPDF, generateBatchReportPDF } from "@/lib/pdfGenerator";
 import { useToast } from "@/hooks/use-toast";
+import { SyncService } from "@/services/SyncService";
 
 const HistoryPage = () => {
     const { t } = useLanguage();
@@ -20,6 +21,7 @@ const HistoryPage = () => {
     const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
     const [previewAssessment, setPreviewAssessment] = useState<Assessment | null>(null);
     const [selectMode, setSelectMode] = useState(false);
+    const [isSyncing, setIsSyncing] = useState(false);
 
     // Real-time query to Dexie DB
     const assessments = useLiveQuery(
@@ -78,12 +80,35 @@ const HistoryPage = () => {
 
     const handleExportSingle = (assessment: Assessment) => {
         generateMedicalReportPDF(assessment);
-        toast({ title: t('history.exported') || 'Exported', description: 'Medical report downloaded.' });
+        toast({ title: t('history.exported') || 'Exported', description: t('history.exportedDesc') || 'Medical report downloaded.' });
     };
 
     const formatSymptom = (symptom: string) => {
         return symptom.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
     };
+
+    const handleSync = async () => {
+        setIsSyncing(true);
+        try {
+            const count = await SyncService.syncData();
+            if (count === 0) {
+                toast({ title: t('toast.alreadySyncedTitle') || 'Already Synced', description: t('toast.alreadySyncedDescription') || 'All assessments synced.' });
+            } else {
+                toast({ title: t('toast.syncCompleteTitle') || 'Sync Complete', description: `${count} ${t('history.syncedCount') || 'assessments synced to cloud.'}` });
+            }
+        } catch (error: any) {
+            toast({
+                title: t('toast.syncFailedTitle') || 'Sync Failed',
+                description: error.message || t('toast.syncFailedDescription') || 'Could not sync. Please try again.',
+                variant: 'destructive'
+            });
+        } finally {
+            setIsSyncing(false);
+        }
+    };
+
+    // Count unsynced assessments
+    const unsyncedCount = assessments?.filter(a => !a.isSynced).length || 0;
 
     return (
         <PageLayout maxWidth="md">
@@ -95,10 +120,28 @@ const HistoryPage = () => {
                     </div>
 
                     <div className="flex items-center gap-2">
+                        {/* Sync Button with count */}
+                        {unsyncedCount > 0 && !selectMode && (
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={handleSync}
+                                disabled={isSyncing}
+                                className="gap-1.5 border-primary text-primary"
+                            >
+                                {isSyncing ? (
+                                    <Loader2 className="w-4 h-4 animate-spin" />
+                                ) : (
+                                    <Cloud className="w-4 h-4" />
+                                )}
+                                {t('common.syncCloud') || 'Sync'} ({unsyncedCount})
+                            </Button>
+                        )}
+
                         {selectMode && selectedIds.size > 0 && (
                             <Button size="sm" onClick={handleExportSelected} className="gap-1.5">
                                 <Download className="w-4 h-4" />
-                                Export ({selectedIds.size})
+                                {t('dashboard.export') || 'Export'} ({selectedIds.size})
                             </Button>
                         )}
                         <Button
@@ -111,7 +154,7 @@ const HistoryPage = () => {
                             className="gap-1.5"
                         >
                             <FileText className="w-4 h-4" />
-                            {selectMode ? 'Cancel' : 'Select'}
+                            {selectMode ? (t('common.cancel') || 'Cancel') : (t('common.select') || 'Select')}
                         </Button>
                     </div>
                 </header>
