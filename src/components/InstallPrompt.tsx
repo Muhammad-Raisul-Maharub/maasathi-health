@@ -62,26 +62,26 @@ const InstallPrompt = () => {
                     exit={{ y: 100, opacity: 0 }}
                     className="fixed bottom-0 left-0 right-0 z-50 p-4 sm:p-6"
                 >
-                    <div className="mx-auto max-w-md bg-white/10 backdrop-blur-md border border-white/20 shadow-2xl rounded-2xl p-5 text-card-foreground">
+                    <div className="mx-auto max-w-md bg-card border border-border shadow-2xl rounded-2xl p-5">
                         <button
                             onClick={() => setShowPrompt(false)}
-                            className="absolute top-2 right-2 p-1 rounded-full hover:bg-black/5 dark:hover:bg-white/10"
+                            className="absolute top-2 right-2 p-1 rounded-full hover:bg-muted"
                         >
-                            <X className="w-4 h-4 opacity-70" />
+                            <X className="w-4 h-4 text-muted-foreground" />
                         </button>
 
                         <div className="flex flex-col gap-4">
                             <div>
-                                <h3 className="font-semibold text-lg text-primary-foreground dark:text-primary">
+                                <h3 className="font-semibold text-lg text-primary">
                                     Install MaaSathi AI
                                 </h3>
-                                <p className="text-sm opacity-90 mt-1">
+                                <p className="text-sm text-muted-foreground mt-1">
                                     Add to home screen for offline access and better performance.
                                 </p>
                             </div>
 
                             {isIOS ? (
-                                <div className="text-sm space-y-2 bg-black/5 dark:bg-white/5 p-3 rounded-lg">
+                                <div className="text-sm space-y-2 bg-muted p-3 rounded-lg text-foreground">
                                     <p className="flex items-center gap-2">
                                         1. Tap the Share button <Share className="w-4 h-4" />
                                     </p>
