@@ -41,10 +41,10 @@ const AppRoutes = () => {
       <motion.div
         key={location.pathname}
         className="flex-1 flex"
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -12 }}
-        transition={{ duration: 0.28, ease: [0.22, 0.61, 0.36, 1] }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.1 }}
       >
         <Routes location={location}>
           {/* Default Route: Smart Redirect */}
