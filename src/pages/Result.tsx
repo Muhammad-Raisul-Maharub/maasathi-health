@@ -47,95 +47,32 @@ const Result = () => {
     }
   };
 
-  const handleExportPDF = async () => {
-    try {
-      // Dynamic import for jspdf
-      const { default: jsPDF } = await import('jspdf');
-      const doc = new jsPDF();
+  const handleExportPDF = () => {
+    // Create a temporary assessment object for the PDF generator
+    const tempAssessment = {
+      id: crypto.randomUUID(),
+      timestamp: Date.now(),
+      riskScore: result.score,
+      riskLevel: result.level,
+      symptoms: selectedSymptoms,
+      notes: notes || undefined,
+      isSynced: false,
+    };
 
-      // Header
-      doc.setFontSize(20);
-      doc.setTextColor(40, 40, 40);
-      doc.text('MaaSathi AI - Assessment Report', 20, 20);
-
-      // Date
-      doc.setFontSize(10);
-      doc.setTextColor(100, 100, 100);
-      doc.text(`Date: ${new Date().toLocaleDateString('en-US', {
-        year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
-      })}`, 20, 30);
-
-      // Divider
-      doc.setDrawColor(200, 200, 200);
-      doc.line(20, 35, 190, 35);
-
-      // Risk Level
-      doc.setFontSize(14);
-      doc.setTextColor(40, 40, 40);
-      doc.text('Risk Assessment', 20, 45);
-
-      doc.setFontSize(24);
-      const riskColors: Record<string, [number, number, number]> = {
-        'High': [220, 38, 38],
-        'Medium': [249, 115, 22],
-        'Low': [34, 197, 94]
-      };
-      const [r, g, b] = riskColors[result.level] || [100, 100, 100];
-      doc.setTextColor(r, g, b);
-      doc.text(`${result.level} Risk`, 20, 58);
-
-      doc.setFontSize(12);
-      doc.setTextColor(60, 60, 60);
-      doc.text(`Score: ${result.score}`, 20, 68);
-
-      // Symptoms
-      doc.setFontSize(14);
-      doc.setTextColor(40, 40, 40);
-      doc.text('Identified Symptoms:', 20, 85);
-
-      doc.setFontSize(10);
-      doc.setTextColor(80, 80, 80);
-      let yPos = 95;
-      if (selectedSymptoms.length === 0) {
-        doc.text('• No symptoms reported', 25, yPos);
-      } else {
-        selectedSymptoms.forEach((symptom: string) => {
-          doc.text(`• ${symptom}`, 25, yPos);
-          yPos += 7;
-        });
-      }
-
-      // Notes
-      if (notes) {
-        yPos += 10;
-        doc.setFontSize(14);
-        doc.setTextColor(40, 40, 40);
-        doc.text('Clinical Notes:', 20, yPos);
-        yPos += 10;
-        doc.setFontSize(10);
-        doc.setTextColor(80, 80, 80);
-        const splitNotes = doc.splitTextToSize(notes, 170);
-        doc.text(splitNotes, 20, yPos);
-      }
-
-      // Footer
-      doc.setFontSize(8);
-      doc.setTextColor(150, 150, 150);
-      doc.text('This report is for informational purposes only. Consult a healthcare professional.', 20, 280);
-
-      doc.save(`MaaSathi_Assessment_${new Date().toISOString().split('T')[0]}.pdf`);
-
+    // Dynamic import for PDF generator
+    import('@/lib/pdfGenerator').then(({ generateMedicalReportPDF }) => {
+      generateMedicalReportPDF(tempAssessment);
       toast({
-        title: 'PDF Exported',
-        description: 'Assessment report has been downloaded.',
+        title: t('history.exported') || 'PDF Exported',
+        description: t('history.exportedDesc') || 'Medical report has been downloaded.',
       });
-    } catch (error) {
+    }).catch(() => {
       toast({
         title: 'Export Failed',
         description: 'Could not generate PDF. Please try again.',
         variant: 'destructive',
       });
-    }
+    });
   };
 
   const handleSave = async () => {
