@@ -11,6 +11,7 @@ import AuthCallback from "./pages/AuthCallback";
 import Assessment from "./pages/Assessment";
 import Result from "./pages/Result";
 import Dashboard from "./pages/Dashboard";
+import HealthWorkerHome from "./pages/HealthWorkerHome";
 import NotFound from "./pages/NotFound";
 import { LanguageProvider } from "./context/LanguageContext";
 import Settings from "./pages/Settings";
@@ -68,7 +69,8 @@ const AppRoutes = () => {
 
           {/* Health Worker Exclusive Routes */}
           <Route element={<ProtectedRoute allowedRoles={['health_worker']} />}>
-            <Route path="/worker/dashboard" element={<Dashboard />} />
+            <Route path="/worker/dashboard" element={<HealthWorkerHome />} />
+            <Route path="/worker/analytics" element={<Dashboard />} />
             <Route path="/dashboard" element={<Dashboard />} />
           </Route>
 

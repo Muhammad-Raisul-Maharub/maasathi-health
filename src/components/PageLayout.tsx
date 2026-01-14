@@ -14,6 +14,8 @@ interface PageLayoutProps {
    */
   maxWidth?: PageLayoutWidth;
   className?: string;
+  /** Hide the global theme toggle (use when page has its own toggle) */
+  hideThemeToggle?: boolean;
 }
 
 const widthClassMap: Record<PageLayoutWidth, string> = {
@@ -25,13 +27,15 @@ const widthClassMap: Record<PageLayoutWidth, string> = {
   hybrid: "max-w-md md:max-w-2xl lg:max-w-5xl"
 };
 
-const PageLayout = ({ children, maxWidth = "hybrid", className }: PageLayoutProps) => {
+const PageLayout = ({ children, maxWidth = "hybrid", className, hideThemeToggle = false }: PageLayoutProps) => {
   return (
     <div className="bg-background min-h-screen flex flex-col items-center w-full relative">
-      {/* Global Theme Toggle - Top Right */}
-      <div className="absolute top-4 right-4 z-50">
-        <ThemeToggle />
-      </div>
+      {/* Global Theme Toggle - Top Right (hidden on pages with their own toggle) */}
+      {!hideThemeToggle && (
+        <div className="absolute top-4 right-4 z-50">
+          <ThemeToggle />
+        </div>
+      )}
 
       <main
         className={cn(

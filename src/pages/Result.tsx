@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { calculateRisk } from '@/lib/riskEngine';
 import { db } from '@/lib/db';
-import { MapPin, Save, AlertTriangle, CheckCircle2, AlertCircle, ArrowLeft, Printer } from 'lucide-react';
+import { MapPin, Save, AlertTriangle, CheckCircle2, AlertCircle, ArrowLeft, Download, History, RefreshCw } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/context/LanguageContext';
 import { Textarea } from '@/components/ui/textarea';
@@ -47,6 +47,97 @@ const Result = () => {
     }
   };
 
+  const handleExportPDF = async () => {
+    try {
+      // Dynamic import for jspdf
+      const { default: jsPDF } = await import('jspdf');
+      const doc = new jsPDF();
+
+      // Header
+      doc.setFontSize(20);
+      doc.setTextColor(40, 40, 40);
+      doc.text('MaaSathi AI - Assessment Report', 20, 20);
+
+      // Date
+      doc.setFontSize(10);
+      doc.setTextColor(100, 100, 100);
+      doc.text(`Date: ${new Date().toLocaleDateString('en-US', {
+        year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
+      })}`, 20, 30);
+
+      // Divider
+      doc.setDrawColor(200, 200, 200);
+      doc.line(20, 35, 190, 35);
+
+      // Risk Level
+      doc.setFontSize(14);
+      doc.setTextColor(40, 40, 40);
+      doc.text('Risk Assessment', 20, 45);
+
+      doc.setFontSize(24);
+      const riskColors: Record<string, [number, number, number]> = {
+        'High': [220, 38, 38],
+        'Medium': [249, 115, 22],
+        'Low': [34, 197, 94]
+      };
+      const [r, g, b] = riskColors[result.level] || [100, 100, 100];
+      doc.setTextColor(r, g, b);
+      doc.text(`${result.level} Risk`, 20, 58);
+
+      doc.setFontSize(12);
+      doc.setTextColor(60, 60, 60);
+      doc.text(`Score: ${result.score}`, 20, 68);
+
+      // Symptoms
+      doc.setFontSize(14);
+      doc.setTextColor(40, 40, 40);
+      doc.text('Identified Symptoms:', 20, 85);
+
+      doc.setFontSize(10);
+      doc.setTextColor(80, 80, 80);
+      let yPos = 95;
+      if (selectedSymptoms.length === 0) {
+        doc.text('• No symptoms reported', 25, yPos);
+      } else {
+        selectedSymptoms.forEach((symptom: string) => {
+          doc.text(`• ${symptom}`, 25, yPos);
+          yPos += 7;
+        });
+      }
+
+      // Notes
+      if (notes) {
+        yPos += 10;
+        doc.setFontSize(14);
+        doc.setTextColor(40, 40, 40);
+        doc.text('Clinical Notes:', 20, yPos);
+        yPos += 10;
+        doc.setFontSize(10);
+        doc.setTextColor(80, 80, 80);
+        const splitNotes = doc.splitTextToSize(notes, 170);
+        doc.text(splitNotes, 20, yPos);
+      }
+
+      // Footer
+      doc.setFontSize(8);
+      doc.setTextColor(150, 150, 150);
+      doc.text('This report is for informational purposes only. Consult a healthcare professional.', 20, 280);
+
+      doc.save(`MaaSathi_Assessment_${new Date().toISOString().split('T')[0]}.pdf`);
+
+      toast({
+        title: 'PDF Exported',
+        description: 'Assessment report has been downloaded.',
+      });
+    } catch (error) {
+      toast({
+        title: 'Export Failed',
+        description: 'Could not generate PDF. Please try again.',
+        variant: 'destructive',
+      });
+    }
+  };
+
   const handleSave = async () => {
     setIsSaving(true);
     try {
@@ -61,15 +152,15 @@ const Result = () => {
       });
 
       toast({
-        title: `${t('toast.saveSuccessTitle')} / সফলভাবে সংরক্ষণ হয়েছে`,
-        description: `${t('toast.saveSuccessDescription')} / মূল্যায়নের তথ্য নিরাপদে সংরক্ষণ করা হয়েছে।`,
+        title: t('toast.saveSuccessTitle'),
+        description: t('toast.saveSuccessDescription'),
       });
 
       setTimeout(() => navigate('/dashboard'), 1500);
     } catch (error) {
       toast({
-        title: `${t('toast.saveErrorTitle')} / সংরক্ষণ করা যায়নি`,
-        description: `${t('toast.saveErrorDescription')} / দয়া করে আবার চেষ্টা করুন।`,
+        title: t('toast.saveErrorTitle'),
+        description: t('toast.saveErrorDescription'),
         variant: 'destructive',
       });
     } finally {
@@ -114,15 +205,14 @@ const Result = () => {
             </div>
           </div>
           <div className="flex items-center gap-1.5">
-
             <Button
               variant="outline"
               size="icon"
-              className="print:hidden bg-background hover:bg-accent border-primary/20"
-              onClick={() => window.print()}
-              aria-label="Print assessment report"
+              className="bg-background hover:bg-accent border-primary/20"
+              onClick={handleExportPDF}
+              aria-label="Export PDF report"
             >
-              <Printer className="w-4 h-4 text-primary" />
+              <Download className="w-4 h-4 text-primary" />
             </Button>
           </div>
         </div>
@@ -183,23 +273,27 @@ const Result = () => {
             {isSaving ? t('result.save') + '...' : t('result.save')}
           </Button>
 
-          <Button
-            variant="outline"
-            size="lg"
-            className="w-full justify-center text-sm"
-            onClick={() => navigate('/assess')}
-          >
-            {t('home.start')}
-          </Button>
+          <div className="grid grid-cols-2 gap-2">
+            <Button
+              variant="outline"
+              size="lg"
+              className="justify-center text-sm"
+              onClick={() => navigate('/assess')}
+            >
+              <RefreshCw className="w-4 h-4 mr-1.5" />
+              {t('result.followUp') || 'Follow Up'}
+            </Button>
 
-          <Button
-            variant="outline"
-            size="lg"
-            className="w-full justify-center text-sm"
-            onClick={() => navigate('/dashboard')}
-          >
-            {t('home.dashboard')}
-          </Button>
+            <Button
+              variant="outline"
+              size="lg"
+              className="justify-center text-sm"
+              onClick={() => navigate('/history')}
+            >
+              <History className="w-4 h-4 mr-1.5" />
+              {t('result.viewHistory') || 'View History'}
+            </Button>
+          </div>
 
           <Button
             variant="ghost"
@@ -207,8 +301,8 @@ const Result = () => {
             className="w-full justify-center gap-1 text-xs"
             onClick={() =>
               toast({
-                title: `${t('toast.clinicComingSoonTitle')} / ক্লিনিক লোকেশন শীঘ্রই আসছে`,
-                description: `${t('toast.clinicComingSoonDescription')} / আপাতত কাছের রেফারেল সেন্টারের তথ্য ম্যানুয়ালি ব্যবহার করুন।`,
+                title: t('toast.clinicComingSoonTitle'),
+                description: t('toast.clinicComingSoonDescription'),
               })
             }
           >

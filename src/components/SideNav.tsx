@@ -18,7 +18,7 @@ const SideNav = ({ isExpanded, toggle }: SideNavProps) => {
         { label: "Home", to: "/", icon: Home },
         { label: "Assess", to: "/assess", icon: Stethoscope },
         ...(role === 'mother' ? [{ label: "History", to: "/history", icon: HistoryIcon }] : []),
-        ...(role === 'health_worker' ? [{ label: "Analytics", to: "/dashboard", icon: BarChart3 }] : []),
+        ...(role === 'health_worker' ? [{ label: "Analytics", to: "/worker/analytics", icon: BarChart3 }] : []),
         { label: "Settings", to: "/settings", icon: SettingsIcon },
     ];
 

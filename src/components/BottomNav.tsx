@@ -14,7 +14,7 @@ const BottomNav = () => {
     ...(role === 'mother' ? [{ label: "History", to: "/history", icon: HistoryIcon }] : []),
 
     // Only show Analytics for Health Workers
-    ...(role === 'health_worker' ? [{ label: "Analytics", to: "/dashboard", icon: BarChart3 }] : []),
+    ...(role === 'health_worker' ? [{ label: "Analytics", to: "/worker/analytics", icon: BarChart3 }] : []),
 
     { label: "Settings", to: "/settings", icon: SettingsIcon },
   ];

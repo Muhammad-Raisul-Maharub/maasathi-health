@@ -13,7 +13,7 @@ const Settings = () => {
   const navigate = useNavigate();
 
   return (
-    <PageLayout maxWidth="lg">
+    <PageLayout maxWidth="lg" hideThemeToggle>
       <div className="space-y-2.5 animate-fade-in">
         <header className="flex items-center gap-2 mb-1">
           <Button variant="ghost" size="icon" className="-ml-1 hover-scale" onClick={() => navigate(-1)}>

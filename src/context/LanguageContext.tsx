@@ -69,6 +69,11 @@ const translations: Record<Language, Record<string, string>> = {
     "notFound.title": "Page not found",
     "notFound.description": "Oops! Page not found",
     "notFound.backHome": "Return to Home",
+    "result.followUp": "Follow Up",
+    "result.viewHistory": "View History",
+    "dashboard.export": "Export PDF",
+    "workerHome.welcome": "Welcome, Health Worker",
+    "workerHome.subtitle": "Manage maternal health assessments efficiently",
   },
   bn: {
     "app.name": "মা-সাথী এআই",
@@ -126,6 +131,11 @@ const translations: Record<Language, Record<string, string>> = {
     "notFound.title": "পাতা পাওয়া যায়নি",
     "notFound.description": "উফ! পাতা খুঁজে পাওয়া যায়নি",
     "notFound.backHome": "হোম পেজে ফিরুন",
+    "result.followUp": "ফলো আপ",
+    "result.viewHistory": "ইতিহাস দেখুন",
+    "dashboard.export": "PDF ডাউনলোড",
+    "workerHome.welcome": "স্বাগতম, স্বাস্থ্যকর্মী",
+    "workerHome.subtitle": "মাতৃস্বাস্থ্য মূল্যায়ন দক্ষতার সাথে পরিচালনা করুন",
   },
 };
 

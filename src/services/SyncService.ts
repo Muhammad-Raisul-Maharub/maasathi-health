@@ -7,8 +7,15 @@ export const SyncService = {
      * Returns the count of successfully synced records.
      */
     async syncData(): Promise<number> {
+        // Check internet connection
         if (!navigator.onLine) {
             throw new Error("No internet connection");
+        }
+
+        // Check if user is authenticated
+        const { data: { session }, error: authError } = await supabase.auth.getSession();
+        if (authError || !session) {
+            throw new Error("Not authenticated. Please log in to sync.");
         }
 
         // 1. Get all unsynced records
@@ -20,36 +27,30 @@ export const SyncService = {
             return 0;
         }
 
-
-
         // 2. Prepare data for Supabase
-        // Note: We map the local fields to match the Supabase table structure if needed.
-        // Based on previous Dashboard code, it seems the structure is assumed compatible or mapped inline.
-        // Let's map it safely.
         const recordsToInsert = unsyncedAssessments.map((a) => ({
             id: a.id,
+            user_id: session.user.id, // Associate with logged-in user
             total_score: a.riskScore,
             risk_level: a.riskLevel,
             symptoms: {
                 selected: a.symptoms,
                 notes: a.notes ?? null,
-            }, // JSONB column
+            },
             created_at: new Date(a.timestamp).toISOString(),
         }));
 
         // 3. Batch insert into Supabase
         const { error } = await supabase
             .from("assessments")
-            .upsert(recordsToInsert as any, { onConflict: "id" }); // using upsert to be safe
+            .upsert(recordsToInsert as any, { onConflict: "id" });
 
         if (error) {
+            console.error("Supabase sync error:", error);
             throw new Error(`Sync failed: ${error.message}`);
         }
 
-
         // 4. Update local records to synced = true
-        // We do this in a transaction or just loop for now.
-        // Bulk put/update is efficient.
         const updatedRecords = unsyncedAssessments.map((a) => ({
             ...a,
             isSynced: true,
