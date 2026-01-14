@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useToast } from '@/hooks/use-toast';
 import { Heart, Stethoscope, Loader2, Mail, Eye, EyeOff } from 'lucide-react';
+import ThemeToggle from '@/components/ThemeToggle';
 
 const Login = () => {
     const navigate = useNavigate();
@@ -113,6 +114,11 @@ const Login = () => {
 
     return (
         <div className="relative min-h-screen w-full flex items-center justify-center p-4 bg-background overflow-hidden">
+            {/* Standardized Theme Toggle Position - Top Right */}
+            <div className="absolute top-4 right-4 z-50">
+                <ThemeToggle />
+            </div>
+
             {/* Background Image Layer */}
             <div
                 className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-20 dark:opacity-10"
@@ -123,37 +129,37 @@ const Login = () => {
             />
 
             {/* Gradient Overlay for better readability */}
-            <div className="absolute inset-0 z-0 bg-gradient-to-br from-background/90 via-background/60 to-background/90" />
+            <div className="absolute inset-0 z-0 bg-gradient-to-br from-primary/5 via-background to-background/80" />
 
-            <Card className="w-full max-w-md bg-white/80 dark:bg-black/60 backdrop-blur-xl border-white/20 shadow-2xl animate-fade-in transition-all duration-300 z-10">
-                <CardHeader className="text-center pb-2">
-                    <div className="mx-auto w-24 h-24 bg-white/50 rounded-2xl flex items-center justify-center mb-4 shadow-sm border border-white/30 backdrop-blur-md p-2">
-                        <img src="/pwa-512x512.png" alt="Logo" className="w-full h-full object-contain rounded-xl" />
+            <Card className="w-full max-w-lg bg-white/95 dark:bg-black/80 backdrop-blur-xl border-white/20 dark:border-white/10 shadow-2xl animate-fade-in transition-all duration-300 z-10">
+                <CardHeader className="text-center pb-6 pt-8">
+                    <div className="mx-auto w-28 h-28 bg-white/50 dark:bg-black/50 rounded-3xl flex items-center justify-center mb-6 shadow-lg border border-border/50 backdrop-blur-md p-4 group hover:scale-105 transition-transform duration-300">
+                        <img src="/pwa-512x512.png" alt="Logo" className="w-full h-full object-contain rounded-2xl" />
                     </div>
-                    <CardTitle className="text-4xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-primary to-teal-500 mb-2 drop-shadow-sm">
+                    <CardTitle className="text-5xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-primary to-teal-500 mb-3 drop-shadow-sm tracking-tight">
                         MaaSathi AI
                     </CardTitle>
-                    <CardDescription className="text-base font-medium text-muted-foreground/90">
-                        Your companion for a safer journey
+                    <CardDescription className="text-lg font-medium text-muted-foreground max-w-sm mx-auto">
+                        Your trusted companion for a safer maternal journey
                     </CardDescription>
                 </CardHeader>
 
-                <CardContent className="space-y-6 pt-4">
+                <CardContent className="space-y-8 px-8">
                     {/* ROLE SELECTOR */}
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-2 gap-6">
                         <button
                             type="button"
                             onClick={() => setRole('mother')}
-                            className={`relative flex flex-col items-center justify-center p-4 rounded-xl border-2 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] group ${role === 'mother'
-                                ? 'border-primary bg-primary/20 shadow-lg shadow-primary/10 transform scale-[1.02]'
-                                : 'border-border/50 bg-white/40 dark:bg-black/20 hover:bg-white/60 dark:hover:bg-black/40 hover:border-primary/50'
+                            className={`relative flex flex-col items-center justify-center p-6 rounded-2xl border-2 transition-all duration-300 hover:scale-[1.03] active:scale-[0.98] group ${role === 'mother'
+                                ? 'border-primary bg-primary/10 shadow-xl shadow-primary/10 transform scale-[1.03]'
+                                : 'border-border/60 bg-gray-50/50 dark:bg-white/5 hover:bg-gray-100 dark:hover:bg-white/10 hover:border-primary/50'
                                 }`}
                         >
                             {role === 'mother' && (
-                                <div className="absolute top-2 right-2 w-2 h-2 rounded-full bg-primary animate-ping" />
+                                <div className="absolute top-3 right-3 w-2.5 h-2.5 rounded-full bg-primary animate-ping" />
                             )}
-                            <Heart className={`w-8 h-8 mb-2 transition-colors ${role === 'mother' ? 'text-primary fill-primary/20' : 'text-muted-foreground group-hover:text-primary/70'}`} />
-                            <span className={`font-bold text-sm transition-colors ${role === 'mother' ? 'text-primary' : 'text-muted-foreground group-hover:text-primary/70'}`}>
+                            <Heart className={`w-10 h-10 mb-3 transition-colors duration-300 ${role === 'mother' ? 'text-primary fill-primary/20' : 'text-muted-foreground group-hover:text-primary/80'}`} />
+                            <span className={`font-bold text-base transition-colors duration-300 ${role === 'mother' ? 'text-primary' : 'text-muted-foreground group-hover:text-primary/80'}`}>
                                 I am a Mother
                             </span>
                         </button>
@@ -161,26 +167,26 @@ const Login = () => {
                         <button
                             type="button"
                             onClick={() => setRole('health_worker')}
-                            className={`relative flex flex-col items-center justify-center p-4 rounded-xl border-2 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] group ${role === 'health_worker'
-                                ? 'border-teal-500 bg-teal-500/20 shadow-lg shadow-teal-500/10 transform scale-[1.02]'
-                                : 'border-border/50 bg-white/40 dark:bg-black/20 hover:bg-white/60 dark:hover:bg-black/40 hover:border-teal-500/50'
+                            className={`relative flex flex-col items-center justify-center p-6 rounded-2xl border-2 transition-all duration-300 hover:scale-[1.03] active:scale-[0.98] group ${role === 'health_worker'
+                                ? 'border-teal-500 bg-teal-500/10 shadow-xl shadow-teal-500/10 transform scale-[1.03]'
+                                : 'border-border/60 bg-gray-50/50 dark:bg-white/5 hover:bg-gray-100 dark:hover:bg-white/10 hover:border-teal-500/50'
                                 }`}
                         >
                             {role === 'health_worker' && (
-                                <div className="absolute top-2 right-2 w-2 h-2 rounded-full bg-teal-500 animate-ping" />
+                                <div className="absolute top-3 right-3 w-2.5 h-2.5 rounded-full bg-teal-500 animate-ping" />
                             )}
-                            <Stethoscope className={`w-8 h-8 mb-2 transition-colors ${role === 'health_worker' ? 'text-teal-500' : 'text-muted-foreground group-hover:text-teal-500/70'}`} />
-                            <span className={`font-bold text-sm transition-colors ${role === 'health_worker' ? 'text-teal-500' : 'text-muted-foreground group-hover:text-teal-500/70'}`}>
+                            <Stethoscope className={`w-10 h-10 mb-3 transition-colors duration-300 ${role === 'health_worker' ? 'text-teal-500' : 'text-muted-foreground group-hover:text-teal-500/80'}`} />
+                            <span className={`font-bold text-base transition-colors duration-300 ${role === 'health_worker' ? 'text-teal-500' : 'text-muted-foreground group-hover:text-teal-500/80'}`}>
                                 Health Worker
                             </span>
                         </button>
                     </div>
 
-                    <div className="space-y-4">
+                    <div className="space-y-5">
                         {/* GOOGLE BUTTON */}
                         <Button
                             variant="outline"
-                            className="w-full h-14 text-lg font-medium shadow-sm hover:shadow-md transition-all border-white/40 dark:border-white/10 bg-white/60 dark:bg-black/40 hover:bg-white/90 dark:hover:bg-black/70 backdrop-blur-sm flex items-center justify-center gap-3"
+                            className="w-full h-14 text-lg font-semibold shadow-sm hover:shadow-lg transition-all border-border bg-white dark:bg-black/40 hover:bg-gray-50 dark:hover:bg-black/60 flex items-center justify-center gap-3 rounded-xl"
                             onClick={handleGoogleLogin}
                             disabled={loading}
                         >
@@ -192,13 +198,13 @@ const Login = () => {
                             Continue with Google
                         </Button>
 
-                        <div className="relative">
+                        <div className="relative py-2">
                             <div className="absolute inset-0 flex items-center">
                                 <span className="w-full border-t border-muted-foreground/20" />
                             </div>
-                            <div className="relative flex justify-center text-xs uppercase">
-                                <span className="bg-transparent px-2 text-muted-foreground font-semibold">
-                                    Or use email
+                            <div className="relative flex justify-center text-xs uppercase tracking-wider">
+                                <span className="bg-white/80 dark:bg-black/50 px-3 text-muted-foreground font-semibold backdrop-blur-sm rounded-full border border-border/30">
+                                    Or by email
                                 </span>
                             </div>
                         </div>
@@ -206,13 +212,13 @@ const Login = () => {
                         {/* EMAIL ACCORDION */}
                         <Accordion type="single" collapsible className="w-full">
                             <AccordionItem value="email-options" className="border-none">
-                                <AccordionTrigger className="py-2 text-sm justify-center text-muted-foreground hover:text-foreground/80 transition-colors">
-                                    <span className="flex items-center gap-2"><Mail className="w-4 h-4" /> Sign in with Email</span>
+                                <AccordionTrigger className="py-3 text-sm justify-center text-muted-foreground hover:text-foreground transition-colors bg-gray-50 dark:bg-white/5 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10">
+                                    <span className="flex items-center gap-2 font-medium"><Mail className="w-4 h-4" /> Sign in with Email</span>
                                 </AccordionTrigger>
-                                <AccordionContent className="p-1">
-                                    <form onSubmit={handleEmailAuth} className="space-y-4 pt-2">
+                                <AccordionContent className="px-1 pb-1">
+                                    <form onSubmit={handleEmailAuth} className="space-y-4 pt-4">
                                         <div className="space-y-2">
-                                            <Label htmlFor="email" className="text-sm font-semibold ml-1">Email Address</Label>
+                                            <Label htmlFor="email" className="text-sm font-semibold ml-1 text-foreground">Email Address</Label>
                                             <Input
                                                 id="email"
                                                 type="email"
@@ -220,11 +226,11 @@ const Login = () => {
                                                 value={email}
                                                 onChange={(e) => setEmail(e.target.value)}
                                                 required
-                                                className="bg-white/50 dark:bg-black/20 border-white/20 focus:border-primary/50 h-12 text-base px-4 rounded-xl"
+                                                className="bg-white dark:bg-black/20 focus:bg-white border-border focus:border-primary h-12 text-base px-4 rounded-xl transition-all shadow-sm"
                                             />
                                         </div>
                                         <div className="space-y-2 relative">
-                                            <Label htmlFor="password" className="text-sm font-semibold ml-1">Password</Label>
+                                            <Label htmlFor="password" className="text-sm font-semibold ml-1 text-foreground">Password</Label>
                                             <div className="relative">
                                                 <Input
                                                     id="password"
@@ -233,7 +239,7 @@ const Login = () => {
                                                     value={password}
                                                     onChange={(e) => setPassword(e.target.value)}
                                                     required
-                                                    className="bg-white/50 dark:bg-black/20 border-white/20 focus:border-primary/50 h-12 text-base px-4 pr-10 rounded-xl"
+                                                    className="bg-white dark:bg-black/20 focus:bg-white border-border focus:border-primary h-12 text-base px-4 pr-10 rounded-xl transition-all shadow-sm"
                                                 />
                                                 <button
                                                     type="button"
@@ -244,11 +250,11 @@ const Login = () => {
                                                 </button>
                                             </div>
                                         </div>
-                                        <Button type="submit" className="w-full h-12 bg-primary/90 hover:bg-primary shadow-lg shadow-primary/20 text-lg rounded-xl mt-2" disabled={loading}>
+                                        <Button type="submit" className="w-full h-12 bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25 text-lg font-semibold rounded-xl mt-4 transition-all hover:scale-[1.01] active:scale-[0.99]" disabled={loading}>
                                             {loading && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
-                                            {isSignUp ? "Sign Up" : "Log In"}
+                                            {isSignUp ? "Create Account" : "Log In"}
                                         </Button>
-                                        <div className="text-center pt-2">
+                                        <div className="text-center pt-3">
                                             <button
                                                 type="button"
                                                 onClick={() => setIsSignUp(!isSignUp)}
@@ -256,7 +262,7 @@ const Login = () => {
                                             >
                                                 {isSignUp
                                                     ? "Already have an account? Log in"
-                                                    : "Don't have an account? Sign up"}
+                                                    : "New to MaaSathi? Create an account"}
                                             </button>
                                         </div>
                                     </form>
@@ -265,9 +271,9 @@ const Login = () => {
                         </Accordion>
                     </div>
                 </CardContent>
-                <CardFooter className="flex justify-center pb-6">
-                    <div className="text-[10px] text-muted-foreground/80 bg-white/20 dark:bg-black/20 backdrop-blur-sm px-3 py-1 rounded-full border border-white/10 shadow-sm">
-                        Debug Info: Selected Role is <span className="font-mono font-bold text-primary">{role}</span>
+                <CardFooter className="flex justify-center pb-8 pt-2">
+                    <div className="text-[10px] text-muted-foreground/80 bg-gray-100 dark:bg-white/5 backdrop-blur-sm px-4 py-1.5 rounded-full border border-border">
+                        Selected Role: <span className="font-bold text-foreground opacity-90 uppercase tracking-wide">{role.replace('_', ' ')}</span>
                     </div>
                 </CardFooter>
             </Card>

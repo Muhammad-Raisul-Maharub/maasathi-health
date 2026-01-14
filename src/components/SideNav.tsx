@@ -1,36 +1,53 @@
-import { Home, Stethoscope, BarChart3, Settings as SettingsIcon, History as HistoryIcon } from "lucide-react";
+
+import { Home, Stethoscope, BarChart3, Settings as SettingsIcon, History as HistoryIcon, ChevronLeft, ChevronRight, LogOut } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 import { useUserRole } from "@/hooks/useUserRole";
 
-const SideNav = () => {
+interface SideNavProps {
+    isExpanded: boolean;
+    toggle: () => void;
+}
+
+const SideNav = ({ isExpanded, toggle }: SideNavProps) => {
     const { role } = useUserRole();
 
     const items = [
         { label: "Home", to: "/", icon: Home },
         { label: "Assess", to: "/assess", icon: Stethoscope },
-
-        // Show History for Mothers
         ...(role === 'mother' ? [{ label: "History", to: "/history", icon: HistoryIcon }] : []),
-
-        // Show Analytics for Health Workers
         ...(role === 'health_worker' ? [{ label: "Analytics", to: "/dashboard", icon: BarChart3 }] : []),
-
         { label: "Settings", to: "/settings", icon: SettingsIcon },
     ];
 
     return (
-        <nav className="hidden md:flex flex-col fixed left-0 top-0 bottom-0 w-64 border-r border-border bg-background/95 backdrop-blur z-40 py-6 items-center gap-4 animate-fade-in">
-            {/* App Logo or Branding could go here */}
-            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                <img src="/pwa-192x192.png" alt="Logo" className="w-8 h-8 object-contain" />
+        <nav
+            className={cn(
+                "hidden md:flex flex-col fixed left-0 top-0 bottom-0 border-r border-border bg-background/95 backdrop-blur z-40 py-4 transition-all duration-300 ease-in-out",
+                isExpanded ? "w-64" : "w-20"
+            )}
+        >
+            {/* Header / Logo */}
+            <div className={cn("flex items-center mb-6 px-4", isExpanded ? "justify-start gap-3" : "justify-center")}>
+                <div className="w-10 h-10 min-w-[2.5rem] rounded-full bg-primary/10 flex items-center justify-center">
+                    <img src="/pwa-192x192.png" alt="Logo" className="w-8 h-8 object-contain" />
+                </div>
+                {isExpanded && (
+                    <div className="overflow-hidden whitespace-nowrap">
+                        <h1 className="font-bold text-lg text-primary tracking-tight">MaaSathi AI</h1>
+                        <p className="text-[10px] text-muted-foreground uppercase tracking-wider font-semibold">
+                            {role === 'health_worker' ? 'Health Worker' : 'Early Care'}
+                        </p>
+                    </div>
+                )}
             </div>
 
-            <div className="flex flex-col gap-3 w-full px-2">
+            {/* Nav Items */}
+            <div className="flex flex-col gap-2 w-full px-3 flex-1 overflow-y-auto">
                 {items.map((item) => {
                     const Icon = item.icon;
-                    // Dynamic Home Link
                     const to = item.to === "/"
                         ? (role === 'health_worker' ? '/worker/dashboard' : '/mother/home')
                         : item.to;
@@ -40,32 +57,53 @@ const SideNav = () => {
                             key={item.to}
                             to={to}
                             end={to === "/mother/home" || to === "/worker/dashboard"}
-                            className="flex flex-col items-center justify-center gap-1 rounded-lg py-3 px-1 text-[10px] font-medium text-muted-foreground hover:bg-muted/50 hover:text-foreground transition-all group"
-                            activeClassName="text-primary font-semibold bg-primary/10 shadow-sm"
-                            aria-label={item.label}
+                            className={cn(
+                                "flex items-center gap-3 rounded-lg px-3 py-2.5 transition-all group relative",
+                                isExpanded ? "justify-start" : "justify-center"
+                            )}
+                            activeClassName="bg-primary/10 text-primary shadow-sm font-medium"
                         >
-                            <Icon className="h-6 w-6 group-hover:scale-110 transition-transform" />
-                            <span className="opacity-70 group-hover:opacity-100">{item.label}</span>
+                            <Icon className={cn("shrink-0 transition-transform group-hover:scale-110", isExpanded ? "w-5 h-5" : "w-6 h-6")} />
+
+                            {isExpanded ? (
+                                <span className="text-sm truncate animate-fade-in">{item.label}</span>
+                            ) : (
+                                // Tooltip-like label for collapsed mode could go here, or just keep simple icons
+                                <span className="sr-only">{item.label}</span>
+                            )}
                         </NavLink>
                     );
                 })}
-
-
             </div>
 
-            <div className="mt-auto mb-4 w-full px-2">
+            {/* Footer / Actions */}
+            <div className="mt-auto w-full px-3 flex flex-col gap-2">
+                <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={toggle}
+                    className="w-full flex items-center justify-center h-9 hover:bg-muted/80 text-muted-foreground"
+                    title={isExpanded ? "Collapse Sidebar" : "Expand Sidebar"}
+                >
+                    {isExpanded ? <ChevronLeft className="w-5 h-5" /> : <ChevronRight className="w-5 h-5" />}
+                </Button>
+
+                <div className="border-t border-border my-1" />
+
                 <button
                     onClick={async () => {
                         const { supabase } = await import("@/integrations/supabase/client");
                         await supabase.auth.signOut();
                         window.location.href = '/login';
                     }}
-                    className="flex flex-col items-center justify-center gap-1 rounded-lg py-3 px-1 text-[10px] font-medium text-destructive/80 hover:text-destructive hover:bg-destructive/10 transition-all w-full group"
+                    className={cn(
+                        "flex items-center gap-3 rounded-lg px-3 py-2.5 text-destructive/80 hover:text-destructive hover:bg-destructive/10 transition-all w-full group",
+                        isExpanded ? "justify-start" : "justify-center"
+                    )}
                     aria-label="Log out"
                 >
-                    {/* Hardcoded LogOut icon to avoid import issues if not available in lucide-react (though it is) */}
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 group-hover:scale-110 transition-transform"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" x2="9" y1="12" y2="12" /></svg>
-                    <span className="opacity-70 group-hover:opacity-100">Log Out</span>
+                    <LogOut className={cn("shrink-0 transition-transform group-hover:scale-110", isExpanded ? "w-5 h-5" : "w-6 h-6")} />
+                    {isExpanded && <span className="text-sm font-medium animate-fade-in">Log Out</span>}
                 </button>
             </div>
         </nav>

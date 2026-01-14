@@ -10,7 +10,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useOnlineStatus } from '@/hooks/useOnlineStatus';
 import { supabase } from '@/integrations/supabase/client';
 import { useLanguage } from '@/context/LanguageContext';
-import ThemeToggle from '@/components/ThemeToggle';
+
 import PageLayout from '@/components/PageLayout';
 import {
   ChartContainer,
@@ -182,7 +182,7 @@ const Dashboard = () => {
   };
 
   return (
-    <PageLayout maxWidth="lg">
+    <PageLayout maxWidth="full">
       <div className="space-y-6 animate-fade-in pb-8">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b pb-4">
@@ -200,7 +200,7 @@ const Dashboard = () => {
             </div>
           </div>
           <div className="flex flex-wrap items-center gap-2">
-            <ThemeToggle />
+
             <div className="flex items-center gap-2 bg-muted/50 p-1 rounded-lg">
               <Button
                 variant="ghost"

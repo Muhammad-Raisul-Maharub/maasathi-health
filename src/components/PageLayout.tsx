@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import ThemeToggle from "./ThemeToggle";
 
 export type PageLayoutWidth = "sm" | "md" | "lg" | "xl" | "full" | "hybrid";
 
@@ -16,21 +17,25 @@ interface PageLayoutProps {
 }
 
 const widthClassMap: Record<PageLayoutWidth, string> = {
-  full: "max-w-full",
+  full: "max-w-[100%] w-full", // Explicitly full width
   xl: "max-w-7xl",
   lg: "max-w-5xl",
-  md: "max-w-prose", // Better for readability
+  md: "max-w-prose",
   sm: "max-w-md",
-  // Adding the hybrid constraint requested: max-w-md md:max-w-2xl lg:max-w-5xl
   hybrid: "max-w-md md:max-w-2xl lg:max-w-5xl"
 };
 
 const PageLayout = ({ children, maxWidth = "hybrid", className }: PageLayoutProps) => {
   return (
-    <div className="bg-background min-h-screen flex flex-col items-center">
+    <div className="bg-background min-h-screen flex flex-col items-center w-full relative">
+      {/* Global Theme Toggle - Top Right */}
+      <div className="absolute top-4 right-4 z-50">
+        <ThemeToggle />
+      </div>
+
       <main
         className={cn(
-          "w-full px-4 py-6 flex flex-col gap-4 flex-1",
+          "w-full px-4 md:px-6 py-6 flex flex-col gap-6 flex-1", // Increased gaps and padding for better spacing
           widthClassMap[maxWidth],
           className,
         )}

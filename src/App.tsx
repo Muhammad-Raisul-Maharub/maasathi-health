@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
+import { useState } from "react";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 import AuthCallback from "./pages/AuthCallback";
@@ -51,17 +52,21 @@ const AppRoutes = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/auth/callback" element={<AuthCallback />} />
 
-          {/* Protected Mother Routes */}
-          <Route element={<ProtectedRoute allowedRoles={['mother']} />}>
-            <Route path="/mother/home" element={<Index />} />
+          {/* Shared Protected Routes (Mother & Health Worker) */}
+          <Route element={<ProtectedRoute allowedRoles={['mother', 'health_worker']} />}>
             <Route path="/assess" element={<Assessment />} />
             <Route path="/result" element={<Result />} />
-            <Route path="/history" element={<HistoryPage />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/help" element={<Help />} />
           </Route>
 
-          {/* Protected Health Worker Routes */}
+          {/* Mother Exclusive Routes */}
+          <Route element={<ProtectedRoute allowedRoles={['mother']} />}>
+            <Route path="/mother/home" element={<Index />} />
+            <Route path="/history" element={<HistoryPage />} />
+          </Route>
+
+          {/* Health Worker Exclusive Routes */}
           <Route element={<ProtectedRoute allowedRoles={['health_worker']} />}>
             <Route path="/worker/dashboard" element={<Dashboard />} />
             <Route path="/dashboard" element={<Dashboard />} />
@@ -79,9 +84,14 @@ const AppLayout = () => {
   const location = useLocation();
   // Hide Navigation on Login AND Root (while redirecting)
   const shouldHideNav = location.pathname === "/login" || location.pathname === "/";
+  // Default to collapsed (false) to match previous "rail" style initially, or true if user prefers expanded 
+  // But user complained about "zoom", so maybe expanded is better? Let's start expanded for better visibility, 
+  // or stick to refined collapsed and let them toggle. Let's try defaulting to FALSE (collapsed) but give them the toggle.
+  // Actually, to fix "zoom" issues, larger text is better. Let's default to TRUE (Expanded) for desktop.
+  const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen flex flex-col bg-background transition-all duration-300">
       {/* Mobile Top Nav - Hidden on Login/Root */}
       {!shouldHideNav && (
         <div className="md:hidden">
@@ -90,10 +100,18 @@ const AppLayout = () => {
       )}
 
       {/* Desktop Side Nav - Hidden on Login/Root */}
-      {!shouldHideNav && <SideNav />}
+      {!shouldHideNav && (
+        <SideNav
+          isExpanded={isSidebarExpanded}
+          toggle={() => setIsSidebarExpanded(!isSidebarExpanded)}
+        />
+      )}
 
       {/* Main Content Area */}
-      <div className={`flex-1 flex flex-col transition-all duration-300 ${!shouldHideNav ? 'md:pl-20' : ''}`}>
+      <div
+        className={`flex-1 flex flex-col transition-all duration-300 ease-in-out ${!shouldHideNav ? (isSidebarExpanded ? 'md:pl-64' : 'md:pl-20') : ''
+          }`}
+      >
         <AppRoutes />
       </div>
 

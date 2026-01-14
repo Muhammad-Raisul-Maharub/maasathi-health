@@ -6,7 +6,7 @@ import { ArrowLeft, ArrowRight, Check, Info, Stethoscope, X, Brain, Eye, Activit
 import { symptoms } from '@/lib/riskEngine';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/context/LanguageContext';
-import ThemeToggle from '@/components/ThemeToggle';
+
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import FloatingHelpButton from '@/components/FloatingHelpButton';
 import PageLayout from '@/components/PageLayout';
@@ -74,7 +74,7 @@ const Assessment = () => {
     <PageLayout maxWidth="md">
       <div className="flex flex-col gap-2">
         <div className="flex justify-end mb-1">
-          <ThemeToggle />
+
         </div>
         {/* Progress Bar */}
         <div className="mb-2 border-b border-border/60 pb-1.5">

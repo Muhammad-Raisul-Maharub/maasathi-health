@@ -8,7 +8,7 @@ import { MapPin, Save, AlertTriangle, CheckCircle2, AlertCircle, ArrowLeft, Prin
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/context/LanguageContext';
 import { Textarea } from '@/components/ui/textarea';
-import ThemeToggle from '@/components/ThemeToggle';
+
 import FloatingHelpButton from '@/components/FloatingHelpButton';
 import PageLayout from '@/components/PageLayout';
 
@@ -114,7 +114,7 @@ const Result = () => {
             </div>
           </div>
           <div className="flex items-center gap-1.5">
-            <ThemeToggle />
+
             <Button
               variant="outline"
               size="icon"

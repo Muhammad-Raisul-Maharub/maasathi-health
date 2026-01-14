@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/LanguageContext";
-import ThemeToggle from "@/components/ThemeToggle";
+
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import PageLayout from "@/components/PageLayout";
@@ -33,7 +33,7 @@ const Help = () => {
               </p>
             </div>
           </div>
-          <ThemeToggle />
+
         </header>
 
         <Card id="assessment" className="p-2.5 space-y-2 animate-fade-in">
