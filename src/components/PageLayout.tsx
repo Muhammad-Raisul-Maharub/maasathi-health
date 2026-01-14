@@ -32,7 +32,7 @@ const PageLayout = ({ children, maxWidth = "hybrid", className, hideThemeToggle 
     <div className="bg-background min-h-screen flex flex-col items-center w-full relative">
       {/* Global Theme Toggle - Top Right (hidden on pages with their own toggle) */}
       {!hideThemeToggle && (
-        <div className="absolute top-4 right-4 z-50">
+        <div className="absolute top-4 right-5 z-50">
           <ThemeToggle />
         </div>
       )}
