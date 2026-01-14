@@ -100,6 +100,10 @@ const translations: Record<Language, Record<string, string>> = {
     "common.viewDetails": "View Details",
     "common.syncCloud": "Sync Cloud",
     "common.newAssessment": "New Assessment",
+    "common.logOut": "Log Out",
+    "common.collapse": "Collapse",
+    "role.healthWorker": "Health Worker",
+    "role.mother": "Mother",
   },
   bn: {
     "app.name": "মা-সাথী এআই",
@@ -188,6 +192,10 @@ const translations: Record<Language, Record<string, string>> = {
     "common.viewDetails": "বিস্তারিত দেখুন",
     "common.syncCloud": "ক্লাউডে সিঙ্ক",
     "common.newAssessment": "নতুন মূল্যায়ন",
+    "common.logOut": "লগ আউট",
+    "common.collapse": "সংকুচিত",
+    "role.healthWorker": "স্বাস্থ্যকর্মী",
+    "role.mother": "মা",
   },
 };
 

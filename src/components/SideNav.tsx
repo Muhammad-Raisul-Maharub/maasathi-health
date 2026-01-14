@@ -3,8 +3,8 @@ import { Home, Stethoscope, BarChart3, Settings as SettingsIcon, History as Hist
 import { NavLink } from "@/components/NavLink";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-
 import { useUserRole } from "@/hooks/useUserRole";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface SideNavProps {
     isExpanded: boolean;
@@ -13,13 +13,14 @@ interface SideNavProps {
 
 const SideNav = ({ isExpanded, toggle }: SideNavProps) => {
     const { role } = useUserRole();
+    const { t } = useLanguage();
 
     const items = [
-        { label: "Home", to: "/", icon: Home },
-        { label: "Assess", to: "/assess", icon: Stethoscope },
-        ...(role === 'mother' ? [{ label: "History", to: "/history", icon: HistoryIcon }] : []),
-        ...(role === 'health_worker' ? [{ label: "Analytics", to: "/worker/analytics", icon: BarChart3 }] : []),
-        { label: "Settings", to: "/settings", icon: SettingsIcon },
+        { labelKey: "nav.home", to: "/", icon: Home },
+        { labelKey: "nav.assess", to: "/assess", icon: Stethoscope },
+        ...(role === 'mother' ? [{ labelKey: "nav.history", to: "/history", icon: HistoryIcon }] : []),
+        ...(role === 'health_worker' ? [{ labelKey: "nav.analytics", to: "/worker/analytics", icon: BarChart3 }] : []),
+        { labelKey: "nav.settings", to: "/settings", icon: SettingsIcon },
     ];
 
     return (
@@ -36,9 +37,9 @@ const SideNav = ({ isExpanded, toggle }: SideNavProps) => {
                 </div>
                 {isExpanded && (
                     <div className="overflow-hidden whitespace-nowrap">
-                        <h1 className="font-bold text-lg text-primary tracking-tight">MaaSathi AI</h1>
+                        <h1 className="font-bold text-lg text-primary tracking-tight">{t('app.name')}</h1>
                         <p className="text-[10px] text-muted-foreground uppercase tracking-wider font-semibold">
-                            {role === 'health_worker' ? 'Health Worker' : 'Early Care'}
+                            {role === 'health_worker' ? t('role.healthWorker') || 'Health Worker' : t('app.tagline')}
                         </p>
                     </div>
                 )}
@@ -48,6 +49,7 @@ const SideNav = ({ isExpanded, toggle }: SideNavProps) => {
             <div className="flex flex-col gap-2 w-full px-3 flex-1 overflow-y-auto">
                 {items.map((item) => {
                     const Icon = item.icon;
+                    const label = t(item.labelKey) || item.labelKey.split('.')[1];
                     const to = item.to === "/"
                         ? (role === 'health_worker' ? '/worker/dashboard' : '/mother/home')
                         : item.to;
@@ -66,10 +68,9 @@ const SideNav = ({ isExpanded, toggle }: SideNavProps) => {
                             <Icon className={cn("shrink-0 transition-transform group-hover:scale-110", isExpanded ? "w-5 h-5" : "w-6 h-6")} />
 
                             {isExpanded ? (
-                                <span className="text-sm truncate animate-fade-in">{item.label}</span>
+                                <span className="text-sm truncate animate-fade-in">{label}</span>
                             ) : (
-                                // Tooltip-like label for collapsed mode could go here, or just keep simple icons
-                                <span className="sr-only">{item.label}</span>
+                                <span className="sr-only">{label}</span>
                             )}
                         </NavLink>
                     );
