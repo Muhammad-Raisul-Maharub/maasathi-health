@@ -37,7 +37,7 @@ const PageLayout = ({ children, maxWidth = "hybrid", className }: PageLayoutProp
       >
         {children}
       </main>
-      <footer className="py-4 text-center border-t border-border mt-auto">
+      <footer className="w-full py-4 text-center border-t border-border mt-auto">
         <p className="text-xs text-muted-foreground font-medium">
           Designed and Developed by{" "}
           <span className="text-primary font-bold">Raisul Maharub</span>
